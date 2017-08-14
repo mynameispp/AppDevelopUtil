@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/dialog_up_img_lay"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/size_dp_10"
+    android:paddingLeft="@dimen/size_dp_16"
+    android:paddingRight="@dimen/size_dp_16">
+
+
+    <include layout="@layout/include_split_line" />
+
+    <Button
+        android:id="@+id/dialog_up_img_Album"
+        style="@style/DialogStyle_item_click"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/size_dp_10"
+        android:text="从相册" />
+
+    <Button
+        android:id="@+id/dialog_up_img_camera"
+        style="@style/DialogStyle_item_click"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="拍照" />
+
+    <Button
+        android:id="@+id/dialog_up_img_cancle"
+        style="@style/DialogStyle_item_click"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="取消" />
+</LinearLayout>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    //个人信息修改年龄
+    <item type="id" name="age_dialog_item_position"/>
+    <item type="id" name="age_dialog_item_age"/>
+    //添加投票选项
+    <item type="id" name="add_vote_item_text_watch"/>
+    <item type="id" name="add_vote_item_position"/>
+    //我的帖子
+    <item type="id" name="myPost_item_data"/>
+    <item type="id" name="myPost_item_position"/>
+</resources>

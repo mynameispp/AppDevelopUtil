@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/comment_dialog_lay"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:gravity="bottom"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/size_dp_10"
+    android:paddingLeft="@dimen/size_dp_16"
+    android:paddingRight="@dimen/size_dp_16"
+    android:paddingTop="@dimen/size_dp_10">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <EditText
+            android:id="@+id/comment_dialog_input_ed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_gray_white_radius_5"
+            android:gravity="left|top"
+            android:maxLength="100"
+            android:minLines="6"
+            android:padding="@dimen/size_dp_5"
+            android:textColor="@color/black_33"
+            android:textColorHint="@color/gray_CC"
+            android:textSize="@dimen/size_sp_12" />
+
+        <TextView
+            android:id="@+id/tv_remind_comment_length"
+            android:text="0/100"
+            android:textColor="@color/gray_CC"
+            android:textSize="@dimen/size_sp_12"
+            android:layout_marginRight="@dimen/size_dp_2"
+            android:layout_alignRight="@id/comment_dialog_input_ed"
+            android:layout_alignBottom="@id/comment_dialog_input_ed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </RelativeLayout>
+
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/size_dp_10">
+
+
+        <Button
+            android:id="@+id/comment_dialog_send_msg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:paddingBottom="@dimen/size_dp_6"
+            android:paddingLeft="@dimen/size_dp_25"
+            android:paddingRight="@dimen/size_dp_25"
+            android:paddingTop="@dimen/size_dp_6"
+            android:text="发送"
+            android:textColor="@color/gray_CC" />
+
+        <ImageView
+            android:id="@+id/comment_dialog_emoji"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/size_dp_10"
+            android:layout_toLeftOf="@id/comment_dialog_send_msg"
+            android:clickable="false"
+            android:visibility="gone" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/comment_dialog_emoji_lay"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="@color/colorAccent"
+        android:orientation="vertical"
+        android:visibility="gone" />
+</LinearLayout>

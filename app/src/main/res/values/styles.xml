@@ -1,0 +1,117 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@color/white</item>
+        <item name="android:windowDisablePreview">true</item>
+    </style>
+
+    <!--开机页-->
+    <style name="BootPageActivityStyle" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowDisablePreview">true</item>
+    </style>
+
+    <!-- Title样式 -->
+    <style name="title_style" parent="ToolbarTheme">
+        <item name="actionOverflowMenuStyle">@style/OverflowMenuStyle</item>
+    </style>
+
+    <style name="ToolbarTheme" parent="@style/ThemeOverlay.AppCompat.ActionBar">
+        <item name="colorControlNormal">?attr/colorPrimary</item><!--toolbar所有按钮颜色-->
+        <item name="titleTextColor">@android:color/black</item><!--标题颜色-->
+        <item name="android:background">@color/transparent</item><!--toolbar背景颜色-->
+        <!--需要更换menu按钮图标放开下面的注释-->
+        <!--<item name="android:actionOverflowButtonStyle">@style/OverflowButtonStyle</item>-->
+    </style>
+    <!--修改toolbar menu按钮的图标-->
+    <style name="OverflowButtonStyle" parent="@android:style/Widget.ActionButton.Overflow">
+        <item name="android:src">@mipmap/ic_launcher</item>
+    </style>
+    <!--修改toolbar弹出菜单的位置-->
+    <style name="OverflowMenuStyle" parent="Widget.AppCompat.Light.PopupMenu.Overflow">
+        <item name="overlapAnchor">false</item>  <!--把该属性改为false即可使menu位置位于toolbar之下-->
+    </style>
+    <!-- Title样式 End-->
+
+    <!-- 功能点击效果-->
+    <style name="itemClickBg">
+        <item name="android:background">?attr/selectableItemBackground</item>  <!--把该属性改为false即可使menu位置位于toolbar之下-->
+    </style>
+
+
+    <!-- dialog样式 -->
+    <style name="DialogStyle" parent="android:style/Theme.Dialog">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:background">#00000000</item>
+        <item name="android:windowBackground">@color/transparent</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowIsTranslucent">false</item>
+    </style>
+    <!-- 加载 dialog样式 -->
+    <style name="DialogStyle_Loading" parent="@style/DialogStyle">
+        <!--背景透明-->
+        <item name="android:backgroundDimEnabled">false</item>
+    </style>
+
+    <!-- dialog进入退出动画 -->
+    <style name="DialogAnimation" parent="android:Animation">
+        <item name="android:windowEnterAnimation">@anim/dialog_enter</item>
+        <item name="android:windowExitAnimation">@anim/dialog_exit</item>
+    </style>
+
+    <!-- dialog按钮点击样式 -->
+    <style name="DialogSex_item_check">
+        <item name="android:background">@drawable/check_white_main_color_2</item>
+        <item name="android:button">@null</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_marginLeft">@dimen/size_dp_10</item>
+        <item name="android:layout_marginRight">@dimen/size_dp_10</item>
+        <item name="android:paddingTop">@dimen/size_dp_10</item>
+        <item name="android:paddingBottom">@dimen/size_dp_10</item>
+        <item name="android:textColor">@color/text_selector_check_white_black</item>
+        <item name="android:textSize">@dimen/size_sp_17</item>
+    </style>
+
+    <style name="DialogStyle_item_click">
+        <item name="android:background">@drawable/btn_white_main_color_2</item>
+        <item name="android:button">@null</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_marginLeft">@dimen/size_dp_10</item>
+        <item name="android:layout_marginRight">@dimen/size_dp_10</item>
+        <item name="android:paddingTop">@dimen/size_dp_10</item>
+        <item name="android:paddingBottom">@dimen/size_dp_10</item>
+        <item name="android:textColor">@color/text_selector_click_dialog</item>
+        <item name="android:textSize">@dimen/size_sp_17</item>
+    </style>
+
+
+    <!-- 消息对话弹框Dialog -->
+    <style name="message_button_dialog" parent="@android:style/Theme.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <!-- 边框 -->
+        <item name="android:windowIsFloating">true</item>
+        <!-- 是否浮现在activity之上 -->
+        <item name="android:windowIsTranslucent">false</item>
+        <!-- 半透明 -->
+        <item name="android:windowNoTitle">true</item>
+        <!-- 无标题 -->
+        <item name="android:windowBackground">@color/transparent</item>
+        <!-- 背景透明 -->
+        <item name="android:backgroundDimEnabled">true</item>
+        <!-- 外背景模糊 -->
+        <item name="android:backgroundDimAmount">0.7</item>
+    </style>
+
+</resources>

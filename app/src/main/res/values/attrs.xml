@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--我的碎片 中的自定义组合View-->
+    <declare-styleable name="UserItemView">
+        <attr name="iconSrc" format="reference|integer" />
+        <attr name="itemText" format="string"/>
+        <attr name="iconVisibilty" format="boolean"/>
+        <attr name="splitVisibity" format="boolean"/>
+        <attr name="textPaddingLeft" format="dimension"/>
+    </declare-styleable>
+
+</resources>

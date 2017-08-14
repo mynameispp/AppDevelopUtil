@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        fresco:placeholderImage="@color/colorAccent"
+        fresco:placeholderImageScaleType="fitXY" />
+
+    <ViewStub
+        android:id="@+id/boot_page_vs"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout="@layout/view_stub_boot_page" />
+
+    <TextView
+        android:id="@+id/boot_page_countdown_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/size_dp_5"
+        android:layout_marginTop="@dimen/size_dp_5"
+        android:textColor="@color/colorAccent"
+        android:visibility="gone" />
+</RelativeLayout>
