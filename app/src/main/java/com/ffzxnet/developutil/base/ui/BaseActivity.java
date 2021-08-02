@@ -316,6 +316,7 @@ public abstract class BaseActivity extends RxAppCompatActivity implements BaseAc
 
     @Override
     public void onClick(View v) {
+        //ToolBar左右两边的控件
         if (v.getId() == R.id.toolbar_left_tv) {
             onClickTitleBack();
         }
@@ -362,16 +363,21 @@ public abstract class BaseActivity extends RxAppCompatActivity implements BaseAc
             //中间标题
             ((TextView) findViewById(R.id.toolbar_title_name)).setText(center_name);
         }
-        TextView toolbarLeft = ((TextView) findViewById(R.id.toolbar_left_tv));
+        //左边控件
+        TextView toolbarLeft = findViewById(R.id.toolbar_left_tv);
         if (!TextUtils.isEmpty(back_name)) {
             //返回按钮旁边的标题
             toolbarLeft.setText(back_name);
         }
         if (showBackView) {
+            //设置返回按钮图标
             SetTextViewDrawable.setLeftView(toolbarLeft, R.mipmap.icon_toleft);
         }
-        //加大点击区域
+        //右边控件
+        TextView toolbarRight = findViewById(R.id.toolbar_right_tv);
+        //设置点击事件
         toolbarLeft.setOnClickListener(this);
+        toolbarRight.setOnClickListener(this);
     }
 
     /**
