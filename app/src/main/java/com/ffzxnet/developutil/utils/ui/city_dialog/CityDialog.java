@@ -3,23 +3,23 @@ package com.ffzxnet.developutil.utils.ui.city_dialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.StyleRes;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.TextView;
-import android.widget.Toast;
 
 
 import com.ffzxnet.developutil.R;
 import com.ffzxnet.developutil.application.MyApplication;
+import com.ffzxnet.developutil.constans.MyConstans;
 
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.StyleRes;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * 创建者： feifan.pi 在 2017/6/22.
@@ -67,8 +67,8 @@ public class CityDialog extends Dialog implements CityDialogAdapter.ItemClickLis
         WindowManager.LayoutParams lp = dialogWindow.getAttributes();
         dialogWindow.setWindowAnimations(R.style.DialogAnimation);
         dialogWindow.setGravity(Gravity.BOTTOM);
-        lp.width = MyApplication.Screen_Width; // 宽度
-        lp.height = (int) (MyApplication.Screen_Height * 0.3); // 高度
+        lp.width = MyConstans.Screen_Width; // 宽度
+        lp.height = (int) (MyConstans.Screen_Height * 0.3); // 高度
         // lp.alpha = 0.7f; // 透明度
         dialogWindow.setAttributes(lp);
 

@@ -5,9 +5,6 @@ import android.app.Dialog;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.StyleRes;
 import android.text.Editable;
 import android.text.Selection;
 import android.text.Spannable;
@@ -24,13 +21,17 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-
 import com.ffzxnet.developutil.R;
 import com.ffzxnet.developutil.application.MyApplication;
+import com.ffzxnet.developutil.constans.MyConstans;
 import com.ffzxnet.developutil.utils.tools.TxtSpannableUtil;
 
 import java.util.Timer;
 import java.util.TimerTask;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.StyleRes;
 
 /**
  * 创建者： feifan.pi 在 2017/6/28.
@@ -68,7 +69,7 @@ public class CommentDialog extends Dialog implements View.OnClickListener, TextW
         WindowManager.LayoutParams lp = dialogWindow.getAttributes();
         dialogWindow.setWindowAnimations(R.style.DialogAnimation);
         dialogWindow.setGravity(Gravity.BOTTOM);
-        lp.width = MyApplication.Screen_Width; // 宽度
+        lp.width = MyConstans.Screen_Width; // 宽度
 //        lp.height = (int) (ScreenUtils.getScreenHeight(MyApplication.getContext()) * 0.5); // 高度
         // lp.alpha = 0.7f; // 透明度
         dialogWindow.setAttributes(lp);

@@ -1,46 +1,52 @@
 package com.ffzxnet.developutil.net;
 
 
+import com.ffzxnet.developutil.application.MyApplication;
 import com.ffzxnet.developutil.base.net.BaseApiResultData;
+import com.ffzxnet.developutil.bean.LoginRequestBean;
 import com.ffzxnet.developutil.net.cookie.PersistentCookieStore;
 import com.ffzxnet.developutil.net.retrofit_gson_factory.CustomGsonConverterFactory;
+import com.ffzxnet.developutil.utils.tools.FileUtil;
 import com.ffzxnet.developutil.utils.tools.LogUtil;
+import com.ffzxnet.developutil.utils.tools.NetworkUtils;
+import com.trello.rxlifecycle4.LifecycleTransformer;
 
+import java.io.File;
+import java.io.IOException;
+import java.security.SecureRandom;
+import java.security.cert.CertificateException;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
-import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSession;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
+
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.schedulers.Schedulers;
+import okhttp3.Cache;
 import okhttp3.Cookie;
 import okhttp3.CookieJar;
 import okhttp3.HttpUrl;
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory;
 
 /**
  * 创建者： feifan.pi 在 2017/2/20.
  */
 
 public class ApiImp {
-    //主地址  192.168.2.195:50510   kart.ffzxnet.com
-        public static String APPBASEURL = "http://192.168.5.162:8080/";
-
-//            public static String APPBASEURL = "http://192.168.11.105:50730/";
-    //        http://192.168.11.105:50730/meet-villager-web 测试环境
-    //请求地址
-//            public static String APIURL = APPBASEURL + "meet-villager-web/";
-    public static String APIURL = APPBASEURL + "upms-web/";
-
-
-    //获取天气地址
-    public static String WEATHERURL = "http://www.sojson.com/open/api/weather/json.shtml?city=";
-    //使用协议
-    public static String PROTOCOL = APIURL + "xiangyu/protocol.html";
-    //商务洽谈
-    public static String COOPERATION = APIURL + "xiangyu/cooperation.html";
-
+    //请求服务地址
+    public static String APPBASEURL = "http://ccard.uyeek.com/";
+    //单例实体对象
     private static volatile ApiImp apiImp = null;
     /**
      * 接口的服务类
@@ -78,15 +84,25 @@ public class ApiImp {
             }
         });
         loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-        mBuilder.addInterceptor(loggingInterceptor);
-        //打印日志 End
-
-        final OkHttpClient okHttpClient = mBuilder.build();
+        //缓存大小
+        File httpCacheDirectory = new File(FileUtil.HttpCache);//这里为了方便直接把文件放在了SD卡根目录的HttpCache中，一般放在context.getCacheDir()中
+        int cacheSize = 20 * 1024 * 1024;//设置缓存文件大小为20M
+        Cache cache = new Cache(httpCacheDirectory, cacheSize);
+        final OkHttpClient okHttpClient = mBuilder
+                .readTimeout(10, TimeUnit.SECONDS)//设置超时
+                .connectTimeout(10, TimeUnit.SECONDS)//设置超时
+                .writeTimeout(60, TimeUnit.SECONDS)//设置超时
+                .addNetworkInterceptor(getNetWorkInterceptor())//设置有网时的请求处理
+                .addInterceptor(loggingInterceptor)//设置请求打印日志
+                .addInterceptor(getRequestHeadInterceptor()) //设置统一请求头
+                .addInterceptor(getOffLineInterceptor())//设置无网时的请求处理
+                .cache(cache)//设置缓存大小
+                .build();
         final Retrofit retrofit = new Retrofit.Builder()
                 .client(okHttpClient)
                 .addConverterFactory(CustomGsonConverterFactory.create())
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .baseUrl(APIURL)
+                .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
+                .baseUrl(APPBASEURL)
                 .build();
         //服务器请求接口
         apiService = retrofit.create(ApiService.class);
@@ -95,13 +111,74 @@ public class ApiImp {
     /**
      * 默认请求配置
      *
-     * @param observable 请求的接口 apiService.testObservable(request)
-     * @param observer   结果监听 ApiSubscriber<TestResponse<TestPojo>> observer
+     * @param observable           请求的接口 apiService.testObservable(request)
+     * @param lifecycleTransformer 请求绑定界面的生命周期
+     * @param observer             结果监听 ApiSubscriber<TestResponse<TestPojo>> observer
      */
+    private void baseObservableSetting(Observable observable, LifecycleTransformer lifecycleTransformer, final IApiSubscriberCallBack observer) {
+        observable.subscribeOn(Schedulers.io()) //在后台线程处理请求
+                .observeOn(AndroidSchedulers.mainThread()) //请求结果到主线程
+                .compose(lifecycleTransformer)
+                .subscribe(new ApiSubscriber(observer));
+    }
+
     private void baseObservableSetting(Observable observable, final IApiSubscriberCallBack observer) {
         observable.subscribeOn(Schedulers.io()) //在后台线程处理请求
                 .observeOn(AndroidSchedulers.mainThread()) //请求结果到主线程
                 .subscribe(new ApiSubscriber(observer));
+    }
+
+    /**
+     * 设置请求头处理
+     *
+     * @return
+     */
+    private Interceptor getRequestHeadInterceptor() {
+        return new Interceptor() {
+            @Override
+            public Response intercept(Chain chain) throws IOException {
+                Request original = chain.request();
+                Request.Builder requestBuilder = original.newBuilder()
+                        .header("DEVICE_ID", "DEVICE_ID")
+                        .header("Token", "Token");
+                Request request = requestBuilder.build();
+                Response response = chain.proceed(request);
+//                if ((response.code() == 404 ||response.code() == 500 )
+//                        && !response.request().url().toString().contains("getdomain")){
+////                    String url = "http://39.102.44.215:8088/getdomain";
+//
+//                    String url = "http://39.102.44.215:8089/getdomain";
+//                    OkHttpClient okHttpClient = new OkHttpClient();
+//                    final Request request2 = new Request.Builder()
+//                            .url(url)
+//                            .build();
+//                    final Call call = okHttpClient.newCall(request2);
+//                    Response response2 = call.execute();
+//                    if (response2.body() != null) {
+//                        String nUrl = response2.body().string();
+//                        LogUtil.e("uuuuuuuuuuuu", "run: " + nUrl);
+//                        if (!TextUtils.isEmpty(nUrl)) {
+//                            BackServiceUrlResponse da = (BackServiceUrlResponse) GsonUtil.toClass(nUrl, BackServiceUrlResponse.class);
+//                            if (da != null && da.getData() != null && !TextUtils.isEmpty(da.getData().getDomain())) {
+//                                String[] aa = da.getData().getDomain().split(",");
+//                                if (aa.length >= 1) {
+//                                    APPBASEURL = "http://" + aa[0];
+//                                    LogUtil.e("uuuuuuuuuuuu", "run: " + APPBASEURL);
+//                                }
+//                            }
+//                        }
+//                    }
+////                    Request.Builder requestBuilder2 = original.newBuilder()
+////                            .header("JPAUTH", AuthCode.authcodeEncode("jgnb", "UhnRS5ebz4a8rfhIllEk").trim())
+////                            .header("user-agent", "jianpian-android/" + PackageUtils.getVersionCode());
+////                    Request requestn = requestBuilder2.build();
+////                    requestn.url().
+////                    return chain.proceed(requestn);
+//                }
+                return response;
+
+            }
+        };
     }
 
     /**
@@ -126,9 +203,90 @@ public class ApiImp {
         }
     }
 
+    /**
+     * 设置返回数据的  Interceptor  判断网络   没网读取缓存
+     */
+    private Interceptor getOffLineInterceptor() {
+        return new Interceptor() {
+            @Override
+            public Response intercept(Chain chain) throws IOException {
+                Request request = chain.request();
+                if (!NetworkUtils.hasNetwork(MyApplication.getContext())) {
+                    int offlineCacheTime = 60 * 60 * 24 * 7;//离线的时候的缓存的过期时间
+                    request = request.newBuilder()
+                            .header("Cache-Control", "public, only-if-cached, max-stale=" + offlineCacheTime)
+                            .build();
+                }
+                return chain.proceed(request);
+            }
+        };
+    }
+
+    /**
+     * 设置连接器  设置缓存
+     */
+    private Interceptor getNetWorkInterceptor() {
+        return new Interceptor() {
+            @Override
+            public Response intercept(Chain chain) throws IOException {
+                Request request = chain.request();
+                Response response = chain.proceed(request);
+                int onlineCacheTime = 0;//在线的时候的缓存过期时间，如果想要不缓存，直接时间设置为0
+                return response.newBuilder()
+                        .header("Cache-Control", "public, max-age=" + onlineCacheTime)
+                        .removeHeader("Pragma")
+                        .build();
+            }
+        };
+    }
+
+
+    /**
+     * 信任所有证书
+     *
+     * @param mBuilder
+     */
+    private void noSSLKey(OkHttpClient.Builder mBuilder) {
+        try {
+            TrustManager[] trustManagers = new TrustManager[]{new X509TrustManager() {
+                @Override
+                public void checkClientTrusted(java.security.cert.X509Certificate[] x509Certificates, String s) throws CertificateException {
+
+                }
+
+                @Override
+                public void checkServerTrusted(java.security.cert.X509Certificate[] x509Certificates, String s) throws CertificateException {
+
+                }
+
+                public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+                    return new java.security.cert.X509Certificate[]{};
+                }
+
+            }};
+            SSLContext sslContext = SSLContext.getInstance("TLS");
+            sslContext.init(null, trustManagers, new SecureRandom());
+            EmptyHostNameVerifier emptyHostNameVerifier = new EmptyHostNameVerifier();
+
+            mBuilder.sslSocketFactory(sslContext.getSocketFactory());
+            mBuilder.hostnameVerifier(emptyHostNameVerifier);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    static class EmptyHostNameVerifier implements HostnameVerifier {
+
+        @Override
+        public boolean verify(String s, SSLSession sslSession) {
+
+            return true;
+        }
+    }
+
     //登陆
-    public void login(String request, IApiSubscriberCallBack<BaseApiResultData<String>> observer) {
-        baseObservableSetting(apiService.login(request), observer);
+    public void login(LoginRequestBean request, LifecycleTransformer lifecycleTransformer, IApiSubscriberCallBack<BaseApiResultData<String>> observer) {
+        baseObservableSetting(apiService.login(request), lifecycleTransformer, observer);
     }
 
 

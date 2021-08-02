@@ -19,7 +19,8 @@ import okhttp3.MediaType;
 import okhttp3.ResponseBody;
 import retrofit2.Converter;
 
-import static okhttp3.internal.Util.UTF_8;
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 
 /**
  * 创建者： feifan.pi 在 2017/3/14.

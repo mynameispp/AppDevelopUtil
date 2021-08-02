@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="horizontal"
+    android:paddingTop="@dimen/size_dp_15"
+    android:paddingBottom="@dimen/size_dp_15">
+
+    <ProgressBar
+        style="@style/Widget.AppCompat.ProgressBar"
+        android:layout_width="22dp"
+        android:layout_height="22dp"
+        android:visibility="gone" />
+
+    <ImageView
+        android:id="@+id/item_list_no_more_progress_bar"
+        android:layout_width="@dimen/size_dp_20"
+        android:layout_height="@dimen/size_dp_20"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/item_list_no_more_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/size_dp_8"
+        android:gravity="center"
+        android:text="已加载全部"
+        android:textColor="@color/gray_99" />
+
+</LinearLayout>

@@ -1,6 +1,6 @@
 package com.ffzxnet.developutil.net;
 
-import com.ffzxnet.countrymeet.base.net.BaseRequest;
+import com.ffzxnet.developutil.base.net.BaseRequest;
 
 /**
  * Created by Whisky on 2017/8/4.

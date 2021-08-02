@@ -1,9 +1,11 @@
 package com.ffzxnet.developutil.utils.tools;
 
 import android.graphics.drawable.Drawable;
+import android.view.View;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
-import com.ffzxnet.countrymeet.application.MyApplication;
+import com.ffzxnet.developutil.application.MyApplication;
 
 
 /**
@@ -66,6 +68,15 @@ public class SetTextViewDrawable {
         } else {
             //隐藏图片
             textView.setCompoundDrawables(null, null, null, null);
+        }
+    }
+
+    /**
+     * 取消Title 所有drawable
+     */
+    public static void claearView(final View view) {
+        if (view instanceof TextView) {
+            ((TextView) view).setCompoundDrawables(null, null, null, null);
         }
     }
 

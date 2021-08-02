@@ -3,9 +3,9 @@ package com.ffzxnet.developutil.net;
 
 import android.text.TextUtils;
 
-import com.ffzxnet.countrymeet.R;
-import com.ffzxnet.countrymeet.application.MyApplication;
-import com.ffzxnet.countrymeet.base.net.BaseResponse;
+import com.ffzxnet.developutil.R;
+import com.ffzxnet.developutil.application.MyApplication;
+import com.ffzxnet.developutil.base.net.BaseResponse;
 
 
 /**

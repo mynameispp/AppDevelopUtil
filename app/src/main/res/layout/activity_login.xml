@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/include_toolbar" />
+
+    <EditText
+        android:id="@+id/login_name"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:hint="账号"
+        android:textColor="@color/black_33"
+        android:textColorHint="@color/black_66" />
+
+    <EditText
+        android:id="@+id/login_pwd"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/login_name"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:hint="密码"
+        android:textColor="@color/black_33"
+        android:textColorHint="@color/black_66" />
+
+    <Button
+        android:id="@+id/login_btn"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/login_pwd"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:text="登录"
+        android:textColor="@color/black_33" />
+</RelativeLayout>

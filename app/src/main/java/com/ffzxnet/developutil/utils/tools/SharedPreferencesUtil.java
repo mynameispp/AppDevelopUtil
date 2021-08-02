@@ -3,7 +3,7 @@ package com.ffzxnet.developutil.utils.tools;
 import android.content.Context;
 import android.content.SharedPreferences.Editor;
 
-import com.ffzxnet.countrymeet.application.MyApplication;
+import com.ffzxnet.developutil.application.MyApplication;
 
 
 /**

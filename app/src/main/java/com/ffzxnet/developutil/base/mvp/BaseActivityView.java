@@ -6,4 +6,6 @@ package com.ffzxnet.developutil.base.mvp;
 
 public interface BaseActivityView {
     void showLoadingDialog(boolean b);
+
+    void showLoadingDialog(boolean b, String msg);
 }

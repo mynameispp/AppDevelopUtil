@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.support.v4.content.ContextCompat;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
@@ -14,8 +13,6 @@ import android.text.style.ForegroundColorSpan;
 import android.text.style.ImageSpan;
 import android.text.style.StrikethroughSpan;
 import android.text.style.UnderlineSpan;
-
-import com.ffzxnet.countrymeet.application.MyApplication;
 
 
 public class TxtSpannableUtil {
@@ -147,7 +144,7 @@ public class TxtSpannableUtil {
     public static Spannable highlight(String txt, int color, int start, int end, int size) {
         SpannableStringBuilder spannable = new SpannableStringBuilder(txt);//用于可变字符串
         if (color != 0) {
-            ForegroundColorSpan span = new ForegroundColorSpan(ContextCompat.getColor(MyApplication.getContext(),color));  //颜色样式
+            ForegroundColorSpan span = new ForegroundColorSpan(color);  //颜色样式
             spannable.setSpan(span, start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
         if (size > 0) {

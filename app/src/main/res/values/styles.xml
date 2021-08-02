@@ -1,26 +1,20 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowNoTitle">true</item>
         <item name="android:windowBackground">@color/white</item>
-        <item name="android:windowDisablePreview">true</item>
     </style>
 
     <!--开机页-->
     <style name="BootPageActivityStyle" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="android:windowNoTitle">true</item>
-        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowIsTranslucent">false</item>
         <item name="android:windowContentOverlay">@null</item>
-        <item name="android:windowFullscreen">true</item>
         <item name="android:windowDisablePreview">true</item>
+<!--        <item name="android:background">@mipmap/bg_main</item>-->
     </style>
 
     <!-- Title样式 -->
@@ -114,4 +108,10 @@
         <item name="android:backgroundDimAmount">0.7</item>
     </style>
 
+    <style name="DialogLoading" parent="Theme.AppCompat.Dialog">
+        <!--背景透明-->
+        <item name="android:windowBackground">@color/transparent</item>
+        <item name="android:backgroundDimEnabled">false</item>
+        <item name="colorAccent">@color/colorPrimary</item>
+    </style>
 </resources>

@@ -9,4 +9,39 @@
         <attr name="textPaddingLeft" format="dimension"/>
     </declare-styleable>
 
+    <declare-styleable name="RoundImageView">
+        <attr name="borderRadius" format="dimension" />
+        <attr name="borderRadiusTopLeft" format="boolean" />
+        <attr name="borderRadiusTopRight" format="boolean" />
+        <attr name="borderRadiusBottomLeft" format="boolean" />
+        <attr name="borderRadiusBottomRight" format="boolean" />
+        <attr name="type" format="enum">
+            <enum name="circle" value="0" />
+            <enum name="round" value="1" />
+            <enum name="round_fix" value="2" />
+        </attr>
+    </declare-styleable>
+
+    <!--圆角布局-->
+    <declare-styleable name="RoundLayout">
+        <!--圆角弧度-->
+        <attr name="backgroundColor" format="color|reference" />
+        <!--圆角弧度-->
+        <attr name="round_corner" format="integer|dimension" />
+        <!--边框颜色-->
+        <attr name="stroke_color" format="color|reference" />
+        <!--边框宽度-->
+        <attr name="stroke_width" format="integer|dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="ShadowContainer">
+        <attr name="containerShadowColor" format="color"/>
+        <attr name="containerShadowRadius" format="dimension"/>
+        <attr name="containerDeltaLength" format="dimension"/>
+        <attr name="containerCornerRadius" format="dimension"/>
+        <attr name="deltaX" format="dimension"/>
+        <attr name="deltaY" format="dimension"/>
+        <attr name="enable" format="boolean"/>
+    </declare-styleable>
+
 </resources>

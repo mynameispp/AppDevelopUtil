@@ -1,10 +1,9 @@
 package com.ffzxnet.developutil.utils.ui;
 
-import android.content.Context;
 import android.view.Gravity;
 import android.widget.Toast;
 
-import com.ffzxnet.countrymeet.application.MyApplication;
+import com.ffzxnet.developutil.application.MyApplication;
 
 
 /**
@@ -12,17 +11,6 @@ import com.ffzxnet.countrymeet.application.MyApplication;
  */
 public class ToastUtil {
     private static Toast toast;
-
-    private static void showToast(Context context, String msg, int gravity) {
-        if (toast != null) {
-            toast.cancel();
-        }
-        toast = Toast.makeText(context, msg, Toast.LENGTH_SHORT);
-        if (gravity > -1) {
-            toast.setGravity(gravity, 0, 0);
-        }
-        toast.show();
-    }
 
     public static void cancleToast() {
         if (toast != null) {
@@ -45,11 +33,48 @@ public class ToastUtil {
      * 对外调用
      *
      * @param msg     信息
-     * @param gravity Toast显示的位置
+     * @param gravity Toast显示的位置 Gravity.CENTER
      */
     public static void showToastShort(String msg, int gravity) {
-        showToast(MyApplication.getContext(), msg, gravity);
+        showToastShortBase(msg, gravity);
     }
 
+    /**
+     * Toast
+     * 对外调用
+     *
+     * @param msg 信息
+     */
+    public static void showToastLong(String msg) {
+        showToastLong(msg, Gravity.CENTER);
+    }
 
+    /**
+     * Toast
+     * 对外调用
+     *
+     * @param msg     信息
+     * @param gravity Toast显示的位置
+     */
+    public static void showToastLong(String msg, int gravity) {
+        showToastLongBase(msg, gravity);
+    }
+
+    private static void showToastShortBase(String msg, int gravity) {
+        cancleToast();
+        toast = Toast.makeText(MyApplication.getContext(), msg, Toast.LENGTH_SHORT);
+        if (gravity > -1) {
+            toast.setGravity(gravity, 0, 0);
+        }
+        toast.show();
+    }
+
+    private static void showToastLongBase(String msg, int gravity) {
+        cancleToast();
+        toast = Toast.makeText(MyApplication.getContext(), msg, Toast.LENGTH_LONG);
+        if (gravity > -1) {
+            toast.setGravity(gravity, 0, 0);
+        }
+        toast.show();
+    }
 }

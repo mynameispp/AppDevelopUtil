@@ -1,32 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/toolbar"
     android:layout_width="match_parent"
-    android:layout_height="?attr/actionBarSize"
-    app:theme="@style/title_style">
+    android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/title_name"
-        android:layout_width="wrap_content"
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:background="@color/transparent"
-        android:ellipsize="end"
-        android:gravity="center"
-        android:maxLines="1"
-        android:textColor="@color/black_33"
-        android:textSize="18sp" />
+        app:contentInsetEnd="0dp"
+        app:contentInsetStart="0dp"
+        app:theme="@style/title_style">
 
-    <TextView
-        android:id="@+id/toolbar_right_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="right"
-        android:layout_marginRight="@dimen/size_dp_16"
-        android:background="@color/transparent"
-        android:ellipsize="end"
-        android:gravity="center"
-        android:maxLines="1"
-        android:textSize="14sp" />
-</android.support.v7.widget.Toolbar>
+        <TextView
+            android:id="@+id/toolbar_left_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:drawablePadding="@dimen/size_dp_5"
+            android:drawableTint="@color/black_33"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:paddingLeft="@dimen/size_dp_15"
+            android:paddingRight="@dimen/size_dp_6"
+            android:textColor="@color/black_33"
+            android:textSize="@dimen/size_sp_16" />
+
+        <TextView
+            android:id="@+id/toolbar_left_2tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:drawableTint="@color/black_33"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:paddingLeft="@dimen/size_dp_6"
+            android:paddingRight="@dimen/size_dp_15"
+            android:textColor="@color/black_33"
+            android:textSize="@dimen/size_sp_16" />
+
+        <TextView
+            android:id="@+id/toolbar_title_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@color/transparent"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:maxLines="1"
+            android:textColor="@color/black_33"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/toolbar_right_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:drawablePadding="@dimen/size_dp_5"
+            android:drawableTint="@color/black_33"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:maxLines="1"
+            android:paddingLeft="@dimen/size_dp_15"
+            android:paddingRight="@dimen/size_dp_15"
+            android:textColor="@color/black_33"
+            android:textSize="14sp" />
+    </androidx.appcompat.widget.Toolbar>
+    <!--下划线-->
+    <View
+        android:id="@+id/toolbar_split_line"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/size_dp_zero_point_5"
+        android:layout_below="@id/toolbar" />
+    <!--状态栏顶部上的挡板，防止上面的信息字体看不见-->
+    <View
+        android:id="@+id/toolbar_status_bg"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/size_dp_28" />
+</RelativeLayout>

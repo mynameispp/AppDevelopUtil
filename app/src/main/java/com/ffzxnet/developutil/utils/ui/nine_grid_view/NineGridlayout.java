@@ -8,10 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.facebook.drawee.generic.GenericDraweeHierarchy;
-import com.facebook.drawee.view.SimpleDraweeView;
 import com.ffzxnet.developutil.R;
-import com.ffzxnet.developutil.utils.tools.FrescoUti;
+import com.ffzxnet.developutil.application.GlideApp;
 import com.ffzxnet.developutil.utils.tools.ScreenUtils;
 
 import java.util.List;
@@ -39,7 +37,7 @@ public class NineGridlayout extends ViewGroup {
 
     public NineGridlayout(Context context, AttributeSet attrs) {
         super(context, attrs);
-        totalWidth= ScreenUtils.getScreenWidth(context)-ScreenUtils.dip2px(context,32);
+        totalWidth = ScreenUtils.getScreenWidth(context) - ScreenUtils.dip2px(context, 32);
     }
 
     @Override
@@ -51,7 +49,8 @@ public class NineGridlayout extends ViewGroup {
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
 
     }
-    private void layoutChildrenView(){
+
+    private void layoutChildrenView() {
         int childrenCount = listData.size();
 
         int singleWidth = (totalWidth - gap * (3 - 1)) / 3;
@@ -63,9 +62,12 @@ public class NineGridlayout extends ViewGroup {
         setLayoutParams(params);
 
         for (int i = 0; i < childrenCount; i++) {
-            SimpleDraweeView childrenView = (SimpleDraweeView) getChildAt(i);
+            ImageView childrenView = (ImageView) getChildAt(i);
 //            childrenView.setImageURI(Uri.parse(listData.get(i)));
-            FrescoUti.load(Uri.parse(listData.get(i) ),childrenView);
+            GlideApp.with(childrenView)
+                    .load(Uri.parse(listData.get(i)))
+                    .placeholder(R.mipmap.icon_default_post_img)
+                    .into(childrenView);
             int[] position = findPosition(i);
             int left = (singleWidth + gap) * position[1];
             int top = (singleHeight + gap) * position[0];
@@ -111,8 +113,8 @@ public class NineGridlayout extends ViewGroup {
         if (listData == null) {
             int i = 0;
             while (i < lists.size()) {
-                SimpleDraweeView iv = generateImageView(i);
-                addView(iv,generateDefaultLayoutParams());
+                ImageView iv = generateImageView(i);
+                addView(iv, generateDefaultLayoutParams());
                 i++;
             }
         } else {
@@ -122,8 +124,8 @@ public class NineGridlayout extends ViewGroup {
                 removeViews(newViewCount - 1, oldViewCount - newViewCount);
             } else if (oldViewCount < newViewCount) {
                 for (int i = 0; i < newViewCount - oldViewCount; i++) {
-                    SimpleDraweeView iv = generateImageView(oldViewCount + i);
-                    addView(iv,generateDefaultLayoutParams());
+                    ImageView iv = generateImageView(oldViewCount + i);
+                    addView(iv, generateDefaultLayoutParams());
                 }
             }
         }
@@ -160,15 +162,12 @@ public class NineGridlayout extends ViewGroup {
         }
     }
 
-    private SimpleDraweeView generateImageView(final int position) {
-        SimpleDraweeView iv = new SimpleDraweeView(getContext());
-        GenericDraweeHierarchy hierarchy = iv.getHierarchy();
-        hierarchy.setPlaceholderImage(R.mipmap.icon_default_post_img);
-        iv.setScaleType(ImageView.ScaleType.CENTER_CROP);
+    private ImageView generateImageView(final int position) {
+        ImageView iv = new ImageView(getContext());
         iv.setOnClickListener(new OnClickListener() {
             @Override
-            public void onClick(View v ) {
-                if (mOnItemClickListener != null){
+            public void onClick(View v) {
+                if (mOnItemClickListener != null) {
                     mOnItemClickListener.onItemClick(position);
                 }
             }
@@ -176,14 +175,15 @@ public class NineGridlayout extends ViewGroup {
         iv.setBackgroundColor(Color.parseColor("#f5f5f5"));
         return iv;
     }
-    public void setOnItemClickListener(OnItemClickListener listener){
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
         mOnItemClickListener = listener;
     }
 
     /**
      * 对应位置的回调接口
      */
-    public interface OnItemClickListener{
-        void  onItemClick(int position);
+    public interface OnItemClickListener {
+        void onItemClick(int position);
     }
 }

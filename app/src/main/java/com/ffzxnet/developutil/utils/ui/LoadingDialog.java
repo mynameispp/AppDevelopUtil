@@ -4,9 +4,11 @@ package com.ffzxnet.developutil.utils.ui;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.widget.TextView;
 
-import com.ffzxnet.countrymeet.R;
+import com.ffzxnet.developutil.R;
+import com.ffzxnet.developutil.application.MyApplication;
 
 
 /**
@@ -14,41 +16,36 @@ import com.ffzxnet.countrymeet.R;
  */
 public class LoadingDialog extends ProgressDialog {
     private TextView msgTv;
+    private String msg;
 
     public LoadingDialog(Context context) {
-        super(context);
+        this(context, 0);
     }
-//
-//    public LoadingDialog(@NonNull Context context, @StyleRes int themeResId) {
-//        super(context, themeResId);
-//    }
+
+    public LoadingDialog(Context context, int theme) {
+        super(context, R.style.DialogLoading);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.loading_layout);
+        setContentView(R.layout.loading_layout);
         this.setCanceledOnTouchOutside(false);
 
-//        Window dialogWindow = getWindow();
-//        WindowManager.LayoutParams lp = dialogWindow.getAttributes();
-//        dialogWindow.setGravity(Gravity.CENTER);
-//        dialogWindow.setAttributes(lp);
+        msgTv = findViewById(R.id.loading_msg);
 
-//        FrescoUti.load(("res:///" + R.mipmap.loading), (SimpleDraweeView) findViewById(R.id.loading_img), 22, 22);
-        msgTv = (TextView) findViewById(R.id.loading_msg);
-        setMessage("加载数据中...");
+        if (TextUtils.isEmpty(msg)) {
+            msgTv.setText(MyApplication.getStringByResId(R.string.loading_msg));
+        } else {
+            msgTv.setText(msg);
+        }
     }
 
-//    public void setMessage(String msg) {
-//        if (null != msgTv && !TextUtils.isEmpty(msg)) {
-//            msgTv.setText(msg);
-//        }
-//    }
 
     /**
      * 显示  对外使用
      */
-    public void ShowDialog() {
+    public void showDialog() {
         if (!isShowing()) {
             show();
         }
@@ -58,15 +55,20 @@ public class LoadingDialog extends ProgressDialog {
      * 隐藏关闭   对外使用
      */
     public void closeDialog() {
-        if (isShowing()) {
-            dismiss();
-        }
+        dismiss();
     }
 
-    public void showDailog(String msg){
-        setMessage(msg);
+    public void showDialog(String msg) {
+        if (!TextUtils.isEmpty(msg)) {
+            this.msg = msg;
+        } else {
+            this.msg = MyApplication.getStringByResId(R.string.loading_msg);
+        }
         if (!isShowing()) {
             show();
+        }
+        if (null != msgTv) {
+            msgTv.setText(this.msg);
         }
     }
 

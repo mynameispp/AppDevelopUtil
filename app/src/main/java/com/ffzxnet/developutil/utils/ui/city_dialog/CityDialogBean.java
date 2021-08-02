@@ -1,6 +1,6 @@
 package com.ffzxnet.developutil.utils.ui.city_dialog;
 
-import com.ffzxnet.countrymeet.base.net.BaseResponse;
+import com.ffzxnet.developutil.base.net.BaseResponse;
 
 import java.util.List;
 

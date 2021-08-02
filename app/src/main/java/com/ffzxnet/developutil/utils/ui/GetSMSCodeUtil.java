@@ -4,23 +4,20 @@ import android.text.SpannableString;
 import android.view.View;
 import android.widget.TextView;
 
-import com.ffzxnet.countrymeet.R;
-import com.ffzxnet.countrymeet.application.MyApplication;
+import java.util.concurrent.TimeUnit;
 
-import io.reactivex.Observable;
-import io.reactivex.ObservableEmitter;
-import io.reactivex.ObservableOnSubscribe;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Consumer;
-import io.reactivex.schedulers.Schedulers;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.core.Observer;
+import io.reactivex.rxjava3.disposables.Disposable;
 
 
 /**
- * 创建者： feifan.pi 在 2017/4/28.
+ * 创建者： feifan.pi
  */
 
 public class GetSMSCodeUtil {
     private static boolean going = true;
+    private static Disposable disposable;
     //是否在倒计时
     private static boolean isCountDowning = false;
 
@@ -44,50 +41,45 @@ public class GetSMSCodeUtil {
      * 倒计时
      */
     private static void countdownForTextView(final TextView textView) {
-        Observable.create(new ObservableOnSubscribe<Integer>() {
-            @Override
-            public void subscribe(ObservableEmitter<Integer> emitter) throws Exception {
-                int i = 120;//倒计时的秒数
-                isCountDowning = true;
-                while (i >= 0 && going) {
-                    try {
-                        emitter.onNext(i);
-                        Thread.sleep(1000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    i--;
-                }
-                if (!going) {
-                    //强制停止
-                    emitter.onNext(-1);
-                }
-                going = true;
-                emitter.onComplete();
-            }
-        }).subscribeOn(Schedulers.io())// 此方法为上面发出事件设置线程为IO线程
-                .observeOn(AndroidSchedulers.mainThread())// 为消耗事件设置\线程为UI线程
-                .subscribe(new Consumer<Integer>() {
+        if (disposable != null) {
+            disposable.dispose();
+            disposable = null;
+        }
+        going = true;
+        Observable.timer(120, TimeUnit.SECONDS)
+                .subscribe(new Observer<Long>() {
                     @Override
-                    public void accept(Integer integer) throws Exception {
-                        textView.setClickable(integer > 0 ? false : true);//是否可点击
-                        //倒计时背景颜色
-//                        textView.setBackgroundResource(integer > 0 ? R.drawable.btn_get_msm_code_down
-//                                : R.drawable.btn_get_msm_code_up);
-                        if (integer > 0) {
-                            String content = integer + "s";
+                    public void onSubscribe(Disposable d) {
+                        disposable = d;
+                    }
+
+                    @Override
+                    public void onNext(Long aLong) {
+                        textView.setClickable(aLong <= 0);//是否可点击
+                        if (aLong > 0) {
+                            String content = aLong + "s";
                             SpannableString span = new SpannableString(content);
 //                            int index = content.indexOf("后");
-                            int index = content.length();
+//                            int index = content.length();
 //                            span.setSpan(new ForegroundColorSpan(ContextCompat.getColor(MyApplication.getContext(), R.color.green_2e)),
 //                                    0, index, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);  //倒计时数字颜色
                             textView.setText(span);
-                        } else if (integer == -1) {
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        if (!going) {
                             //强行停止的
-                            textView.setText(MyApplication.getStringByResId(R.string.sms_countdown_send));
+                            textView.setText("发送验证码");
                         } else {
                             isCountDowning = false;
-                            textView.setText(MyApplication.getStringByResId(R.string.sms_countdown_again));
+                            textView.setText("重新发送");
                         }
                     }
                 });

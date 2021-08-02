@@ -3,12 +3,12 @@ package com.ffzxnet.developutil.net;
 import android.net.ParseException;
 import android.text.TextUtils;
 
-import com.ffzxnet.countrymeet.R;
-import com.ffzxnet.countrymeet.application.MyApplication;
-import com.ffzxnet.countrymeet.base.net.BaseApiResultData;
-import com.ffzxnet.countrymeet.net.retrofit_gson_factory.ResultErrorException;
-import com.ffzxnet.countrymeet.utils.tools.GsonUtil;
-import com.ffzxnet.countrymeet.utils.tools.LogUtil;
+import com.ffzxnet.developutil.R;
+import com.ffzxnet.developutil.application.MyApplication;
+import com.ffzxnet.developutil.base.net.BaseApiResultData;
+import com.ffzxnet.developutil.net.retrofit_gson_factory.ResultErrorException;
+import com.ffzxnet.developutil.utils.tools.GsonUtil;
+import com.ffzxnet.developutil.utils.tools.LogUtil;
 import com.google.gson.JsonParseException;
 
 import org.json.JSONException;
@@ -17,9 +17,9 @@ import java.net.ConnectException;
 import java.net.HttpURLConnection;
 import java.net.SocketTimeoutException;
 
-import io.reactivex.Observer;
-import io.reactivex.annotations.NonNull;
-import io.reactivex.disposables.Disposable;
+import io.reactivex.rxjava3.annotations.NonNull;
+import io.reactivex.rxjava3.core.Observer;
+import io.reactivex.rxjava3.disposables.Disposable;
 import retrofit2.HttpException;
 
 /**
@@ -108,18 +108,23 @@ public class ApiSubscriber<T> implements Observer<T> {
 
     @Override
     public void onNext(T t) {
-        BaseApiResultData baseApiResultData = (BaseApiResultData) t;
-        if (baseApiResultData.getCode() == 1) {
-            //成功
-            iApiSubscriberCallBack.onNext(t);
-        } else {
-            //用户级错误
-            ErrorResponse errorResponse = new ErrorResponse();
-            errorResponse.setMessage(baseApiResultData.getMessage());
-            switch (baseApiResultData.getCode()) {
+        if (t instanceof BaseApiResultData) {
+            BaseApiResultData baseApiResultData = (BaseApiResultData) t;
+            if (baseApiResultData.getCode() == 201) {
+                //成功
+                iApiSubscriberCallBack.onNext(t);
+            } else {
+                //用户级错误
+                ErrorResponse errorResponse = new ErrorResponse();
+                errorResponse.setMessage(baseApiResultData.getMessage());
+                switch (baseApiResultData.getCode()) {
 
+                }
+                iApiSubscriberCallBack.onError(errorResponse);
             }
-            iApiSubscriberCallBack.onError(errorResponse);
+        } else {
+            //非统一接口格式返回的数据，自行处理
+            iApiSubscriberCallBack.onNext(t);
         }
 
     }

@@ -1,10 +1,12 @@
 package com.ffzxnet.developutil.net;
 
 
-
 import com.ffzxnet.developutil.base.net.BaseApiResultData;
+import com.ffzxnet.developutil.bean.LoginRequestBean;
+import com.ffzxnet.developutil.bean.UserInfoBean;
 
-import io.reactivex.Observable;
+import io.reactivex.rxjava3.core.Observable;
+import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
@@ -18,6 +20,9 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("appUser/login.do")
     Observable<BaseApiResultData<String>> login(@Field("params") String params);
+
+    @POST("card/class/login/admin")
+    Observable<BaseApiResultData<UserInfoBean>> login(@Body LoginRequestBean requestBean);
 
 }
 
