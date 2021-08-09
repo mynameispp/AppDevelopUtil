@@ -195,7 +195,7 @@ public abstract class BaseActivity extends RxAppCompatActivity implements BaseAc
         if (flags > -1) {
             it.setFlags(flags);
         }
-        startActivity(it);
+        redirectActivity(it);
     }
 
     /**
