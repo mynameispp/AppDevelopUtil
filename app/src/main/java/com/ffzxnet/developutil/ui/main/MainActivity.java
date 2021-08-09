@@ -86,16 +86,18 @@ public class MainActivity extends BaseActivity implements MainContract.View, Rad
         }
     }
 
-    //请求
+    //StartActivityForResult请求
     static class ActivityResultC extends ActivityResultContract<String, Object> {
         @NonNull
         @Override
         public Intent createIntent(@NonNull Context context, String input) {
+            //创建请求
             return new Intent(context, ForResultActivity.class);
         }
 
         @Override
         public Object parseResult(int resultCode, @Nullable Intent intent) {
+            //回调返回值
             if (resultCode == 110 && null != intent) {
                 return intent.getStringExtra("value");
             } else {
