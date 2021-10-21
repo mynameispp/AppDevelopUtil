@@ -6,6 +6,7 @@ import android.widget.EditText;
 
 import com.ffzxnet.developutil.R;
 import com.ffzxnet.developutil.base.ui.BaseActivity;
+import com.ffzxnet.developutil.constans.MyConstans;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -21,18 +22,20 @@ public class ForResultActivity extends BaseActivity {
 
     @Override
     public void createdViewByBase(Bundle savedInstanceState) {
-        initToolBar("", "StartActivityForResult", false);
+        String inputData = getBundle().getString(MyConstans.Key_Title_Name, "获取失败");
+        initToolBar("", inputData, true);
     }
 
     @Override
     protected void onClickTitleBack() {
+       goBackByQuick();
     }
 
     @OnClick(R.id.for_result_btn)
     public void onViewClicked() {
         //返回值
         Intent result = new Intent();
-        result.putExtra("value", forResultEd.getText().toString().trim());
+        result.putExtra(MyConstans.KEY_DATA, forResultEd.getText().toString().trim());
         setResult(110, result);
         finishActivity(this);
     }

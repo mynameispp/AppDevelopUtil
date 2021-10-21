@@ -25,13 +25,6 @@ import java.util.Objects;
 import androidx.annotation.NonNull;
 
 
-/**
- * ClassName:FileUtil
- * Description:
- * Created by wei.luo
- * Date 2015-10-12 15:44
- * CopyRight © 2015 51ZhiYe
- */
 public class FileUtil {
     /**
      * 反斜杠 “/”
@@ -43,6 +36,7 @@ public class FileUtil {
     public static final String CamerPath = FileUtil.getSdcardRootDirectory("camer");
     public static final String HttpCache = FileUtil.getSdcardRootDirectory("HttpCache");
     public static final String GlidePathCache = FileUtil.getSdcardRootDirectory("GlidePathCache");
+    public static final String DownLoadFile = FileUtil.getSdcardRootDirectory("DownLoadFile");
 
     public static String getSdcardRootDirectory(@NonNull String addFlod) {
         if (null == MyApplication.getContext()) {

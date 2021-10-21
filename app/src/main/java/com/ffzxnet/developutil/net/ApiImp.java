@@ -1,9 +1,12 @@
 package com.ffzxnet.developutil.net;
 
 
+import com.ffzxnet.developutil.BuildConfig;
 import com.ffzxnet.developutil.application.MyApplication;
+import com.ffzxnet.developutil.base.mvp.BaseNetView;
 import com.ffzxnet.developutil.base.net.BaseApiResultData;
 import com.ffzxnet.developutil.bean.LoginRequestBean;
+import com.ffzxnet.developutil.bean.UpLoadRequest;
 import com.ffzxnet.developutil.net.cookie.PersistentCookieStore;
 import com.ffzxnet.developutil.net.retrofit_gson_factory.CustomGsonConverterFactory;
 import com.ffzxnet.developutil.utils.tools.FileUtil;
@@ -25,6 +28,7 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 import okhttp3.Cache;
@@ -35,6 +39,7 @@ import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import okhttp3.ResponseBody;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory;
@@ -44,8 +49,10 @@ import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory;
  */
 
 public class ApiImp {
+    // 是否为线上环境
+    public static boolean IS_PRODUCTION_ENVIRONMENT = BuildConfig.BuildTypes;
     //请求服务地址
-    public static String APPBASEURL = "http://ccard.uyeek.com/";
+    public static String APPBASEURL = BuildConfig.BASE_API;//接口地址
     //单例实体对象
     private static volatile ApiImp apiImp = null;
     /**
@@ -106,26 +113,6 @@ public class ApiImp {
                 .build();
         //服务器请求接口
         apiService = retrofit.create(ApiService.class);
-    }
-
-    /**
-     * 默认请求配置
-     *
-     * @param observable           请求的接口 apiService.testObservable(request)
-     * @param lifecycleTransformer 请求绑定界面的生命周期
-     * @param observer             结果监听 ApiSubscriber<TestResponse<TestPojo>> observer
-     */
-    private void baseObservableSetting(Observable observable, LifecycleTransformer lifecycleTransformer, final IApiSubscriberCallBack observer) {
-        observable.subscribeOn(Schedulers.io()) //在后台线程处理请求
-                .observeOn(AndroidSchedulers.mainThread()) //请求结果到主线程
-                .compose(lifecycleTransformer)
-                .subscribe(new ApiSubscriber(observer));
-    }
-
-    private void baseObservableSetting(Observable observable, final IApiSubscriberCallBack observer) {
-        observable.subscribeOn(Schedulers.io()) //在后台线程处理请求
-                .observeOn(AndroidSchedulers.mainThread()) //请求结果到主线程
-                .subscribe(new ApiSubscriber(observer));
     }
 
     /**
@@ -283,11 +270,48 @@ public class ApiImp {
             return true;
         }
     }
+    //=================================接口实现统一方法===========================================================================
 
-    //登陆
-    public void login(LoginRequestBean request, LifecycleTransformer lifecycleTransformer, IApiSubscriberCallBack<BaseApiResultData<String>> observer) {
-        baseObservableSetting(apiService.login(request), lifecycleTransformer, observer);
+    /**
+     * 默认请求配置
+     *
+     * @param observable           请求的接口 apiService.testObservable(request)
+     * @param lifecycleTransformer 请求绑定界面的生命周期
+     * @param callBack             结果监听 ApiSubscriber<TestResponse<Vo>> observer
+     */
+    private void baseObservableSetting(Observable observable, BaseNetView baseNetView, LifecycleTransformer lifecycleTransformer, final IApiSubscriberCallBack callBack) {
+        observable.subscribeOn(Schedulers.io()) //在后台线程处理请求
+                .observeOn(AndroidSchedulers.mainThread()) //请求结果到主线程
+                .compose(lifecycleTransformer)
+                .subscribe(new ApiSubscriber(baseNetView, callBack));
     }
 
+    private void baseObservableSetting(Observable observable, BaseNetView baseNetView, final IApiSubscriberCallBack callBack) {
+        observable.subscribeOn(Schedulers.io()) //在后台线程处理请求
+                .observeOn(AndroidSchedulers.mainThread()) //请求结果到主线程
+                .subscribe(new ApiSubscriber(baseNetView, callBack));
+    }
+
+    private void baseObservableSetting(Observable observable, final IApiSubscriberCallBack callBack) {
+        observable.subscribeOn(Schedulers.io()) //在后台线程处理请求
+                .observeOn(AndroidSchedulers.mainThread()) //请求结果到主线程
+                .subscribe(new ApiSubscriber(callBack));
+    }
+
+    //====================================接口实现=====================================================================
+    //登陆
+    public void login(LoginRequestBean request, BaseNetView baseNetView, LifecycleTransformer lifecycleTransformer, IApiSubscriberCallBack<BaseApiResultData<String>> callBack) {
+        baseObservableSetting(apiService.login(request), baseNetView, lifecycleTransformer, callBack);
+    }
+
+    //下载文件
+    public void downloadFile(@NonNull final String url, IApiSubscriberCallBack<ResponseBody> callBack) {
+        baseObservableSetting(apiService.downloadFile(url), callBack);
+    }
+
+    //上傳头像
+    public void upLoadFile(UpLoadRequest request, IApiSubscriberCallBack<BaseApiResultData<String>> callBack) {
+        baseObservableSetting(apiService.upLoadFile(APPBASEURL + "/org/qiniu/upload", request.getFileUrl()), callBack);
+    }
 
 }

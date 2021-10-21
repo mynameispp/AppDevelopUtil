@@ -10,6 +10,7 @@ import com.ffzxnet.developutil.R;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 /**
@@ -48,32 +49,29 @@ public abstract class BaseRVListAdapter<T> extends RecyclerView.Adapter {
     private BaseRVListAdapterEmptyViewClickListen emptyClickListen;
     //设置底部提示控件点击事件
     private BaseRVListAdapterBottomViewClickListen bottomViewClickListen;
-    //列表是横向滑动
-    private boolean isVerticalScroll;
+    //列表是否横向向滑动
+    private boolean isHorizontalScroll;
+    //列表数据
     private List<T> datas;
 
     public BaseRVListAdapter(List<T> datas) {
-        if (null == this.datas) {
-            this.datas = new ArrayList<>();
-        }
-        if (null != datas) {
-            addDatas(datas);
-        }
+        addDatas(datas);
         noMoreData = this.datas.size() < pageSize;
     }
 
     public BaseRVListAdapter(List<T> datas, int maxSize) {
-        if (null == this.datas) {
-            this.datas = new ArrayList<>();
-        }
         pageSize = maxSize;
-        if (null != datas) {
-            addDatas(datas);
-        }
+        addDatas(datas);
+        noMoreData = this.datas.size() < pageSize;
     }
 
-    public void setVerticalScroll(boolean verticalScroll) {
-        isVerticalScroll = verticalScroll;
+    /**
+     * 是否是横向滑动
+     *
+     * @param horizontalScroll false
+     */
+    public void setIsHorizontalScroll(boolean horizontalScroll) {
+        isHorizontalScroll = horizontalScroll;
     }
 
     /**
@@ -87,7 +85,6 @@ public abstract class BaseRVListAdapter<T> extends RecyclerView.Adapter {
         if (null != getDatas()) {
             //数据不为空时，要判断下
             noMoreData = getDatas().size() < pageSize;
-
         }
     }
 
@@ -144,9 +141,7 @@ public abstract class BaseRVListAdapter<T> extends RecyclerView.Adapter {
             addDatas = new ArrayList<>();
         }
         noMoreData = addDatas.size() < pageSize;
-        if (addDatas.size() == 0) {
-            notifyItemChanged(getItemCount() - 1);
-        } else {
+        if (addDatas.size() > 0) {
             int oldSize = datas.size();
             datas.addAll(addDatas);
             notifyItemChanged(oldSize, datas.size());
@@ -161,9 +156,7 @@ public abstract class BaseRVListAdapter<T> extends RecyclerView.Adapter {
             addDatas = new ArrayList<>();
         }
         noMoreData = addDatas.size() < pageSize;
-        if (addDatas.size() == 0) {
-            notifyItemChanged(getItemCount() - 1);
-        } else {
+        if (addDatas.size() > 0) {
             int oldSize = datas.size();
             datas.addAll(position, addDatas);
             notifyItemChanged(position, datas.size() - oldSize);
@@ -370,17 +363,18 @@ public abstract class BaseRVListAdapter<T> extends RecyclerView.Adapter {
 
     public abstract RecyclerView.ViewHolder onMyCreateViewHolder(ViewGroup parent, int viewType);
 
+    @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view;
         if (viewType == type_load_more) {
             //提示加载更多或已经加载完所有数据
-//            if (isVerticalScroll) {
-//                //横版列表的加载提示控件
-//                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_list_bottom_verictor_view, parent, false);
-//            } else {
-            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_list_bottom_view, parent, false);
-//            }
+            if (isHorizontalScroll) {
+                //横版列表的加载提示控件
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_list_bottom_view_vertical, parent, false);
+            } else {
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_list_bottom_view, parent, false);
+            }
             return new ListBottomViewHolder(view);
         } else if (viewType == type_no_data) {
             //提示没有数据
@@ -395,7 +389,7 @@ public abstract class BaseRVListAdapter<T> extends RecyclerView.Adapter {
     public abstract void onMyBindViewHolder(RecyclerView.ViewHolder holder, int position);
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof ListEmptyViewHolder) {
             //空数据布局
             if (!noEmptyView) {
@@ -432,19 +426,19 @@ public abstract class BaseRVListAdapter<T> extends RecyclerView.Adapter {
         } else if (holder instanceof ListBottomViewHolder) {
             //列表底部提示布局
             final ListBottomViewHolder listBottomViewHolder = (ListBottomViewHolder) holder;
+            if (bottomBGResId > 0) {
+                //设置背景
+                listBottomViewHolder.setMsgBg(bottomBGResId);
+            }
+            if (bottomTextColorId > 0) {
+                //设置字体颜色
+                listBottomViewHolder.setMsgColor(bottomTextColorId);
+            }
             if (noMoreData) {
                 if (TextUtils.isEmpty(noMoreMsg)) {
                     listBottomViewHolder.setMsg("已加载全部数据");
                 } else {
                     listBottomViewHolder.setMsg(noMoreMsg);
-                }
-                if (bottomBGResId > 0) {
-                    //设置背景
-                    listBottomViewHolder.setMsgBg(bottomBGResId);
-                }
-                if (bottomTextColorId > 0) {
-                    //设置字体颜色
-                    listBottomViewHolder.setMsgColor(bottomTextColorId);
                 }
                 listBottomViewHolder.setloadingPBVisible(false);
                 if (null != bottomViewClickListen) {

@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <item type="id" name="tagId_1"/>
+    <item type="id" name="tagId_2"/>
+    <item type="id" name="tagId_3"/>
     //个人信息修改年龄
     <item type="id" name="age_dialog_item_position"/>
     <item type="id" name="age_dialog_item_age"/>

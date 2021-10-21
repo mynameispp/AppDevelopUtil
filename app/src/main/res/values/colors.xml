@@ -10,6 +10,7 @@
     <color name="gray_EE">#EEEEEE</color>
     <color name="gray_99">#999999</color>
     <color name="transparent">#00000000</color>
+    <color name="black">#000000</color>
     <color name="black_33">#333333</color>
     <color name="black_66">#666666</color>
     <color name="white">#FFFFFF</color>

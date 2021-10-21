@@ -35,6 +35,11 @@ public class SplashActivity extends BaseActivity {
     }
 
     @Override
+    public void isFullScreen(boolean yes) {
+        super.isFullScreen(true);
+    }
+
+    @Override
     public void createdViewByBase(Bundle savedInstanceState) {
         boolean isFirstUsed = SharedPreferencesUtil.getInstance().getBoolean(SharedPreferencesUtil.KEY_FIRST_TIME_USE, true);
         if (isFirstUsed) {

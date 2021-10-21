@@ -20,6 +20,7 @@ import com.ffzxnet.developutil.R;
 import com.ffzxnet.developutil.application.MyApplication;
 import com.ffzxnet.developutil.base.mvp.BaseActivityView;
 import com.ffzxnet.developutil.constans.MyConstans;
+import com.ffzxnet.developutil.net.ErrorResponse;
 import com.ffzxnet.developutil.net.net_status.NetType;
 import com.ffzxnet.developutil.net.net_status.NetworkLiveData;
 import com.ffzxnet.developutil.utils.tools.LogUtil;
@@ -28,6 +29,7 @@ import com.ffzxnet.developutil.utils.ui.LoadingUtil;
 import com.ffzxnet.developutil.utils.ui.ToastUtil;
 import com.trello.rxlifecycle4.components.support.RxAppCompatActivity;
 
+import java.net.HttpURLConnection;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
@@ -59,11 +61,20 @@ public abstract class BaseActivity extends RxAppCompatActivity implements BaseAc
     //新版StartActivityResult
     protected ActivityResultLauncher resultLauncher;
 
+    //需要全屏，继承类覆写这个方法设置为true即可，参考SplashActivity
+    public void isFullScreen(boolean yes) {
+        if (yes) {
+            setFullscreen(false, false, false);
+        } else {
+            setFullscreen(true, true, true);
+        }
+    }
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //设置沉浸式主题
-        setFullscreen(true, true, true);
+        isFullScreen(false);
         //设置布局文件
         setContentView(getContentViewByBase(savedInstanceState));
         //监听网络全局
@@ -72,17 +83,18 @@ public abstract class BaseActivity extends RxAppCompatActivity implements BaseAc
         ButterKnife.bind(this);
         //设置状态栏
         Toolbar toolbar = findViewById(R.id.toolbar);
-        View toolbarStatusVew = findViewById(R.id.toolbar_status_bg);
         if (null != toolbar) {
             int padding = (int) (MyConstans.Screen_Height * 0.015);
             toolbar.setPadding(padding, MyConstans.Screen_Status_Height + padding,
                     padding, padding);
         }
-        if (null != toolbarStatusVew) {
+        //状态栏底色
+        View toolbarStatusBGVew = findViewById(R.id.toolbar_status_bg);
+        if (null != toolbarStatusBGVew) {
             //状态栏颜色
-            toolbarStatusVew.setBackgroundResource(R.color.white);
+            toolbarStatusBGVew.setBackgroundResource(R.color.white);
             //设置高度
-            toolbarStatusVew.getLayoutParams().height = MyConstans.Screen_Status_Height;
+            toolbarStatusBGVew.getLayoutParams().height = MyConstans.Screen_Status_Height;
         }
         //开始加载页面
         createdViewByBase(savedInstanceState);
@@ -250,11 +262,11 @@ public abstract class BaseActivity extends RxAppCompatActivity implements BaseAc
     /**
      * 延时返回
      *
-     * @param time 延时时间
+     * @param timeSecond 延时时间(秒)
      */
-    protected void goBackBySlowly(long time) {
+    protected void goBackBySlowly(int timeSecond) {
         //延迟，让点击的效果飘一伙~
-        Observable.timer(time, TimeUnit.MILLISECONDS)
+        Observable.timer(timeSecond, TimeUnit.SECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Long>() {
                     @Override
@@ -274,7 +286,7 @@ public abstract class BaseActivity extends RxAppCompatActivity implements BaseAc
 
                     @Override
                     public void onComplete() {
-                        finishActivity(BaseActivity.this);
+                        goBackByQuick();
                     }
                 });
 
@@ -339,6 +351,17 @@ public abstract class BaseActivity extends RxAppCompatActivity implements BaseAc
     @Override
     public void showLoadingDialog(boolean b) {
         LoadingUtil.showLoadingDialog(b);
+    }
+
+    private boolean goLogin;
+    @Override
+    public void catchApiSubscriberError(ErrorResponse error) {
+        if (error.getCode() == HttpURLConnection.HTTP_UNAUTHORIZED && !goLogin) {
+            //goLogin 防止多个请求跳转
+            goLogin = true;
+            ToastUtil.showToastShort(error.getMessage());
+            //Token失效
+        }
     }
 //============初始化ToolBar==========================
 

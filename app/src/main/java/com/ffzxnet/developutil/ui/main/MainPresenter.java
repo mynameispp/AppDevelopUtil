@@ -57,11 +57,11 @@ public class MainPresenter extends BasePresenterParent implements MainContract.P
 
     @Override
     public void testApi() {
-        LoginRequestBean requestBean=new LoginRequestBean();
+        LoginRequestBean requestBean = new LoginRequestBean();
         requestBean.setDeviceNo("12");
         requestBean.setUsername("admin");
         requestBean.setPassword(MD5Util.encode2("123456"));
-        ApiImp.getInstance().login(requestBean, getLifecycleTransformerByStopToActivity(), new IApiSubscriberCallBack<BaseApiResultData<String>>() {
+        ApiImp.getInstance().login(requestBean, mView, getLifecycleTransformerByStopToActivity(), new IApiSubscriberCallBack<BaseApiResultData<String>>() {
             @Override
             public void onCompleted() {
 

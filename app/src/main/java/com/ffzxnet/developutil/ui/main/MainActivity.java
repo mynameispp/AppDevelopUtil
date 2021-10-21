@@ -81,25 +81,29 @@ public class MainActivity extends BaseActivity implements MainContract.View, Rad
                 break;
             case R.id.main_bottom_3:
                 //StartActivityResult新版替换方法
-                resultLauncher.launch("");
+                Bundle bundle = new Bundle();
+                bundle.putString(MyConstans.Key_Title_Name, "传进来的数据111");
+                resultLauncher.launch(bundle);
                 break;
         }
     }
 
     //StartActivityForResult请求
-    static class ActivityResultC extends ActivityResultContract<String, Object> {
+    static class ActivityResultC extends ActivityResultContract<Bundle, Object> {
         @NonNull
         @Override
-        public Intent createIntent(@NonNull Context context, String input) {
+        public Intent createIntent(@NonNull Context context, Bundle input) {
             //创建请求
-            return new Intent(context, ForResultActivity.class);
+            Intent intent = new Intent(context, ForResultActivity.class);
+            intent.putExtras(input);
+            return intent;
         }
 
         @Override
         public Object parseResult(int resultCode, @Nullable Intent intent) {
             //回调返回值
             if (resultCode == 110 && null != intent) {
-                return intent.getStringExtra("value");
+                return intent.getStringExtra(MyConstans.KEY_DATA);
             } else {
                 return null;
             }

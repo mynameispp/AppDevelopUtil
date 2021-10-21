@@ -19,8 +19,9 @@
             android:layout_gravity="left"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:drawablePadding="@dimen/size_dp_5"
-            android:drawableTint="@color/black_33"
+            android:drawableTint="@color/black"
             android:ellipsize="end"
+            android:foreground="?android:attr/selectableItemBackground"
             android:maxLines="1"
             android:paddingLeft="@dimen/size_dp_15"
             android:paddingRight="@dimen/size_dp_6"
@@ -73,7 +74,8 @@
         android:id="@+id/toolbar_split_line"
         android:layout_width="match_parent"
         android:layout_height="@dimen/size_dp_zero_point_5"
-        android:layout_below="@id/toolbar" />
+        android:layout_below="@id/toolbar"
+        android:background="@color/white_dialog"/>
     <!--状态栏顶部上的挡板，防止上面的信息字体看不见-->
     <View
         android:id="@+id/toolbar_status_bg"
