@@ -123,4 +123,5 @@ dependencies {
     implementation 'org.greenrobot:eventbus:3.1.1'
     //带有滑动菜单的RecyclerView
 //    implementation 'com.yanzhenjie:recyclerview-swipe:1.0.0'
+    implementation 'com.tencent:mmkv-static:1.2.10'
 }

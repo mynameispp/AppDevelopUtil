@@ -8,6 +8,7 @@ import android.support.multidex.MultiDex;
 
 import com.ffzxnet.developutil.constans.MyConstans;
 import com.ffzxnet.developutil.utils.tools.ScreenUtils;
+import com.ffzxnet.developutil.utils.tools.MMKVUtil;
 
 import java.util.Locale;
 
@@ -34,6 +35,7 @@ public class MyApplication extends Application {
 //            return;
 //        }
         mContext = getApplicationContext();
+        MMKVUtil.init(mContext);
         //修改app语言
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             language = getResources().getConfiguration().getLocales().get(0);
