@@ -123,7 +123,14 @@ dependencies {
     implementation 'org.greenrobot:eventbus:3.1.1'
     //带有滑动菜单的RecyclerView
 //    implementation 'com.yanzhenjie:recyclerview-swipe:1.0.0'
+    //MMKV
     implementation 'com.tencent:mmkv-static:1.2.10'
     //日历
     implementation 'com.necer.ncalendar:ncalendar:5.0.2'
+    //播放前
+    implementation 'com.github.JeffMony:PlayerSDK:2.0.0'
+    //m3u8合成mp4
+    implementation 'com.github.JeffMony:JeffM3U8Lib:1.2.0'
+    //事件订阅总线
+    implementation 'org.greenrobot:eventbus:3.1.1'
 }

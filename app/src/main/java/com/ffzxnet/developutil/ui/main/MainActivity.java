@@ -10,8 +10,16 @@ import android.widget.Toast;
 import com.ffzxnet.developutil.R;
 import com.ffzxnet.developutil.base.ui.BaseActivity;
 import com.ffzxnet.developutil.constans.MyConstans;
+import com.ffzxnet.developutil.evenbus.MyEventbus;
 import com.ffzxnet.developutil.ui.for_result_activity.ForResultActivity;
+import com.ffzxnet.developutil.ui.video_download.utils.DownLoadUtil;
 import com.ffzxnet.developutil.utils.ui.ToastUtil;
+import com.ffzxnet.developutil.utils.video_download.VideoDownloadManager;
+import com.ffzxnet.developutil.utils.video_download.listener.DownloadListener;
+import com.ffzxnet.developutil.utils.video_download.model.VideoTaskItem;
+import com.ffzxnet.developutil.utils.video_download.utils.LogUtils;
+
+import org.greenrobot.eventbus.EventBus;
 
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.contract.ActivityResultContract;
@@ -58,6 +66,9 @@ public class MainActivity extends BaseActivity implements MainContract.View, Rad
                 }
             }
         });
+        //下载监听
+        DownLoadUtil.stopAllDownLoading();
+        VideoDownloadManager.getInstance().setGlobalDownloadListener(mDownloadListener);
     }
 
     @Override
@@ -155,4 +166,68 @@ public class MainActivity extends BaseActivity implements MainContract.View, Rad
         return super.onKeyDown(keyCode, event);
     }
 
+    private DownloadListener mDownloadListener = new DownloadListener() {
+        private long mLastProgressTimeStamp;
+
+        @Override
+        public void onDownloadDefault(VideoTaskItem item) {
+            LogUtils.e("ddddd", "onDownloadDefault: " + item);
+            EventBus.getDefault().post(new MyEventbus.DownloadingEven(item));
+        }
+
+        @Override
+        public void onDownloadPending(VideoTaskItem item) {
+            LogUtils.e("ddddd", "onDownloadPending: " + item);
+            EventBus.getDefault().post(new MyEventbus.DownloadingEven(item));
+        }
+
+        @Override
+        public void onDownloadPrepare(VideoTaskItem item) {
+            LogUtils.e("ddddd", "onDownloadPrepare: " + item);
+            EventBus.getDefault().post(new MyEventbus.DownloadingEven(item));
+        }
+
+        @Override
+        public void onDownloadStart(VideoTaskItem item) {
+            LogUtils.e("ddddd", "onDownloadStart: " + item);
+            EventBus.getDefault().post(new MyEventbus.DownloadingEven(item));
+        }
+
+        @Override
+        public void onDownloadProgress(VideoTaskItem item) {
+            long currentTimeStamp = System.currentTimeMillis();
+            if (currentTimeStamp - mLastProgressTimeStamp > 1000) {
+                LogUtils.e("ddddd", "onDownloadProgress: " + item.getPercentString() + ", curTs=" + item.getCurTs() + ", totalTs=" + item.getTotalTs());
+                EventBus.getDefault().post(new MyEventbus.DownloadingEven(item));
+                mLastProgressTimeStamp = currentTimeStamp;
+            }
+        }
+
+        @Override
+        public void onDownloadSpeed(VideoTaskItem item) {
+            long currentTimeStamp = System.currentTimeMillis();
+            if (currentTimeStamp - mLastProgressTimeStamp > 1000) {
+                EventBus.getDefault().post(new MyEventbus.DownloadingEven(item));
+                mLastProgressTimeStamp = currentTimeStamp;
+            }
+        }
+
+        @Override
+        public void onDownloadPause(VideoTaskItem item) {
+            LogUtils.e("ddddd", "onDownloadPause: " + item.getUrl());
+            EventBus.getDefault().post(new MyEventbus.DownloadingEven(item));
+        }
+
+        @Override
+        public void onDownloadError(VideoTaskItem item) {
+            LogUtils.e("ddddd", "onDownloadError: " + item.getUrl());
+            EventBus.getDefault().post(new MyEventbus.DownloadingEven(item));
+        }
+
+        @Override
+        public void onDownloadSuccess(VideoTaskItem item) {
+            LogUtils.e("ddddd", "onDownloadSuccess: " + item);
+            EventBus.getDefault().post(new MyEventbus.DownloadingEven(item));
+        }
+    };
 }

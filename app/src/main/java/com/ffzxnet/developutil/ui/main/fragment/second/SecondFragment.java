@@ -9,6 +9,7 @@ import com.ffzxnet.developutil.base.ui.adapter.GridSpacingItemDecoration;
 import com.ffzxnet.developutil.ui.calendar.CalendarActivity;
 import com.ffzxnet.developutil.ui.main.fragment.first.adapter.FirstFragmentAdapter;
 import com.ffzxnet.developutil.ui.main.fragment.first.adapter.FirstTestBean;
+import com.ffzxnet.developutil.ui.video_download.DownLoadManageActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,8 +54,15 @@ public class SecondFragment extends BaseFragment implements FirstFragmentAdapter
         item.setTitle("日历");
         item.setContent("日历界面");
         item.setImage("https://t7.baidu.com/it/u=3624649723,387536556&fm=193&f=GIF");
-
         datas.add(item);
+
+
+        item = new FirstTestBean();
+        item.setTitle("下载视频");
+        item.setContent("下载视频和播放");
+        item.setImage("https://t7.baidu.com/it/u=3624649723,387536556&fm=193&f=GIF");
+        datas.add(item);
+
         adapter = new FirstFragmentAdapter(datas, this);
         secondFragmentRv.setAdapter(adapter);
     }
@@ -63,6 +71,8 @@ public class SecondFragment extends BaseFragment implements FirstFragmentAdapter
     public void itemClick(FirstTestBean data) {
         if (data.getTitle().contains("日历")) {
             redirectActivity(CalendarActivity.class);
+        }if (data.getTitle().contains("下载")) {
+            redirectActivity(DownLoadManageActivity.class);
         }
     }
 }

@@ -68,6 +68,23 @@
             android:paddingRight="@dimen/size_dp_15"
             android:textColor="@color/black_33"
             android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/toolbar_right_tv2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:drawablePadding="@dimen/size_dp_5"
+            android:drawableTint="@color/black_33"
+            android:layout_marginRight="15dp"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:maxLines="1"
+            android:paddingLeft="@dimen/size_dp_15"
+            android:paddingRight="@dimen/size_dp_15"
+            android:textColor="@color/black_33"
+            android:textSize="14sp" />
     </androidx.appcompat.widget.Toolbar>
     <!--下划线-->
     <View

@@ -8,8 +8,12 @@ import android.support.multidex.MultiDex;
 
 import com.ffzxnet.developutil.constans.MyConstans;
 import com.ffzxnet.developutil.utils.tools.ScreenUtils;
-import com.ffzxnet.developutil.utils.tools.MMKVUtil;
+import com.ffzxnet.developutil.utils.video_download.VideoDownloadConfig;
+import com.ffzxnet.developutil.utils.video_download.VideoDownloadManager;
+import com.ffzxnet.developutil.utils.video_download.common.DownloadConstants;
+import com.ffzxnet.developutil.utils.video_download.utils.VideoStorageUtils;
 
+import java.io.File;
 import java.util.Locale;
 
 import androidx.core.content.ContextCompat;
@@ -44,6 +48,24 @@ public class MyApplication extends Application {
         MyConstans.Screen_Width = ScreenUtils.getScreenWidth(mContext);
         MyConstans.Screen_Height = ScreenUtils.getScreenHeight(mContext);
         MyConstans.Screen_Status_Height = ScreenUtils.getStatusHeight(mContext);
+
+        initDownloadUtil();
+    }
+
+    //下载工具初始化
+    private void initDownloadUtil() {
+        File file = VideoStorageUtils.getVideoCacheDir(this);
+        if (!file.exists()) {
+            file.mkdir();
+        }
+        VideoDownloadConfig config = new VideoDownloadManager.Build(this)
+                .setCacheRoot(file.getAbsolutePath())
+                .setTimeOut(DownloadConstants.READ_TIMEOUT, DownloadConstants.CONN_TIMEOUT)
+                .setConcurrentCount(1)//下载总数
+                .setIgnoreCertErrors(false)
+                .setShouldM3U8Merged(false)
+                .buildConfig();
+        VideoDownloadManager.getInstance().initConfig(config);
     }
 
 
@@ -57,7 +79,6 @@ public class MyApplication extends Application {
 //        LeakCanary.install(this);
 //        return false;
 //    }
-
     public static String getStringByResId(int strId) {
         return MyApplication.getContext().getResources().getString(strId);
     }
