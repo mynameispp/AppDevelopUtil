@@ -2,14 +2,40 @@ package com.ffzxnet.developutil.utils.tools;
 
 import android.content.Context;
 
+import com.ffzxnet.developutil.application.MyApplication;
 import com.tencent.mmkv.MMKV;
 
 public class MMKVUtil {
-    public static void init(Context context) {
-        MMKV.initialize(context);
+    private static MMKVUtil instance = new MMKVUtil();
+    private static MMKV kv;
+
+    //===============================================================================
+    //首次进入App
+    public static final String Key_First_Open_App="Key_First_Open_App";
+    //===============================================================================
+
+
+    public MMKVUtil() {
+        MMKV.initialize(MyApplication.getContext());
+        kv = MMKV.defaultMMKV();
     }
 
-    private static final MMKV kv = MMKV.defaultMMKV();
+    private static synchronized void syncInit() {
+        if (instance == null) {
+            instance = new MMKVUtil();
+        }
+    }
+
+    public static MMKVUtil getInstance() {
+        if (instance == null) {
+            syncInit();
+        }
+        return instance;
+    }
+
+    public static void getInit(Context context) {
+        MMKV.initialize(context);
+    }
 
     public int getInt(String key, int def) {
         return kv.decodeInt(key, def);

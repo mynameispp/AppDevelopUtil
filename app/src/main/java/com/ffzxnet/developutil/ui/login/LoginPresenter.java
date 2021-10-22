@@ -25,7 +25,7 @@ public class LoginPresenter extends BasePresenterParent implements LoginContract
 
     @Override
     public void login(LoginRequestBean requestBean) {
-        ApiImp.getInstance().login(requestBean, getLifecycleTransformerByStopToActivity(), new IApiSubscriberCallBack<BaseApiResultData<String>>() {
+        ApiImp.getInstance().login(requestBean, mView, getLifecycleTransformerByStopToActivity(), new IApiSubscriberCallBack<BaseApiResultData<String>>() {
             @Override
             public void onCompleted() {
 

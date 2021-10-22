@@ -124,4 +124,6 @@ dependencies {
     //带有滑动菜单的RecyclerView
 //    implementation 'com.yanzhenjie:recyclerview-swipe:1.0.0'
     implementation 'com.tencent:mmkv-static:1.2.10'
+    //日历
+    implementation 'com.necer.ncalendar:ncalendar:5.0.2'
 }

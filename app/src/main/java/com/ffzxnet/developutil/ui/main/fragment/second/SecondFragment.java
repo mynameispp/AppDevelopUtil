@@ -6,6 +6,7 @@ import android.view.View;
 import com.ffzxnet.developutil.R;
 import com.ffzxnet.developutil.base.ui.BaseFragment;
 import com.ffzxnet.developutil.base.ui.adapter.GridSpacingItemDecoration;
+import com.ffzxnet.developutil.ui.calendar.CalendarActivity;
 import com.ffzxnet.developutil.ui.main.fragment.first.adapter.FirstFragmentAdapter;
 import com.ffzxnet.developutil.ui.main.fragment.first.adapter.FirstTestBean;
 
@@ -47,19 +48,21 @@ public class SecondFragment extends BaseFragment implements FirstFragmentAdapter
 
         List<FirstTestBean> datas = new ArrayList<>();
         FirstTestBean item;
-        for (int i = 0; i < 19; i++) {
-            item = new FirstTestBean();
-            item.setTitle("2标题" + i);
-            item.setContent("2内容显示" + i);
-            item.setImage("https://t7.baidu.com/it/u=3624649723,387536556&fm=193&f=GIF");
-            datas.add(item);
-        }
+
+        item = new FirstTestBean();
+        item.setTitle("日历");
+        item.setContent("日历界面");
+        item.setImage("https://t7.baidu.com/it/u=3624649723,387536556&fm=193&f=GIF");
+
+        datas.add(item);
         adapter = new FirstFragmentAdapter(datas, this);
         secondFragmentRv.setAdapter(adapter);
     }
 
     @Override
     public void itemClick(FirstTestBean data) {
-
+        if (data.getTitle().contains("日历")) {
+            redirectActivity(CalendarActivity.class);
+        }
     }
 }

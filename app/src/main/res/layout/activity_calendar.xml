@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/include_toolbar" />
+
+    <com.ffzxnet.developutil.ui.calendar.view.MyWeekBar
+        android:id="@+id/my_week"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/white"
+        app:firstDayOfWeek="monday" />
+
+    <com.necer.calendar.EmuiCalendar
+        android:id="@+id/my_calendar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:firstDayOfWeek="monday">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#f8f8f8"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/ln_expand"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingTop="10dp">
+
+                <View
+                    android:layout_width="24dp"
+                    android:layout_height="2dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="#ECEDEF" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"
+                    android:text="分割" />
+            </LinearLayout>
+
+            <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fillViewport="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="展示内容" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/my_calendar_rv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:nestedScrollingEnabled="false"
+                        android:overScrollMode="never" />
+                </LinearLayout>
+            </androidx.core.widget.NestedScrollView>
+
+        </LinearLayout>
+    </com.necer.calendar.EmuiCalendar>
+</LinearLayout>

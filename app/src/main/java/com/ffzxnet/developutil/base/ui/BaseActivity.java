@@ -77,10 +77,10 @@ public abstract class BaseActivity extends RxAppCompatActivity implements BaseAc
         isFullScreen(false);
         //设置布局文件
         setContentView(getContentViewByBase(savedInstanceState));
-        //监听网络全局
-        monitorNetStatus();
         //绑定控件
         ButterKnife.bind(this);
+        //监听网络全局
+        monitorNetStatus();
         //设置状态栏
         Toolbar toolbar = findViewById(R.id.toolbar);
         if (null != toolbar) {
@@ -404,10 +404,17 @@ public abstract class BaseActivity extends RxAppCompatActivity implements BaseAc
     }
 
     /**
-     * 改变toolBar字体色
+     * 改变toolBar标题字体色
      */
     public void setToolBarTitleColor(int colorId) {
         ((TextView) findViewById(R.id.toolbar_title_name)).setTextColor(MyApplication.getColorByResId(colorId));
+    }
+
+    /**
+     * 改变toolBar标题
+     */
+    public void setToolBarTitle(String title) {
+        ((TextView) findViewById(R.id.toolbar_title_name)).setText(title);
     }
 
     /**

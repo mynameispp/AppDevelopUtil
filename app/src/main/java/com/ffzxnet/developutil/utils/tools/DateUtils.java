@@ -8,9 +8,10 @@ import java.util.Locale;
 
 public class DateUtils {
     // 日期格式
-    public static final String DATE_FORMAT = "yyyy-MM-dd";
-    public static final String DATE_FORMAT2 = "yyyy-MM-d";
-    public static final String TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
+    public static final String FORMAT_YYYY_MM_DD = "yyyy-MM-dd";
+    public static final String FORMAT_YYYY_MM_D = "yyyy-MM-d";
+    public static final String FORMAT_YYYY_MM_DD_HH_MM_SS = "yyyy-MM-dd HH:mm:ss";
+    public static final String FORMAT_YYYY_MM_DD_HH_MM_SS2= "yyyy/MM/dd HH:mm:ss";
     public static final String FORMAT_YYYY_MM = "yyyy-MM";
     public static final String FORMAT_YYYY = "yyyy";
     public static final String FORMAT_HH_MM = "HH:mm";
@@ -20,15 +21,15 @@ public class DateUtils {
     public static final String FORMAT_MM_DD_HH_MM = "MM-dd HH:mm";
     public static final String FORMAT_MM_DD_HH_MM_SS = "MM-dd HH:mm:ss";
     public static final String FORMAT_YYYY_MM_DD_HH_MM = "yyyy-MM-dd HH:mm";
-    public static final String FORMAT_YYYY_M_D_HH_MM = "yyyy-M-d HH:mm";
     public static final String FORMAT_YYYY2MM2DD = "yyyy.MM.dd";
-    public static final String FORMAT_YYYY2MM2DD2W = "yyyy.MM.dd  E";
+    public static final String FORMAT_YYYY2MM2DD_W = "yyyy.MM.dd  E";//周几
+    public static final String FORMAT_YYYY2MM2DD_WC = "yyyy.MM.dd  EEEE";//星期几
     public static final String FORMAT_YYYYMMDD = "yyyyMMdd";
-    public static final String FORMAT_YYYYMMDDHHMM = "yyyyMMddHHmm";
     public static final String FORMAT_YYYY2MM2DD_HH_MM = "yyyy.MM.dd HH:mm";
     public static final String FORMAT_MMCDD_HH_MM = "MM月dd日 HH:mm";
     public static final String FORMAT_MMCDD = "MM月dd日";
-    public static final String FORMAT_MMCDD2 = "MM.dd";
+    public static final String FORMAT_YYCMM = "yyyy年MM月";
+    public static final String FORMAT_MM2DD = "MM.dd";
     public static final String FORMAT_YYYYCMMCDD = "yyyy年MM月dd日";
 
     public static final long ONE_DAY = 1000 * 60 * 60 * 24;

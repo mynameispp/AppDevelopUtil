@@ -35,7 +35,6 @@ public class MyApplication extends Application {
 //            return;
 //        }
         mContext = getApplicationContext();
-        MMKVUtil.init(mContext);
         //修改app语言
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             language = getResources().getConfiguration().getLocales().get(0);

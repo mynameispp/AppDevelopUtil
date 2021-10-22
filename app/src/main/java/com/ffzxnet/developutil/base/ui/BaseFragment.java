@@ -12,6 +12,7 @@ import com.ffzxnet.developutil.R;
 import com.ffzxnet.developutil.application.MyApplication;
 import com.ffzxnet.developutil.base.mvp.BaseActivityView;
 import com.ffzxnet.developutil.constans.MyConstans;
+import com.ffzxnet.developutil.net.ErrorResponse;
 import com.ffzxnet.developutil.utils.ui.LoadingDialog;
 import com.ffzxnet.developutil.utils.ui.LoadingUtil;
 import com.trello.rxlifecycle4.components.support.RxFragment;
@@ -69,6 +70,11 @@ public abstract class BaseFragment extends RxFragment implements BaseActivityVie
         }
         onMyCreateView(rootView, savedInstanceState);
         return rootView;
+    }
+
+    @Override
+    public void catchApiSubscriberError(ErrorResponse error) {
+
     }
 
     @Override
