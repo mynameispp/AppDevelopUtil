@@ -12,37 +12,48 @@
         android:layout_height="0dp"
         android:layout_weight="1" />
 
+    <include layout="@layout/include_split_line" />
+
     <RadioGroup
         android:id="@+id/main_bottom_rg"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         android:orientation="horizontal">
 
         <RadioButton
             android:id="@+id/main_bottom_1"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textColor="@color/black_33"
+            android:button="@null"
+            android:drawableTop="@drawable/rb_main_1"
             android:gravity="center"
-            android:text="一" />
+            android:paddingTop="6dp"
+            android:text="列表"
+            android:textColor="@color/black_33" />
 
         <RadioButton
             android:id="@+id/main_bottom_2"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:textColor="@color/black_33"
-            android:gravity="center"
             android:layout_weight="1"
-            android:text="二" />
+            android:button="@null"
+            android:drawableTop="@drawable/rb_main_1"
+            android:gravity="center"
+            android:paddingTop="6dp"
+            android:text="功能"
+            android:textColor="@color/black_33" />
 
         <RadioButton
             android:id="@+id/main_bottom_3"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:textColor="@color/black_33"
-            android:gravity="center"
             android:layout_weight="1"
-            android:text="StarActivityForResult返回值" />
+            android:button="@null"
+            android:drawableTop="@drawable/rb_main_1"
+            android:gravity="center"
+            android:paddingTop="6dp"
+            android:text="StarActivityForResult"
+            android:textColor="@color/black_33" />
     </RadioGroup>
 </LinearLayout>

@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.view.ViewStub;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -14,6 +15,7 @@ import com.ffzxnet.developutil.ui.main.MainActivity;
 import com.ffzxnet.developutil.utils.tools.LogUtil;
 import com.ffzxnet.developutil.utils.tools.MMKVUtil;
 import com.ffzxnet.developutil.utils.tools.SharedPreferencesUtil;
+import com.smarx.notchlib.NotchScreenManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,11 +40,14 @@ public class SplashActivity extends BaseActivity {
 
     @Override
     public void isFullScreen(boolean yes) {
-        super.isFullScreen(true);
+        // 设置Activity全屏
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
     }
 
     @Override
     public void createdViewByBase(Bundle savedInstanceState) {
+        //适配异形屏
+        NotchScreenManager.getInstance().setDisplayInNotch(this);
         boolean isFirstUsed = SharedPreferencesUtil.getInstance().getBoolean(SharedPreferencesUtil.KEY_FIRST_TIME_USE, true);
         boolean isFirstUsed2 = MMKVUtil.getInstance().getBoolean(MMKVUtil.Key_First_Open_App, true);
         if (isFirstUsed) {

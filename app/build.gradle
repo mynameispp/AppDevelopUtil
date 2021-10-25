@@ -133,4 +133,6 @@ dependencies {
     implementation 'com.github.JeffMony:JeffM3U8Lib:1.2.0'
     //事件订阅总线
     implementation 'org.greenrobot:eventbus:3.1.1'
+    //适配异形屏
+    implementation 'com.github.smarxpan:NotchScreenTool:0.0.1'
 }

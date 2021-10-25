@@ -1,8 +1,11 @@
 package com.ffzxnet.developutil.ui.video_download;
 
+import android.content.ComponentName;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.IBinder;
 import android.os.Message;
 import android.util.Log;
 import android.view.View;
@@ -15,14 +18,13 @@ import com.ffzxnet.developutil.R;
 import com.ffzxnet.developutil.application.GlideApp;
 import com.ffzxnet.developutil.base.ui.BaseActivity;
 import com.ffzxnet.developutil.evenbus.MyEventbus;
+import com.ffzxnet.developutil.service.DownLoadingService;
 import com.ffzxnet.developutil.ui.video_download.adapter.DownLoadOverAdapter;
 import com.ffzxnet.developutil.ui.video_download.bean.DownloadVideoInfoBean;
 import com.ffzxnet.developutil.ui.video_download.downloading.DownloadingActivity;
 import com.ffzxnet.developutil.ui.video_download.player.PlayerActivity;
 import com.ffzxnet.developutil.ui.video_download.utils.DeviceUtils;
 import com.ffzxnet.developutil.ui.video_download.utils.DownLoadUtil;
-import com.ffzxnet.developutil.ui.video_download.utils.GsonUtil;
-import com.ffzxnet.developutil.ui.video_download.utils.SharedPreferencesUtil;
 import com.ffzxnet.developutil.utils.ui.ToastUtil;
 import com.ffzxnet.developutil.utils.video_download.VideoDownloadManager;
 import com.ffzxnet.developutil.utils.video_download.listener.IDownloadInfosCallback;
@@ -42,7 +44,6 @@ import java.util.List;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class DownLoadManageActivity extends BaseActivity implements DownLoadOverAdapter.AdapterListen {
@@ -103,42 +104,69 @@ public class DownLoadManageActivity extends BaseActivity implements DownLoadOver
         downloadMainEdit.setText("编辑");
         downloadManageDelete.setText("删除");
         downloadManageDelete.setVisibility(View.GONE);
+        bindService(new Intent(this, DownLoadingService.class), serviceConnection, BIND_AUTO_CREATE);
 
-//        List<DownloadVideoInfoBean> downloadVideoInfoBeans = new ArrayList<>();
-//        List<VideoTaskItem> videoTaskItems = new ArrayList<>();
-//        VideoTaskItem item1 = new VideoTaskItem("https://v3.dious.cc/20201224/v04Vp1ES/index.m3u8", "https://t7.baidu.com/it/u=3624649723,387536556&fm=193&f=GIF", "test1", "group-1");
-//        VideoTaskItem item2 = new VideoTaskItem("https://v3.dious.cc/20201224/6Q1yAHRu/index.m3u8", "https://t7.baidu.com/it/u=3624649723,387536556&fm=193&f=GIF", "test2", "group-1");
-//        VideoTaskItem item3 = new VideoTaskItem("https://v3.dious.cc/20201224/aQKzuq6G/index.m3u8", "https://t7.baidu.com/it/u=3624649723,387536556&fm=193&f=GIF", "test3", "group-1");
-//        VideoTaskItem item4 = new VideoTaskItem("https://v3.dious.cc/20201224/WWTyUxS6/index.m3u8", "https://t7.baidu.com/it/u=3624649723,387536556&fm=193&f=GIF", "test3", "group-1");
-//        VideoTaskItem item5 = new VideoTaskItem("http://videoconverter.vivo.com.cn/201706/655_1498479540118.mp4.main.m3u8", "https://t7.baidu.com/it/u=3624649723,387536556&fm=193&f=GIF", "test4", "group-2");
-//        VideoTaskItem item6 = new VideoTaskItem("https://europe.olemovienews.com/hlstimeofffmp4/20210226/fICqcpqr/mp4/fICqcpqr.mp4/master.m3u8", "https://t7.baidu.com/it/u=3624649723,387536556&fm=193&f=GIF", "test5", "group-2");
-//        VideoTaskItem item7 = new VideoTaskItem("https://rrsp-1252816746.cos.ap-shanghai.myqcloud.com/0c1f023caa3bbefbe16a5ce564142bbe.mp4", "https://t7.baidu.com/it/u=3624649723,387536556&fm=193&f=GIF", "test6", "group-2");
-//        VideoTaskItem item8 = new VideoTaskItem("http://v-cdn.40sp.top/videos/202110/02/614ee1946fcbfe5cb3c233e9/b7b3g9/index.m3u8", "https://t7.baidu.com/it/u=3624649723,387536556&fm=193&f=GIF", "test7", "group-1");
-//        VideoTaskItem item9 = new VideoTaskItem("http://v-cdn.40sp.top/videos/202110/07/615cb2755ca1dd5cba0fd13a/31bb88/index.m3u8 ", "https://t7.baidu.com/it/u=3624649723,387536556&fm=193&f=GIF", "test8", "group-1");
-//        VideoTaskItem item10 = new VideoTaskItem("https://cdn.605-zy.com/20210723/cA77ppFK/index.m3u8", "https://t7.baidu.com/it/u=3624649723,387536556&fm=193&f=GIF", "test9", "group-1");
-//
-//        videoTaskItems.add(item1);
-//        videoTaskItems.add(item2);
-//        videoTaskItems.add(item3);
-//        videoTaskItems.add(item4);
-//        videoTaskItems.add(item5);
-//        videoTaskItems.add(item6);
-//        videoTaskItems.add(item7);
-//        videoTaskItems.add(item8);
-//        videoTaskItems.add(item9);
-//        videoTaskItems.add(item10);
-////
-//        DownloadVideoInfoBean videoInfoBean;
-//        int i = 1;
-//        for (VideoTaskItem videoTaskItem : videoTaskItems) {
-//            videoInfoBean = new DownloadVideoInfoBean();
-//            videoInfoBean.setVideoName("测试视频" + i);
-//            videoInfoBean.setVideoId("" + i);
-//            videoInfoBean.setDownLoadUrl(videoTaskItem);
-//            downloadVideoInfoBeans.add(videoInfoBean);
-//            i++;
-//        }
-//        DownLoadUtil.saveDownLoading(downloadVideoInfoBeans);
+        setTestData();
+    }
+
+    @Override
+    protected void onDestroy() {
+        unbindService(serviceConnection);
+        mHandler.removeCallbacksAndMessages(null);
+        mHandler = null;
+        super.onDestroy();
+    }
+
+    ServiceConnection serviceConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+
+        }
+    };
+
+    //测试数据
+    private void setTestData() {
+        if (DownLoadUtil.getDownLoading().size() > 0) {
+            return;
+        }
+        List<DownloadVideoInfoBean> downloadVideoInfoBeans = new ArrayList<>();
+        List<VideoTaskItem> videoTaskItems = new ArrayList<>();
+        VideoTaskItem item1 = new VideoTaskItem("https://v3.dious.cc/20201224/v04Vp1ES/index.m3u8", "https://t7.baidu.com/it/u=3624649723,387536556&fm=193&f=GIF", "test1", "group-1");
+        VideoTaskItem item2 = new VideoTaskItem("https://v3.dious.cc/20201224/6Q1yAHRu/index.m3u8", "https://t7.baidu.com/it/u=3624649723,387536556&fm=193&f=GIF", "test2", "group-1");
+        VideoTaskItem item3 = new VideoTaskItem("https://v3.dious.cc/20201224/aQKzuq6G/index.m3u8", "https://t7.baidu.com/it/u=3624649723,387536556&fm=193&f=GIF", "test3", "group-1");
+        VideoTaskItem item4 = new VideoTaskItem("https://v3.dious.cc/20201224/WWTyUxS6/index.m3u8", "https://t7.baidu.com/it/u=3624649723,387536556&fm=193&f=GIF", "test3", "group-1");
+        VideoTaskItem item5 = new VideoTaskItem("http://videoconverter.vivo.com.cn/201706/655_1498479540118.mp4.main.m3u8", "https://t7.baidu.com/it/u=3624649723,387536556&fm=193&f=GIF", "test4", "group-2");
+        VideoTaskItem item6 = new VideoTaskItem("https://europe.olemovienews.com/hlstimeofffmp4/20210226/fICqcpqr/mp4/fICqcpqr.mp4/master.m3u8", "https://t7.baidu.com/it/u=3624649723,387536556&fm=193&f=GIF", "test5", "group-2");
+        VideoTaskItem item7 = new VideoTaskItem("https://rrsp-1252816746.cos.ap-shanghai.myqcloud.com/0c1f023caa3bbefbe16a5ce564142bbe.mp4", "https://t7.baidu.com/it/u=3624649723,387536556&fm=193&f=GIF", "test6", "group-2");
+        VideoTaskItem item8 = new VideoTaskItem("http://v-cdn.40sp.top/videos/202110/02/614ee1946fcbfe5cb3c233e9/b7b3g9/index.m3u8", "https://t7.baidu.com/it/u=3624649723,387536556&fm=193&f=GIF", "test7", "group-1");
+        VideoTaskItem item9 = new VideoTaskItem("http://v-cdn.40sp.top/videos/202110/07/615cb2755ca1dd5cba0fd13a/31bb88/index.m3u8 ", "https://t7.baidu.com/it/u=3624649723,387536556&fm=193&f=GIF", "test8", "group-1");
+
+        videoTaskItems.add(item1);
+        videoTaskItems.add(item2);
+        videoTaskItems.add(item3);
+        videoTaskItems.add(item4);
+        videoTaskItems.add(item5);
+        videoTaskItems.add(item6);
+        videoTaskItems.add(item7);
+        videoTaskItems.add(item8);
+        videoTaskItems.add(item9);
+
+        DownloadVideoInfoBean videoInfoBean;
+        int i = 1;
+        for (VideoTaskItem videoTaskItem : videoTaskItems) {
+            videoInfoBean = new DownloadVideoInfoBean();
+            videoInfoBean.setVideoName("测试视频" + i);
+            videoInfoBean.setVideoId("" + i);
+            videoInfoBean.setDownLoadUrl(videoTaskItem);
+            downloadVideoInfoBeans.add(videoInfoBean);
+            i++;
+        }
+        DownLoadUtil.saveDownLoading(downloadVideoInfoBeans);
     }
 
     @Override
@@ -199,6 +227,8 @@ public class DownLoadManageActivity extends BaseActivity implements DownLoadOver
                     }
                     DownLoadUtil.saveDownLoadOver(adapter.getDatas());
                     adapter.notifyDataSetChanged();
+                    //全部删除
+//                    VideoDownloadManager.getInstance().deleteAllVideoFiles();;
 //                    adapter.setDatas(new ArrayList<>());
 //                    adapter.notifyDataSetChanged();
 //                    SharedPreferencesUtil.getInstance().putString(SharedPreferencesUtil.SP_DownLoadOver_List, "");
@@ -230,6 +260,7 @@ public class DownLoadManageActivity extends BaseActivity implements DownLoadOver
     @Override
     public void onItemDownLoadOverClick(DownloadVideoInfoBean data) {
         //点击播放
+        showLoadingDialog(true, "正在转换视频中");
         DownLoadUtil.starPlayM3u8ToMp4(data, new DownLoadUtil.TransformM3U8ToMp4Listen() {
             @Override
             public void onTransformProgressing(String progress) {
@@ -239,6 +270,14 @@ public class DownLoadManageActivity extends BaseActivity implements DownLoadOver
             @Override
             public void onTransformProgressFinsh(DownloadVideoInfoBean video) {
                 //播放
+                for (DownloadVideoInfoBean adapterData : adapter.getDatas()) {
+                    if (adapterData.getDownLoadUrl().getUrl().equals(video.getDownLoadUrl().getUrl())) {
+                        //转换后保存路径，下次播放不用再转换
+                        adapterData.getDownLoadUrl().setFilePath(video.getDownLoadUrl().getFilePath());
+                        DownLoadUtil.saveDownLoadOver(adapter.getDatas());
+                        break;
+                    }
+                }
                 showLoadingDialog(false);
                 Intent intent = new Intent(getApplicationContext(), PlayerActivity.class);
                 intent.putExtra("videoUrl", "file://" + video.getDownLoadUrl().getFilePath());
@@ -350,14 +389,6 @@ public class DownLoadManageActivity extends BaseActivity implements DownLoadOver
         super.onPause();
         EventBus.getDefault().unregister(this);
         VideoDownloadManager.getInstance().removeDownloadInfosCallback(mInfosCallback);
-    }
-
-    @Override
-    protected void onDestroy() {
-        mHandler.removeCallbacksAndMessages(null);
-        mHandler = null;
-        super.onDestroy();
-//        DownLoadUtil.stopAllDownLoading();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

@@ -39,13 +39,13 @@ public class CalendarActivity extends BaseActivity {
 
     @Override
     public void createdViewByBase(Bundle savedInstanceState) {
-        initToolBar("","");
+        initToolBar("", "");
         initCalendar();
     }
 
     @Override
     protected void onClickTitleBack() {
-
+        goBackByQuick();
     }
 
     private void initCalendar() {
@@ -71,7 +71,7 @@ public class CalendarActivity extends BaseActivity {
                     public void onCalendarChange(BaseCalendar baseCalendar, int year, int month, LocalDate localDate, DateChangeBehavior dateChangeBehavior) {
                         if (!localDate.toString().equals(nowSelectDate)) {
                             nowSelectDate = localDate.toString();
-                           setToolBarTitle(localDate.toString(DateUtils.FORMAT_YYYY2MM2DD_W));
+                            setToolBarTitle(localDate.toString(DateUtils.FORMAT_YYYY2MM2DD_W));
                         }
                     }
                 });

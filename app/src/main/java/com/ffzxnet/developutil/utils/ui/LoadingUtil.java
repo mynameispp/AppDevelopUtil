@@ -3,24 +3,27 @@ package com.ffzxnet.developutil.utils.ui;
 import android.content.Context;
 import android.text.TextUtils;
 
+import java.lang.ref.SoftReference;
+
 
 /**
  * 创建者： Pi 在 2018/9/3.
  * 注释：
  */
 public class LoadingUtil {
-    private static LoadingDialog loadingDialog;
+    private static SoftReference<LoadingDialog> loadingDialog;
 
     public static void init(Context context) {
         if (null == loadingDialog) {
-            loadingDialog = new LoadingDialog(context);
+            SoftReference<Context> softReference = new SoftReference<>(context);
+            loadingDialog = new SoftReference<>(new LoadingDialog(softReference.get()));
         }
     }
 
     public static void destory() {
         if (loadingDialog != null) {
-            if (loadingDialog.isShowing()) {
-                loadingDialog.dismiss();
+            if (loadingDialog.get().isShowing()) {
+                loadingDialog.get().dismiss();
             }
             loadingDialog = null;
         }
@@ -31,9 +34,9 @@ public class LoadingUtil {
             return;
         }
         if (b) {
-            loadingDialog.showDialog("");
+            loadingDialog.get().showDialog("");
         } else {
-            loadingDialog.closeDialog();
+            loadingDialog.get().closeDialog();
         }
     }
 
@@ -44,12 +47,12 @@ public class LoadingUtil {
         }
         if (b) {
             if (!TextUtils.isEmpty(msg)) {
-                loadingDialog.showDialog(msg);
+                loadingDialog.get().showDialog(msg);
             } else {
-                loadingDialog.showDialog();
+                loadingDialog.get().showDialog();
             }
         } else {
-            loadingDialog.closeDialog();
+            loadingDialog.get().closeDialog();
         }
     }
 
@@ -57,6 +60,6 @@ public class LoadingUtil {
         if (loadingDialog == null) {
             return false;
         }
-        return loadingDialog.isShowing();
+        return loadingDialog.get().isShowing();
     }
 }

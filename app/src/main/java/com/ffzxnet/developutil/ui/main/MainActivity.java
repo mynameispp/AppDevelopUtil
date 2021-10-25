@@ -66,9 +66,8 @@ public class MainActivity extends BaseActivity implements MainContract.View, Rad
                 }
             }
         });
-        //下载监听
+        //进来先重置下载中的状态
         DownLoadUtil.stopAllDownLoading();
-        VideoDownloadManager.getInstance().setGlobalDownloadListener(mDownloadListener);
     }
 
     @Override
@@ -159,75 +158,16 @@ public class MainActivity extends BaseActivity implements MainContract.View, Rad
                 exitTime = System.currentTimeMillis();
             } else {
                 finish();
-                System.exit(0);
+//                System.exit(0);//杀死进程
             }
             return true;
         }
         return super.onKeyDown(keyCode, event);
     }
 
-    private DownloadListener mDownloadListener = new DownloadListener() {
-        private long mLastProgressTimeStamp;
-
-        @Override
-        public void onDownloadDefault(VideoTaskItem item) {
-            LogUtils.e("ddddd", "onDownloadDefault: " + item);
-            EventBus.getDefault().post(new MyEventbus.DownloadingEven(item));
-        }
-
-        @Override
-        public void onDownloadPending(VideoTaskItem item) {
-            LogUtils.e("ddddd", "onDownloadPending: " + item);
-            EventBus.getDefault().post(new MyEventbus.DownloadingEven(item));
-        }
-
-        @Override
-        public void onDownloadPrepare(VideoTaskItem item) {
-            LogUtils.e("ddddd", "onDownloadPrepare: " + item);
-            EventBus.getDefault().post(new MyEventbus.DownloadingEven(item));
-        }
-
-        @Override
-        public void onDownloadStart(VideoTaskItem item) {
-            LogUtils.e("ddddd", "onDownloadStart: " + item);
-            EventBus.getDefault().post(new MyEventbus.DownloadingEven(item));
-        }
-
-        @Override
-        public void onDownloadProgress(VideoTaskItem item) {
-            long currentTimeStamp = System.currentTimeMillis();
-            if (currentTimeStamp - mLastProgressTimeStamp > 1000) {
-                LogUtils.e("ddddd", "onDownloadProgress: " + item.getPercentString() + ", curTs=" + item.getCurTs() + ", totalTs=" + item.getTotalTs());
-                EventBus.getDefault().post(new MyEventbus.DownloadingEven(item));
-                mLastProgressTimeStamp = currentTimeStamp;
-            }
-        }
-
-        @Override
-        public void onDownloadSpeed(VideoTaskItem item) {
-            long currentTimeStamp = System.currentTimeMillis();
-            if (currentTimeStamp - mLastProgressTimeStamp > 1000) {
-                EventBus.getDefault().post(new MyEventbus.DownloadingEven(item));
-                mLastProgressTimeStamp = currentTimeStamp;
-            }
-        }
-
-        @Override
-        public void onDownloadPause(VideoTaskItem item) {
-            LogUtils.e("ddddd", "onDownloadPause: " + item.getUrl());
-            EventBus.getDefault().post(new MyEventbus.DownloadingEven(item));
-        }
-
-        @Override
-        public void onDownloadError(VideoTaskItem item) {
-            LogUtils.e("ddddd", "onDownloadError: " + item.getUrl());
-            EventBus.getDefault().post(new MyEventbus.DownloadingEven(item));
-        }
-
-        @Override
-        public void onDownloadSuccess(VideoTaskItem item) {
-            LogUtils.e("ddddd", "onDownloadSuccess: " + item);
-            EventBus.getDefault().post(new MyEventbus.DownloadingEven(item));
-        }
-    };
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        DownLoadUtil.stopAllDownLoading();
+    }
 }

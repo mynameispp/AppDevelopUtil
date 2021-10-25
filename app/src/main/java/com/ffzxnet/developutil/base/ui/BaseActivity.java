@@ -61,7 +61,7 @@ public abstract class BaseActivity extends RxAppCompatActivity implements BaseAc
     //新版StartActivityResult
     protected ActivityResultLauncher resultLauncher;
 
-    //需要全屏，继承类覆写这个方法设置为true即可，参考SplashActivity
+    //需要全屏，继承类覆写这个方法即可，参考SplashActivity
     public void isFullScreen(boolean yes) {
         if (yes) {
             setFullscreen(false, false, false);
@@ -112,6 +112,13 @@ public abstract class BaseActivity extends RxAppCompatActivity implements BaseAc
      * @param statusTextBlack     true=导航栏字体黑色
      */
     public void setFullscreen(boolean isShowStatusBar, boolean isShowNavigationBar, boolean statusTextBlack) {
+        //隐藏标题栏
+        if (null != getSupportActionBar()) {
+            getSupportActionBar().hide();
+        }
+        //设置顶部状态栏和底部导航栏背景颜色为透明
+        setNavigationStatusColor(Color.TRANSPARENT);
+
         int uiOptions = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                 | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                 | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
@@ -123,22 +130,12 @@ public abstract class BaseActivity extends RxAppCompatActivity implements BaseAc
         if (!isShowNavigationBar) {
             uiOptions |= View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
         }
-        getWindow().getDecorView().setSystemUiVisibility(uiOptions);
-
-        //隐藏标题栏
-        if (null != getSupportActionBar()) {
-            getSupportActionBar().hide();
-        }
-        //设置顶部状态栏和底部导航栏背景颜色为透明
-        setNavigationStatusColor(Color.TRANSPARENT);
-
         if (statusTextBlack) {
             //导航栏文字黑色
-            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-        } else {
-            //导航栏文字白色
-            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+            uiOptions |= View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
         }
+
+        getWindow().getDecorView().setSystemUiVisibility(uiOptions);
     }
 
     public void setNavigationStatusColor(int color) {
@@ -318,12 +315,16 @@ public abstract class BaseActivity extends RxAppCompatActivity implements BaseAc
     protected void onResume() {
         super.onResume();
         isActive = true;
+        //加载提示
+        LoadingUtil.init(this);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         isActive = false;
+        //加载提示
+        LoadingUtil.destory();
     }
 
     @Override
@@ -342,7 +343,6 @@ public abstract class BaseActivity extends RxAppCompatActivity implements BaseAc
     }
 
     //进度弹窗
-
     @Override
     public void showLoadingDialog(boolean b, String msg) {
         LoadingUtil.showLoadingDialog(b, msg);

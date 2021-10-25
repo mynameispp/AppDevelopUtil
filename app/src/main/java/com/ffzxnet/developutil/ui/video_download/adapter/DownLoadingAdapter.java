@@ -183,6 +183,9 @@ public class DownLoadingAdapter extends RecyclerView.Adapter implements View.OnC
         public void setDownloadInfoText(DownloadVideoInfoBean data) {
             VideoTaskItem item = data.getDownLoadUrl();
             switch (item.getTaskState()) {
+                case VideoTaskState.DEFAULT:
+                    itemDownloadingInfoSpeed.setText("点击开始下载");
+                    break;
                 case VideoTaskState.PENDING:
                     itemDownloadingInfoSpeed.setText("排队中");
                     break;
