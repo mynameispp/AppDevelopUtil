@@ -77,35 +77,42 @@ public class DownLoadUtil {
     }
 
     public static void starPlayM3u8ToMp4(DownloadVideoInfoBean data, TransformM3U8ToMp4Listen listen) {
-        KeyUtils.checkKey(data.getDownLoadUrl(), new KeyUtils.CheckKeyListen() {
-            @Override
-            public void checkStatus(boolean success) {
-                if (success){
-                    String locaPath = data.getDownLoadUrl().getFilePath();
-                    if (TextUtils.isEmpty(locaPath)) {
-                        locaPath = data.getDownLoadUrl().getSaveDir() + "/" + data.getDownLoadUrl().getFileHash() + "_local." + data.getDownLoadUrl().getMimeType();
-                    }
-                    File file = new File(locaPath);
-                    LogUtil.e("是否存在===", file.exists() + "==");
-                    if (locaPath.contains(".m3u8")) {
-                        if (!file.exists()) {
-                            ToastUtil.showToastShort("文件损坏请删除重新下载");
+        String locaPath = data.getDownLoadUrl().getFilePath();
+        File file = new File(locaPath);
+        if (locaPath.toLowerCase().contains(".mp4") && file.exists()) {
+            listen.onTransformProgressFinsh(data);
+        } else {
+            listen.onTransformProgressing("正在转换视频中");
+            KeyUtils.checkKey(data.getDownLoadUrl(), new KeyUtils.CheckKeyListen() {
+                @Override
+                public void checkStatus(boolean success) {
+                    if (success) {
+                        String locaPath = data.getDownLoadUrl().getFilePath();
+                        if (TextUtils.isEmpty(locaPath)) {
+                            locaPath = data.getDownLoadUrl().getSaveDir() + "/" + data.getDownLoadUrl().getFileHash() + "_local." + data.getDownLoadUrl().getMimeType();
+                        }
+                        File file = new File(locaPath);
+                        LogUtil.e("是否存在===", file.exists() + "==");
+                        if (locaPath.contains(".m3u8")) {
+                            if (!file.exists()) {
+                                ToastUtil.showToastShort("文件损坏请删除重新下载");
+                            } else {
+                                tranM3u8(data, locaPath, listen);
+                            }
                         } else {
-                            tranM3u8(data, locaPath, listen);
+                            if (!file.exists()) {
+                                locaPath = data.getDownLoadUrl().getSaveDir() + "/" + data.getDownLoadUrl().getFileHash() + "_local." + data.getDownLoadUrl().getMimeType();
+                                tranM3u8(data, locaPath, listen);
+                            } else {
+                                listen.onTransformProgressFinsh(data);
+                            }
                         }
                     } else {
-                        if (!file.exists()) {
-                            locaPath = data.getDownLoadUrl().getSaveDir() + "/" + data.getDownLoadUrl().getFileHash() + "_local." + data.getDownLoadUrl().getMimeType();
-                            tranM3u8(data, locaPath, listen);
-                        } else {
-                            listen.onTransformProgressFinsh(data);
-                        }
+                        ToastUtil.showToastShort("视频验证失败请重新下载");
                     }
-                }else {
-                    ToastUtil.showToastShort("视频验证失败请重新下载");
                 }
-            }
-        });
+            });
+        }
     }
 
     public interface TransformM3U8ToMp4Listen {

@@ -106,6 +106,18 @@ public class DownLoadManageActivity extends BaseActivity implements DownLoadOver
         downloadManageDelete.setVisibility(View.GONE);
         bindService(new Intent(this, DownLoadingService.class), serviceConnection, BIND_AUTO_CREATE);
 
+        downloadMainEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editDownloadOverVideos();
+            }
+        });
+        downloadManageDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deleteDownloadOverVideo();
+            }
+        });
         setTestData();
     }
 
@@ -213,42 +225,13 @@ public class DownLoadManageActivity extends BaseActivity implements DownLoadOver
 
     @OnClick({R.id.toolbar_right_tv, R.id.toolbar_right_tv2, R.id.download_main_downloading_info_layout
             , R.id.download_main_downloading_info_more})
-    public void onClicked(View view) {
+    public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.toolbar_right_tv2:
-                if (adapter != null && adapter.getDatas() != null) {
-                    Iterator<DownloadVideoInfoBean> iterator = adapter.getDatas().iterator();
-                    while (iterator.hasNext()) {
-                        DownloadVideoInfoBean data = iterator.next();
-                        if (data.isSelect()) {
-                            VideoDownloadManager.getInstance().deleteVideoTask(data.getDownLoadUrl(), true);
-                            iterator.remove();
-                        }
-                    }
-                    DownLoadUtil.saveDownLoadOver(adapter.getDatas());
-                    adapter.notifyDataSetChanged();
-                    //全部删除
-//                    VideoDownloadManager.getInstance().deleteAllVideoFiles();;
-//                    adapter.setDatas(new ArrayList<>());
-//                    adapter.notifyDataSetChanged();
-//                    SharedPreferencesUtil.getInstance().putString(SharedPreferencesUtil.SP_DownLoadOver_List, "");
-//                    if (downLoadOverVideos != null) {
-//                        downLoadOverVideos.clear();
-//                    }
-                }
+                deleteDownloadOverVideo();
                 break;
             case R.id.toolbar_right_tv:
-                if (adapter != null) {
-                    if (adapter.isEdit()) {
-                        downloadMainEdit.setText("编辑");
-                        downloadManageDelete.setVisibility(View.GONE);
-                    } else {
-                        downloadMainEdit.setText("取消");
-                        downloadManageDelete.setVisibility(View.VISIBLE);
-                    }
-                    adapter.setEdit(!adapter.isEdit());
-                    adapter.notifyDataSetChanged();
-                }
+                editDownloadOverVideos();
                 break;
             case R.id.download_main_downloading_info_layout:
             case R.id.download_main_downloading_info_more:
@@ -257,10 +240,46 @@ public class DownLoadManageActivity extends BaseActivity implements DownLoadOver
         }
     }
 
+    private void deleteDownloadOverVideo() {
+        if (adapter != null && adapter.getDatas() != null) {
+            Iterator<DownloadVideoInfoBean> iterator = adapter.getDatas().iterator();
+            while (iterator.hasNext()) {
+                DownloadVideoInfoBean data = iterator.next();
+                if (data.isSelect()) {
+                    VideoDownloadManager.getInstance().deleteVideoTask(data.getDownLoadUrl(), true);
+                    iterator.remove();
+                }
+            }
+            DownLoadUtil.saveDownLoadOver(adapter.getDatas());
+            adapter.notifyDataSetChanged();
+            //全部删除
+//                    VideoDownloadManager.getInstance().deleteAllVideoFiles();;
+//                    adapter.setDatas(new ArrayList<>());
+//                    adapter.notifyDataSetChanged();
+//                    SharedPreferencesUtil.getInstance().putString(SharedPreferencesUtil.SP_DownLoadOver_List, "");
+//                    if (downLoadOverVideos != null) {
+//                        downLoadOverVideos.clear();
+//                    }
+        }
+    }
+
+    private void editDownloadOverVideos() {
+        if (adapter != null) {
+            if (adapter.isEdit()) {
+                downloadMainEdit.setText("编辑");
+                downloadManageDelete.setVisibility(View.GONE);
+            } else {
+                downloadMainEdit.setText("取消");
+                downloadManageDelete.setVisibility(View.VISIBLE);
+            }
+            adapter.setEdit(!adapter.isEdit());
+            adapter.notifyDataSetChanged();
+        }
+    }
+
     @Override
     public void onItemDownLoadOverClick(DownloadVideoInfoBean data) {
         //点击播放
-        showLoadingDialog(true, "正在转换视频中");
         DownLoadUtil.starPlayM3u8ToMp4(data, new DownLoadUtil.TransformM3U8ToMp4Listen() {
             @Override
             public void onTransformProgressing(String progress) {

@@ -64,7 +64,7 @@
             android:ellipsize="end"
             android:gravity="center"
             android:maxLines="1"
-            android:paddingLeft="@dimen/size_dp_15"
+            android:paddingLeft="@dimen/size_dp_10"
             android:paddingRight="@dimen/size_dp_15"
             android:textColor="@color/black_33"
             android:textSize="14sp" />
@@ -77,12 +77,12 @@
             android:background="?attr/selectableItemBackgroundBorderless"
             android:drawablePadding="@dimen/size_dp_5"
             android:drawableTint="@color/black_33"
-            android:layout_marginRight="15dp"
+            android:layout_marginRight="6dp"
             android:ellipsize="end"
             android:gravity="center"
             android:maxLines="1"
-            android:paddingLeft="@dimen/size_dp_15"
-            android:paddingRight="@dimen/size_dp_15"
+            android:paddingLeft="@dimen/size_dp_10"
+            android:paddingRight="@dimen/size_dp_10"
             android:textColor="@color/black_33"
             android:textSize="14sp" />
     </androidx.appcompat.widget.Toolbar>

@@ -76,14 +76,17 @@ public class DownLoadOverAdapter extends RecyclerView.Adapter implements View.On
     public void onClick(View v) {
         if (mAdapterListem != null) {
             DownloadVideoInfoBean data = (DownloadVideoInfoBean) v.getTag(R.id.tagId_1);
-            data.setSelect(!data.isSelect());
-            MyHolder myHolder = (MyHolder) v.getTag(R.id.tagId_2);
-            if (data.isSelect()) {
-                myHolder.itemDownloadOverInfoCheck.setImageResource(R.mipmap.icon_edit_video_check_yes);
+            if (isEdit) {
+                data.setSelect(!data.isSelect());
+                MyHolder myHolder = (MyHolder) v.getTag(R.id.tagId_2);
+                if (data.isSelect()) {
+                    myHolder.itemDownloadOverInfoCheck.setImageResource(R.mipmap.icon_edit_video_check_yes);
+                } else {
+                    myHolder.itemDownloadOverInfoCheck.setImageResource(R.mipmap.icon_edit_video_check_not);
+                }
             } else {
-                myHolder.itemDownloadOverInfoCheck.setImageResource(R.mipmap.icon_edit_video_check_not);
+                mAdapterListem.onItemDownLoadOverClick(data);
             }
-            mAdapterListem.onItemDownLoadOverClick(data);
         }
     }
 
