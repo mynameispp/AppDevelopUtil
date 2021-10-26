@@ -4,7 +4,6 @@ import android.app.Application;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.support.multidex.MultiDex;
 
 import com.ffzxnet.developutil.constans.MyConstans;
 import com.ffzxnet.developutil.utils.tools.ScreenUtils;
@@ -33,7 +32,6 @@ public class MyApplication extends Application {
 
     @Override
     public void onCreate() {
-        MultiDex.install(this);
         super.onCreate();
 //        if (initOOM()) {
 //            return;

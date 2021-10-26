@@ -54,7 +54,7 @@ public class MyCalendarPainter implements CalendarPainter {
     private int blackColor = Color.parseColor("#000000");
     private int grayColor = Color.parseColor("#8B929C");
     //显示模式
-    private int showModule=0;//0=显示今日之前的变灰色，之后的为黑色。1=当前查看月为黑色，上下个月的为灰色
+    private int showModule = 0;//0=显示今日之前的变灰色，之后的为黑色。1=当前查看月为黑色，上下个月的为灰色
 
     public MyCalendarPainter(Context context) {
         //所有canvas都是从布局中心点开始计算画的
@@ -97,7 +97,7 @@ public class MyCalendarPainter implements CalendarPainter {
     public void onDrawToday(Canvas canvas, RectF rectF, LocalDate localDate, List<LocalDate> checkedDateList) {
         //当日
 //        drawSelectBg(canvas, rectF, localDate, true, checkedDateList);
-        drawSolar(canvas, rectF, localDate, checkedDateList.contains(localDate), true,true);
+        drawSolar(canvas, rectF, localDate, checkedDateList.contains(localDate), true, true);
         drawLunar(canvas, rectF, localDate, checkedDateList.contains(localDate), blueColor, blueColor, true);
         drawPoint(canvas, rectF, localDate);
         drawHolidayWorkday(canvas, rectF, localDate, todayCheckedHoliday, todayCheckedWorkday
@@ -107,7 +107,7 @@ public class MyCalendarPainter implements CalendarPainter {
     @Override
     public void onDrawCurrentMonthOrWeek(Canvas canvas, RectF rectF, LocalDate localDate, List<LocalDate> checkedDateList) {
         //当前查看月
-        drawSolar(canvas, rectF, localDate, checkedDateList.contains(localDate), false,true);
+        drawSolar(canvas, rectF, localDate, checkedDateList.contains(localDate), false, true);
         drawLunar(canvas, rectF, localDate, checkedDateList.contains(localDate), grayColor, grayColor, false);
         drawPoint(canvas, rectF, localDate);
         drawHolidayWorkday(canvas, rectF, localDate, todayCheckedHoliday, todayCheckedWorkday
@@ -117,7 +117,7 @@ public class MyCalendarPainter implements CalendarPainter {
     @Override
     public void onDrawLastOrNextMonth(Canvas canvas, RectF rectF, LocalDate localDate, List<LocalDate> checkedDateList) {
         //上个月或者下个月
-        drawSolar(canvas, rectF, localDate, checkedDateList.contains(localDate), false,false);
+        drawSolar(canvas, rectF, localDate, checkedDateList.contains(localDate), false, false);
         drawLunar(canvas, rectF, localDate, checkedDateList.contains(localDate), grayColor, grayColor, false);
         drawPoint(canvas, rectF, localDate);
         drawHolidayWorkday(canvas, rectF, localDate, todayCheckedHoliday, todayCheckedWorkday
@@ -144,7 +144,7 @@ public class MyCalendarPainter implements CalendarPainter {
 //    }
 
     //绘制公历
-    private void drawSolar(Canvas canvas, RectF rectF, LocalDate date, boolean isSelected, boolean isToday,boolean isCurrentMonth) {
+    private void drawSolar(Canvas canvas, RectF rectF, LocalDate date, boolean isSelected, boolean isToday, boolean isCurrentMonth) {
         if (isSelected) {
             //选中背景
             if (!isToday) {
@@ -155,7 +155,7 @@ public class MyCalendarPainter implements CalendarPainter {
             canvas.drawCircle(rectF.centerX(), rectF.centerY() - mCircleRadius / 2, mCircleRadius, mTextPaint);
             //字体颜色
             if (!isToday) {
-                if (showModule==0) {
+                if (showModule == 0) {
                     int nowDate = Integer.parseInt(DateUtils.getTimeFormat(System.currentTimeMillis(), DateUtils.FORMAT_YYYYMMDD));
                     int dateS = Integer.parseInt(date.toString(DateUtils.FORMAT_YYYYMMDD));
                     if (dateS >= nowDate) {
@@ -165,14 +165,14 @@ public class MyCalendarPainter implements CalendarPainter {
                         //今日之前的日期
                         mTextPaint.setColor(grayColor);
                     }
-                }else {
-                   if (isCurrentMonth){
-                       //本月日期
-                       mTextPaint.setColor(blackColor);
-                   }else {
-                       //非本月日期
-                       mTextPaint.setColor(grayColor);
-                   }
+                } else {
+                    if (isCurrentMonth) {
+                        //本月日期
+                        mTextPaint.setColor(blackColor);
+                    } else {
+                        //非本月日期
+                        mTextPaint.setColor(grayColor);
+                    }
                 }
             } else {
                 //当日日期
@@ -181,7 +181,7 @@ public class MyCalendarPainter implements CalendarPainter {
         } else {
             //未选中背景
             if (!isToday) {
-                if (showModule==0) {
+                if (showModule == 0) {
                     int nowDate = Integer.parseInt(DateUtils.getTimeFormat(System.currentTimeMillis(), DateUtils.FORMAT_YYYYMMDD));
                     int dateS = Integer.parseInt(date.toString(DateUtils.FORMAT_YYYYMMDD));
                     if (dateS >= nowDate) {
@@ -191,11 +191,11 @@ public class MyCalendarPainter implements CalendarPainter {
                         //今日之前的日期
                         mTextPaint.setColor(grayColor);
                     }
-                }else {
-                    if (isCurrentMonth){
+                } else {
+                    if (isCurrentMonth) {
                         //本月日期
                         mTextPaint.setColor(blackColor);
-                    }else {
+                    } else {
                         //非本月日期
                         mTextPaint.setColor(grayColor);
                     }

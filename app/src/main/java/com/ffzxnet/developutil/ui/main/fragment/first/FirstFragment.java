@@ -8,7 +8,6 @@ import com.ffzxnet.developutil.R;
 import com.ffzxnet.developutil.application.MyApplication;
 import com.ffzxnet.developutil.base.ui.BaseFragment;
 import com.ffzxnet.developutil.base.ui.adapter.LinearLaySpacingItemDecoration;
-import com.ffzxnet.developutil.ui.main.MainActivity;
 import com.ffzxnet.developutil.ui.main.fragment.first.adapter.FirstFragmentAdapter;
 import com.ffzxnet.developutil.ui.main.fragment.first.adapter.FirstTestBean;
 import com.ffzxnet.developutil.utils.ui.ToastUtil;
@@ -99,5 +98,12 @@ public class FirstFragment extends BaseFragment implements FirstFragmentAdapter.
     @Override
     public void itemClick(FirstTestBean data) {
         ToastUtil.showToastShort(data.getContent());
+    }
+
+    @Override
+    public void itemDeleteClick(FirstTestBean data, int position) {
+        if (adapter != null && adapter.getDatas().size() > position) {
+            adapter.deleteData(position);
+        }
     }
 }

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:background="@color/gray_EE"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/title"
+        layout="@layout/include_toolbar" />
+
+    <ImageView
+        android:id="@+id/album_show_image"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="@dimen/size_dp_20"
+        android:scaleType="centerCrop" />
+
+    <Button
+        android:id="@+id/album_select_single_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/size_dp_30"
+        android:text="选择本地相册（单选）"
+        android:textColor="@color/black" />
+
+    <Button
+        android:id="@+id/album_select_multiple_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="选择本地相册（多选）"
+        android:textColor="@color/black" />
+
+    <Button
+        android:id="@+id/album_camera_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="拍照"
+        android:textColor="@color/black" />
+</LinearLayout>

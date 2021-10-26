@@ -6,8 +6,8 @@ import android.view.View;
 import com.ffzxnet.developutil.R;
 import com.ffzxnet.developutil.base.ui.BaseFragment;
 import com.ffzxnet.developutil.base.ui.adapter.GridSpacingItemDecoration;
+import com.ffzxnet.developutil.ui.album.AlbumActivity;
 import com.ffzxnet.developutil.ui.calendar.CalendarActivity;
-import com.ffzxnet.developutil.ui.main.fragment.first.adapter.FirstFragmentAdapter;
 import com.ffzxnet.developutil.ui.main.fragment.first.adapter.FirstTestBean;
 import com.ffzxnet.developutil.ui.video_download.DownLoadManageActivity;
 
@@ -18,12 +18,12 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 
-public class SecondFragment extends BaseFragment implements FirstFragmentAdapter.AdapterListen {
+public class SecondFragment extends BaseFragment implements SecondFragmentAdapter.AdapterListen {
 
     @BindView(R.id.second_fragment_rv)
     RecyclerView secondFragmentRv;
 
-    private FirstFragmentAdapter adapter;
+    private SecondFragmentAdapter adapter;
 
     @Override
     protected int getLayoutId() {
@@ -47,6 +47,10 @@ public class SecondFragment extends BaseFragment implements FirstFragmentAdapter
         //添加分割线
         secondFragmentRv.addItemDecoration(new GridSpacingItemDecoration(2, 10, true));
 
+        addMenuData();
+    }
+
+    private void addMenuData() {
         List<FirstTestBean> datas = new ArrayList<>();
         FirstTestBean item;
 
@@ -63,7 +67,13 @@ public class SecondFragment extends BaseFragment implements FirstFragmentAdapter
         item.setImage("https://t7.baidu.com/it/u=3624649723,387536556&fm=193&f=GIF");
         datas.add(item);
 
-        adapter = new FirstFragmentAdapter(datas, this);
+        item = new FirstTestBean();
+        item.setTitle("相册");
+        item.setContent("多功能相册");
+        item.setImage("https://t7.baidu.com/it/u=3624649723,387536556&fm=193&f=GIF");
+        datas.add(item);
+
+        adapter = new SecondFragmentAdapter(datas, this);
         secondFragmentRv.setAdapter(adapter);
     }
 
@@ -71,8 +81,10 @@ public class SecondFragment extends BaseFragment implements FirstFragmentAdapter
     public void itemClick(FirstTestBean data) {
         if (data.getTitle().contains("日历")) {
             redirectActivity(CalendarActivity.class);
-        }if (data.getTitle().contains("下载")) {
+        } else if (data.getTitle().contains("下载")) {
             redirectActivity(DownLoadManageActivity.class);
+        } else if (data.getTitle().contains("相册")) {
+            redirectActivity(AlbumActivity.class);
         }
     }
 }
