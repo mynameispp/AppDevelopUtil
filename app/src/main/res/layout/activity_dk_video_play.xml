@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.ffzxnet.developutil.ui.video_play.my_ijk.MyVideoView
+        android:id="@+id/myVideoPlay"
+        android:layout_width="match_parent"
+        android:layout_height="300dp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/video_play_local_video_rv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/myVideoPlay"
+        android:layout_marginTop="15dp" />
+</RelativeLayout>

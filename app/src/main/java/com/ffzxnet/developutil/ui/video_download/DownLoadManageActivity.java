@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.ffzxnet.developutil.R;
 import com.ffzxnet.developutil.application.GlideApp;
 import com.ffzxnet.developutil.base.ui.BaseActivity;
+import com.ffzxnet.developutil.constans.MyConstans;
 import com.ffzxnet.developutil.evenbus.MyEventbus;
 import com.ffzxnet.developutil.service.DownLoadingService;
 import com.ffzxnet.developutil.ui.video_download.adapter.DownLoadOverAdapter;
@@ -25,6 +26,7 @@ import com.ffzxnet.developutil.ui.video_download.downloading.DownloadingActivity
 import com.ffzxnet.developutil.ui.video_download.player.PlayerActivity;
 import com.ffzxnet.developutil.ui.video_download.utils.DeviceUtils;
 import com.ffzxnet.developutil.ui.video_download.utils.DownLoadUtil;
+import com.ffzxnet.developutil.ui.video_play.DKVideoPlayActivity;
 import com.ffzxnet.developutil.utils.ui.ToastUtil;
 import com.ffzxnet.developutil.utils.video_download.VideoDownloadManager;
 import com.ffzxnet.developutil.utils.video_download.listener.IDownloadInfosCallback;
@@ -298,8 +300,13 @@ public class DownLoadManageActivity extends BaseActivity implements DownLoadOver
                     }
                 }
                 showLoadingDialog(false);
-                Intent intent = new Intent(getApplicationContext(), PlayerActivity.class);
-                intent.putExtra("videoUrl", "file://" + video.getDownLoadUrl().getFilePath());
+                //普通播放
+//                Intent intent = new Intent(getApplicationContext(), PlayerActivity.class);
+//                intent.putExtra("videoUrl", "file://" + video.getDownLoadUrl().getFilePath());
+//                startActivity(intent);
+                //DK播放器
+                Intent intent = new Intent(getApplicationContext(), DKVideoPlayActivity.class);
+                intent.putExtra(MyConstans.KEY_DATA, video.getDownLoadUrl().getFilePath());
                 startActivity(intent);
             }
 

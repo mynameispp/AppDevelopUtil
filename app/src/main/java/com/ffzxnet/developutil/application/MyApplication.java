@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 
 import com.ffzxnet.developutil.constans.MyConstans;
+import com.ffzxnet.developutil.ui.video_play.my_ijk.MyVideoPlayerFactory;
 import com.ffzxnet.developutil.utils.tools.ScreenUtils;
 import com.ffzxnet.developutil.utils.video_download.VideoDownloadConfig;
 import com.ffzxnet.developutil.utils.video_download.VideoDownloadManager;
@@ -16,6 +17,8 @@ import java.io.File;
 import java.util.Locale;
 
 import androidx.core.content.ContextCompat;
+import xyz.doikki.videoplayer.player.VideoViewConfig;
+import xyz.doikki.videoplayer.player.VideoViewManager;
 
 /**
  * 创建者： feifan.pi 在 2017/5/5.
@@ -43,11 +46,19 @@ public class MyApplication extends Application {
         } else {
             language = getResources().getConfiguration().locale;
         }
+        //手机屏幕基础信息
         MyConstans.Screen_Width = ScreenUtils.getScreenWidth(mContext);
         MyConstans.Screen_Height = ScreenUtils.getScreenHeight(mContext);
         MyConstans.Screen_Status_Height = ScreenUtils.getStatusHeight(mContext);
 
+        //下载工具初始化
         initDownloadUtil();
+
+        //DK播放器初始化
+        VideoViewManager.setConfig(VideoViewConfig.newBuilder()
+                //使用使用自定义IjkPlayer解码
+                .setPlayerFactory(MyVideoPlayerFactory.create())
+                .build());
     }
 
     //下载工具初始化

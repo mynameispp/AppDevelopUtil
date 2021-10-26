@@ -77,9 +77,6 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'androidx.appcompat:appcompat:1.3.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.1'
-//    testImplementation 'junit:junit:4.12'
-//    androidTestImplementation 'androidx.test.ext:junit:1.1.0'
-//    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
     implementation 'androidx.viewpager2:viewpager2:1.0.0'
     implementation 'com.google.code.gson:gson:2.8.6'
@@ -116,22 +113,26 @@ dependencies {
 //    implementation 'top.zibin:Luban:1.1.2'
     //事件订阅总线
     implementation 'org.greenrobot:eventbus:3.1.1'
-    //带有滑动菜单的RecyclerView
-//    implementation 'com.yanzhenjie:recyclerview-swipe:1.0.0'
     //MMKV
     implementation 'com.tencent:mmkv-static:1.2.10'
     //日历
     implementation 'com.necer.ncalendar:ncalendar:5.0.2'
-    //播放前
-    implementation 'com.github.JeffMony:PlayerSDK:2.0.0'
-    //m3u8合成mp4
+    //m3u8合成mp4和播放
     implementation 'com.github.JeffMony:JeffM3U8Lib:1.2.0'
+    implementation ('com.github.JeffMony:PlayerSDK:2.0.0'){
+        exclude group: 'com.github.JeffMony.PlayerSDK',module:'ijkplayer'
+    }
     //事件订阅总线
     implementation 'org.greenrobot:eventbus:3.1.1'
-    //适配异形屏
+    //全屏适配异形屏
     implementation 'com.github.smarxpan:NotchScreenTool:0.0.1'
     //图片选择器
     implementation 'com.github.HuanTanSheng:EasyPhotos:3.1.4'
     //列表侧滑
     implementation 'com.github.mcxtzhang:SwipeDelMenuLayout:V1.3.0'
+    //DK视频播放
+    implementation 'xyz.doikki.android.dkplayer:dkplayer-java:3.3.5'
+    implementation 'xyz.doikki.android.dkplayer:dkplayer-ui:3.3.5'
+    implementation 'xyz.doikki.android.dkplayer:player-ijk:3.3.5'
+    implementation 'xyz.doikki.android.dkplayer:videocache:3.3.5'
 }

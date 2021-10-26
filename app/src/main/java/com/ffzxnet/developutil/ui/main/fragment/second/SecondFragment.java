@@ -10,6 +10,7 @@ import com.ffzxnet.developutil.ui.album.AlbumActivity;
 import com.ffzxnet.developutil.ui.calendar.CalendarActivity;
 import com.ffzxnet.developutil.ui.main.fragment.first.adapter.FirstTestBean;
 import com.ffzxnet.developutil.ui.video_download.DownLoadManageActivity;
+import com.ffzxnet.developutil.ui.video_play.DKVideoPlayActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,13 +64,19 @@ public class SecondFragment extends BaseFragment implements SecondFragmentAdapte
 
         item = new FirstTestBean();
         item.setTitle("下载视频");
-        item.setContent("下载视频和播放");
+        item.setContent("下载m3u8视频和合并");
         item.setImage("https://t7.baidu.com/it/u=3624649723,387536556&fm=193&f=GIF");
         datas.add(item);
 
         item = new FirstTestBean();
         item.setTitle("相册");
         item.setContent("多功能相册");
+        item.setImage("https://t7.baidu.com/it/u=3624649723,387536556&fm=193&f=GIF");
+        datas.add(item);
+
+        item = new FirstTestBean();
+        item.setTitle("视频播放");
+        item.setContent("DK视频播放");
         item.setImage("https://t7.baidu.com/it/u=3624649723,387536556&fm=193&f=GIF");
         datas.add(item);
 
@@ -85,6 +92,8 @@ public class SecondFragment extends BaseFragment implements SecondFragmentAdapte
             redirectActivity(DownLoadManageActivity.class);
         } else if (data.getTitle().contains("相册")) {
             redirectActivity(AlbumActivity.class);
+        } else if (data.getTitle().contains("视频播放")) {
+            redirectActivity(DKVideoPlayActivity.class);
         }
     }
 }

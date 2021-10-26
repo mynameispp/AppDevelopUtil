@@ -37,6 +37,7 @@ public class FileUtil {
     public static final String HttpCache = FileUtil.getSdcardRootDirectory("HttpCache");
     public static final String GlidePathCache = FileUtil.getSdcardRootDirectory("GlidePathCache");
     public static final String DownLoadFile = FileUtil.getSdcardRootDirectory("DownLoadFile");
+    public static final String Video = FileUtil.getSdcardRootDirectory("Video");
 
     public static String getSdcardRootDirectory(@NonNull String addFlod) {
         if (null == MyApplication.getContext()) {
