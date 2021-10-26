@@ -1,10 +1,9 @@
-package com.ffzxnet.developutil.ui.calendar.view;
+package com.ffzxnet.developutil.ui.calendar.view.util;
 
 import com.necer.entity.CalendarDate;
 import com.necer.entity.Lunar;
 import com.necer.utils.Attrs;
 import com.necer.utils.CalendarUtil;
-import com.necer.utils.LunarUtil;
 import com.necer.utils.SolarTermUtil;
 
 import org.joda.time.LocalDate;
@@ -252,10 +251,10 @@ public class MyCalendarUtil extends CalendarUtil {
         int solarYear = localDate.getYear();
         int solarMonth = localDate.getMonthOfYear();
         int solarDay = localDate.getDayOfMonth();
-        Lunar lunar = LunarUtil.getLunar(solarYear, solarMonth, solarDay);
+        Lunar lunar = MyLunarUtil.getLunar(solarYear, solarMonth, solarDay);
 
         LocalDate nextLocalDate = localDate.plusDays(1);
-        Lunar nextLunar = LunarUtil.getLunar(nextLocalDate.getYear(), nextLocalDate.getMonthOfYear(), nextLocalDate.getDayOfMonth());
+        Lunar nextLunar = MyLunarUtil.getLunar(nextLocalDate.getYear(), nextLocalDate.getMonthOfYear(), nextLocalDate.getDayOfMonth());
 
         calendarDate.lunar = lunar;
         calendarDate.localDate = localDate;

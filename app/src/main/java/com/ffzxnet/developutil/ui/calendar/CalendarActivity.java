@@ -1,6 +1,7 @@
 package com.ffzxnet.developutil.ui.calendar;
 
 import android.os.Bundle;
+import android.view.View;
 import android.view.ViewTreeObserver;
 
 import com.ffzxnet.developutil.R;
@@ -50,6 +51,8 @@ public class CalendarActivity extends BaseActivity {
 
     private void initCalendar() {
         MyCalendarPainter myCalendarPainter = new MyCalendarPainter(this);
+        //显示模式-上下个月的日期颜色为灰色
+        myCalendarPainter.setShowModule(1);
         //添加日期标记点
 //        List<String> point = new ArrayList<>();
 //        point.add("2021-08-04");
@@ -79,14 +82,21 @@ public class CalendarActivity extends BaseActivity {
         });
     }
 
-    @OnClick(R.id.ln_expand)
-    public void onViewClicked() {
-        if (canSlow) {
-            canSlow = false;
-            myCalendar.toWeek();
-        } else {
-            canSlow = true;
-            myCalendar.toMonth();
+    @OnClick({R.id.ln_expand, R.id.my_calendar_go_today})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.ln_expand:
+                if (canSlow) {
+                    canSlow = false;
+                    myCalendar.toWeek();
+                } else {
+                    canSlow = true;
+                    myCalendar.toMonth();
+                }
+                break;
+            case R.id.my_calendar_go_today:
+                myCalendar.toToday();
+                break;
         }
     }
 }
