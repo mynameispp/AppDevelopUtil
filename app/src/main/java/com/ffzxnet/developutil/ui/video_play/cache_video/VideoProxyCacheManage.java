@@ -8,6 +8,7 @@ import com.ffzxnet.developutil.utils.tools.FileUtil;
 import java.io.File;
 import java.lang.ref.SoftReference;
 
+//视频缓存代理
 public class VideoProxyCacheManage {
     private static volatile HttpProxyCacheServer cacheServer;
 

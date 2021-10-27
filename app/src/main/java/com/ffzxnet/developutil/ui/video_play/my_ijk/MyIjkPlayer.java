@@ -13,28 +13,60 @@ public class MyIjkPlayer extends IjkPlayer {
         super(context);
     }
 
-    public void setMediaPlayerOption(){
-        //某些视频在SeekTo的时候，会跳回到拖动前的位置，这是因为视频的关键帧的问题，通俗一点就是FFMPEG不兼容，视频压缩过于厉害，seek只支持关键帧，出现这个情况就是原始的视频文件中i 帧比较少
-        mMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_PLAYER, "enable-accurate-seek", 1);
-        //播放前的探测Size，默认是1M, 改小一点会出画面更快
-        mMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_FORMAT, "probesize", 1024 * 6);
+    /**
+     * 设置IjkMediaPlayer.OPT_CATEGORY_PLAYER相关配置
+     */
+    public void setPlayerOption(String name, String value) {
+        mMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_PLAYER, name, value);
+    }
 
-        // 跳过循环滤波
-        mMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_CODEC, "skip_loop_filter", 48);
-        // 设置最长分析时长
-        mMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_FORMAT, "analyzemaxduration", 100L);
-        // 通过立即清理数据包来减少等待时长
-        mMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_FORMAT, "flush_packets", 1L);
-        // 暂停输出直到停止后读取足够的数据包
-        mMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_PLAYER, "packet-buffering", 0L);
-        // 网络不好的情况下进行丢包
-        mMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_PLAYER, "framedrop", 1L);
-        // 去掉音频
-        mMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_PLAYER, "an", 1);
-        // 不查询stream_info，直接使用
-        mMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_PLAYER,"find_stream_info", 0);
-        // 等待开始之后才绘制
-        mMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_PLAYER, "render-wait-start", 1);
+    /**
+     * 设置IjkMediaPlayer.OPT_CATEGORY_PLAYER相关配置
+     */
+    public void setPlayerOption(String name, long value) {
+        mMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_PLAYER, name, value);
+    }
+
+    /**
+     * 设置IjkMediaPlayer.OPT_CATEGORY_FORMAT相关配置
+     */
+    public void setFormatOption(String name, String value) {
+        mMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_FORMAT, name, value);
+    }
+
+    /**
+     * 设置IjkMediaPlayer.OPT_CATEGORY_FORMAT相关配置
+     */
+    public void setFormatOption(String name, long value) {
+        mMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_FORMAT, name, value);
+    }
+
+    /**
+     * 设置IjkMediaPlayer.OPT_CATEGORY_CODEC相关配置
+     */
+    public void setCodecOption(String name, String value) {
+        mMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_CODEC, name, value);
+    }
+
+    /**
+     * 设置IjkMediaPlayer.OPT_CATEGORY_CODEC相关配置
+     */
+    public void setCodecOption(String name, long value) {
+        mMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_CODEC, name, value);
+    }
+
+    /**
+     * 设置IjkMediaPlayer.OPT_CATEGORY_SWS相关配置
+     */
+    public void setSwsOption(String name, String value) {
+        mMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_SWS, name, value);
+    }
+
+    /**
+     * 设置IjkMediaPlayer.OPT_CATEGORY_SWS相关配置
+     */
+    public void setSwsOption(String name, long value) {
+        mMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_SWS, name, value);
     }
 
     public void getTrackInfo() {

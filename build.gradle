@@ -4,8 +4,11 @@ buildscript {
     repositories {
         google()
         jcenter()
-        maven { url "https://jitpack.io" }
         mavenCentral()
+        maven { url "https://jitpack.io" }
+        maven {
+            url 'https://dl.bintray.com/hpdx/maven/'
+        }
         maven {
             url "https://mvn.mob.com/android"
         }
@@ -19,11 +22,10 @@ allprojects {
     repositories {
         google()
         jcenter()
-        maven { url "https://jitpack.io" }
         mavenCentral()
+        maven { url "https://jitpack.io" }
         maven {
-            url 'https://maven.google.com/'
-            name 'Google'
+            url 'https://dl.bintray.com/hpdx/maven/'
         }
     }
 }

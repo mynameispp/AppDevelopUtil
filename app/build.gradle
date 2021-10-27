@@ -76,7 +76,7 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'androidx.appcompat:appcompat:1.3.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.1'
+    implementation "androidx.constraintlayout:constraintlayout:1.1.3"
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
     implementation 'androidx.viewpager2:viewpager2:1.0.0'
     implementation 'com.google.code.gson:gson:2.8.6'
@@ -135,4 +135,7 @@ dependencies {
     implementation 'xyz.doikki.android.dkplayer:dkplayer-ui:3.3.5'
     implementation 'xyz.doikki.android.dkplayer:player-ijk:3.3.5'
     implementation 'xyz.doikki.android.dkplayer:videocache:3.3.5'
+    //弹幕
+    implementation 'com.github.ctiao:DanmakuFlameMaster:0.9.25'
+    implementation 'com.github.ctiao:ndkbitmap-armv7a:0.9.21'
 }
