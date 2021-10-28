@@ -1,8 +1,10 @@
 package com.ffzxnet.developutil.ui.video_play;
 
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -16,11 +18,19 @@ import com.ffzxnet.developutil.constans.MyConstans;
 import com.ffzxnet.developutil.ui.video_download.adapter.DownLoadOverAdapter;
 import com.ffzxnet.developutil.ui.video_download.bean.DownloadVideoInfoBean;
 import com.ffzxnet.developutil.ui.video_download.utils.DownLoadUtil;
+import com.ffzxnet.developutil.ui.video_play.adapter.AnthologyVideosAdapter;
+import com.ffzxnet.developutil.ui.video_play.adapter.AnthologyVideosBean;
 import com.ffzxnet.developutil.ui.video_play.cache_video.VideoProxyCacheManage;
 import com.ffzxnet.developutil.ui.video_play.my_ijk.MyVideoView;
+import com.ffzxnet.developutil.ui.video_play.view.MyVideoController;
+import com.ffzxnet.developutil.ui.video_play.view.MyVodControlView;
 import com.ffzxnet.developutil.ui.video_play.view.danmu.MyDanmakuView;
 import com.ffzxnet.developutil.utils.ui.ToastUtil;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
@@ -28,10 +38,10 @@ import butterknife.OnClick;
 import xyz.doikki.videocontroller.StandardVideoController;
 import xyz.doikki.videocontroller.component.ErrorView;
 import xyz.doikki.videocontroller.component.PrepareView;
-import xyz.doikki.videocontroller.component.VodControlView;
+import xyz.doikki.videocontroller.component.TitleView;
 import xyz.doikki.videoplayer.player.VideoView;
 
-public class DKVideoPlayActivity extends BaseActivity implements DownLoadOverAdapter.AdapterListen {
+public class DKVideoPlayActivity extends BaseActivity implements DownLoadOverAdapter.AdapterListen, AnthologyVideosAdapter.AdapterListen {
 
     @BindView(R.id.myVideoPlay)
     MyVideoView myVideoView;
@@ -47,9 +57,7 @@ public class DKVideoPlayActivity extends BaseActivity implements DownLoadOverAda
     LinearLayout danmuInputLayout;
 
     //默认播放控制界面
-    private StandardVideoController controllerPlayer;
-    //弹幕
-    private MyDanmakuView mMyDanmakuView;
+    private MyVideoController controllerPlayer;
     private boolean showDanmu = true;//是否显示弹幕
 
     @Override
@@ -94,13 +102,23 @@ public class DKVideoPlayActivity extends BaseActivity implements DownLoadOverAda
         }
 
         if (null == controllerPlayer) {
-            controllerPlayer = new StandardVideoController(this);
-//            controllerPlayer.addDefaultControlComponent("", false);
-            //底部控制控件
-            VodControlView vodControlView = new VodControlView(this);//点播控制条
-            //是否显示底部进度条。默认显示
-            vodControlView.showBottomProgress(false);
-            controllerPlayer.addControlComponent(vodControlView);
+            //组装播放器控件
+            controllerPlayer = new MyVideoController(this);
+            //测试数据
+            List<AnthologyVideosBean> anthologyVideosBeans = new ArrayList<>();
+            AnthologyVideosBean item;
+            for (int i = 1; i < 21; i++) {
+                item = new AnthologyVideosBean();
+                item.setAnthologyTitle("第" + i + "集");
+                anthologyVideosBeans.add(item);
+            }
+            //测试数据End
+            controllerPlayer.addDefaultControlComponent("视频名称", false, new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            },new GridLayoutManager(this,4),new AnthologyVideosAdapter(anthologyVideosBeans, this));
             //播放状态
             myVideoView.addOnStateChangeListener(new VideoView.OnStateChangeListener() {
                 @Override
@@ -136,7 +154,19 @@ public class DKVideoPlayActivity extends BaseActivity implements DownLoadOverAda
                             break;
                         case VideoView.STATE_PLAYING:
                             //播放中
-                            mMyDanmakuView.addDanmaku("别人发的弹幕", false);
+                            controllerPlayer.addDanmaku("别人发的弹幕", false);
+                            controllerPlayer.addDanmaku("别人发的弹幕", false);
+                            controllerPlayer.addDanmaku("别人发的弹幕", false);
+                            controllerPlayer.addDanmaku("别人发的弹幕", false);
+                            controllerPlayer.addDanmaku("别人发的弹幕", false);
+                            controllerPlayer.addDanmaku("别人发的弹幕", false);
+                            controllerPlayer.addDanmaku("别人发的弹幕", false);
+                            controllerPlayer.addDanmaku("别人发的弹幕", false);
+                            controllerPlayer.addDanmaku("别人发的弹幕", false);
+                            controllerPlayer.addDanmaku("别人发的弹幕", false);
+                            controllerPlayer.addDanmaku("别人发的弹幕", false);
+                            controllerPlayer.addDanmaku("别人发的弹幕", false);
+                            controllerPlayer.addDanmaku("别人发的弹幕", false);
                             break;
                         case VideoView.STATE_PLAYBACK_COMPLETED:
                             //播放完
@@ -147,22 +177,6 @@ public class DKVideoPlayActivity extends BaseActivity implements DownLoadOverAda
                     }
                 }
             });
-            //竖屏也开启手势操作，默认关闭
-            controllerPlayer.setEnableInNormal(true);
-            //设置弹幕
-            mMyDanmakuView = new MyDanmakuView(this);
-            controllerPlayer.addControlComponent(mMyDanmakuView);
-            //设置错误页面
-            ErrorView errorView = new ErrorView(this);
-            controllerPlayer.addControlComponent(errorView);
-            //视频封面
-            PrepareView prepareView = new PrepareView(this);
-            prepareView.setClickStart();
-            ImageView thumb = prepareView.findViewById(R.id.thumb);
-            GlideApp.with(thumb)
-                    .load("https://t7.baidu.com/it/u=3624649723,387536556&fm=193&f=GIF")
-                    .into(thumb);
-            controllerPlayer.addControlComponent(prepareView);
             //设置控制器
             myVideoView.setVideoController(controllerPlayer);
             //循环播放
@@ -182,6 +196,17 @@ public class DKVideoPlayActivity extends BaseActivity implements DownLoadOverAda
     protected void onPause() {
         super.onPause();
         myVideoView.pause();
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && myVideoView.isFullScreen()) {
+            controllerPlayer.stopFullScreenPlay();
+//                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+//            myVideoView.stopFullScreen();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     @Override
@@ -209,19 +234,27 @@ public class DKVideoPlayActivity extends BaseActivity implements DownLoadOverAda
                 if (TextUtils.isEmpty(danmuContent)) {
                     ToastUtil.showToastShort("弹幕内容不能为空");
                 } else {
-                    mMyDanmakuView.addDanmaku(danmuContent, true);
+                    controllerPlayer.addDanmaku(danmuContent, true);
                     danmuInputEd.setText("");
                 }
                 break;
             case R.id.danmu_switch:
                 //是否开启弹幕
                 if (showDanmu) {
-                    mMyDanmakuView.hide();
+                    controllerPlayer.hideDanmaku();
+                    danmuSwitch.setImageResource(R.mipmap.icon_danmu_open);
                 } else {
-                    mMyDanmakuView.show();
+                    controllerPlayer.showDanmaku();
+                    danmuSwitch.setImageResource(R.mipmap.icon_danmu_close);
                 }
                 showDanmu = !showDanmu;
                 break;
         }
+    }
+
+    @Override
+    public void onAnthologyVideosClick(AnthologyVideosBean data) {
+        //选集点击
+        ToastUtil.showToastShort(data.getAnthologyTitle());
     }
 }

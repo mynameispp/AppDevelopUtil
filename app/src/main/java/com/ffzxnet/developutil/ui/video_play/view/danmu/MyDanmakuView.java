@@ -10,8 +10,12 @@ import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.TextPaint;
 import android.util.AttributeSet;
+import android.util.SparseArray;
 import android.view.View;
 import android.view.animation.Animation;
+
+import java.util.HashMap;
+import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -36,6 +40,7 @@ public class MyDanmakuView extends DanmakuView implements IControlComponent {
 
     private DanmakuContext mContext;
     private BaseDanmakuParser mParser;
+    private SparseArray<List<DanmakuBaseBean>> danmuData;
 
     public MyDanmakuView(@NonNull Context context) {
         super(context);
@@ -51,12 +56,12 @@ public class MyDanmakuView extends DanmakuView implements IControlComponent {
 
     {
         // 设置最大显示行数
-//        HashMap<Integer, Integer> maxLinesPair = new HashMap<>();
-//        maxLinesPair.put(BaseDanmaku.TYPE_SCROLL_RL, 5); // 滚动弹幕最大显示5行
+        HashMap<Integer, Integer> maxLinesPair = new HashMap<>();
+        maxLinesPair.put(BaseDanmaku.TYPE_SCROLL_RL, 15); // 滚动弹幕最大显示5行
         // 设置是否禁止重叠
-//        HashMap<Integer, Boolean> overlappingEnablePair = new HashMap<>();
-//        overlappingEnablePair.put(BaseDanmaku.TYPE_SCROLL_RL, true);
-//        overlappingEnablePair.put(BaseDanmaku.TYPE_FIX_TOP, true);
+        HashMap<Integer, Boolean> overlappingEnablePair = new HashMap<>();
+        overlappingEnablePair.put(BaseDanmaku.TYPE_SCROLL_RL, true);
+        overlappingEnablePair.put(BaseDanmaku.TYPE_FIX_TOP, true);
 
         mContext = DanmakuContext.create();
         mContext.setDanmakuStyle(IDisplayer.DANMAKU_STYLE_STROKEN, 3)
@@ -65,8 +70,8 @@ public class MyDanmakuView extends DanmakuView implements IControlComponent {
                 .setScaleTextSize(1.2f)
 //                .setCacheStuffer(new SpannedCacheStuffer(), null) // 图文混排使用SpannedCacheStuffer
 //                .setCacheStuffer(new BackgroundCacheStuffer(), null)  // 绘制背景使用BackgroundCacheStuffer
-                .setMaximumLines(null)
-                .preventOverlapping(null).setDanmakuMargin(40);
+                .setMaximumLines(maxLinesPair)
+                .preventOverlapping(overlappingEnablePair).setDanmakuMargin(40);
         mParser = new BaseDanmakuParser() {
             @Override
             protected IDanmakus parse() {
@@ -81,7 +86,6 @@ public class MyDanmakuView extends DanmakuView implements IControlComponent {
 
             @Override
             public void updateTimer(DanmakuTimer timer) {
-
             }
 
             @Override
@@ -96,6 +100,10 @@ public class MyDanmakuView extends DanmakuView implements IControlComponent {
         });
         showFPS(BuildConfig.DEBUG);
         enableDanmakuDrawingCache(true);
+    }
+
+    public void setData(SparseArray<List<DanmakuBaseBean>> data) {
+        danmuData = data;
     }
 
     @Override
@@ -148,7 +156,12 @@ public class MyDanmakuView extends DanmakuView implements IControlComponent {
 
     @Override
     public void setProgress(int duration, int position) {
-
+        position = position / 1000;//按秒，如果按毫秒在上面的updateTimer（）方法里面写
+        if (null != danmuData && danmuData.get(position) != null) {
+            for (DanmakuBaseBean content : danmuData.get(position)) {
+                addDanmaku(content.getContent(), content.isSelf());
+            }
+        }
     }
 
     @Override
@@ -184,7 +197,7 @@ public class MyDanmakuView extends DanmakuView implements IControlComponent {
     /**
      * 发送自定义弹幕
      */
-    public void addDanmakuWithDrawable(String text,int resID) {
+    public void addDanmakuWithDrawable(String text, int resID) {
         mContext.setCacheStuffer(new BackgroundCacheStuffer(), null);
         BaseDanmaku danmaku = mContext.mDanmakuFactory.createDanmaku(BaseDanmaku.TYPE_SCROLL_RL);
         if (danmaku == null) {
@@ -194,7 +207,7 @@ public class MyDanmakuView extends DanmakuView implements IControlComponent {
         int size = PlayerUtils.dp2px(getContext(), 20);
         drawable.setBounds(0, 0, size, size);
 
-        danmaku.text = createSpannable(text,drawable);
+        danmaku.text = createSpannable(text, drawable);
 //        danmaku.padding = 5;
         danmaku.priority = 0;  // 可能会被各种过滤器过滤并隐藏显示
         danmaku.isLive = false;
@@ -208,7 +221,7 @@ public class MyDanmakuView extends DanmakuView implements IControlComponent {
 
     }
 
-    private SpannableStringBuilder createSpannable(String text,Drawable drawable) {
+    private SpannableStringBuilder createSpannable(String text, Drawable drawable) {
         SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(text);
         CenteredImageSpan span = new CenteredImageSpan(drawable);//ImageSpan.ALIGN_BOTTOM);
         spannableStringBuilder.setSpan(span, 0, text.length(), Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
