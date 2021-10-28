@@ -7,6 +7,7 @@ import com.ffzxnet.developutil.R;
 import com.ffzxnet.developutil.base.ui.BaseFragment;
 import com.ffzxnet.developutil.base.ui.adapter.GridSpacingItemDecoration;
 import com.ffzxnet.developutil.ui.album.AlbumActivity;
+import com.ffzxnet.developutil.ui.badge.BadgeTestActivity;
 import com.ffzxnet.developutil.ui.calendar.CalendarActivity;
 import com.ffzxnet.developutil.ui.main.fragment.first.adapter.FirstTestBean;
 import com.ffzxnet.developutil.ui.video_download.DownLoadManageActivity;
@@ -80,6 +81,12 @@ public class SecondFragment extends BaseFragment implements SecondFragmentAdapte
         item.setImage("https://t7.baidu.com/it/u=3624649723,387536556&fm=193&f=GIF");
         datas.add(item);
 
+        item = new FirstTestBean();
+        item.setTitle("桌面角标");
+        item.setContent("桌面角标数字显示");
+        item.setImage("https://t7.baidu.com/it/u=3624649723,387536556&fm=193&f=GIF");
+        datas.add(item);
+
         adapter = new SecondFragmentAdapter(datas, this);
         secondFragmentRv.setAdapter(adapter);
     }
@@ -94,6 +101,8 @@ public class SecondFragment extends BaseFragment implements SecondFragmentAdapte
             redirectActivity(AlbumActivity.class);
         } else if (data.getTitle().contains("视频播放")) {
             redirectActivity(DKVideoPlayActivity.class);
+        }else if (data.getTitle().contains("桌面角标")){
+            redirectActivity(BadgeTestActivity.class);
         }
     }
 }

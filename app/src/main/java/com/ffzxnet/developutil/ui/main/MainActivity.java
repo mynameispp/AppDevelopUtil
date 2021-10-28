@@ -85,9 +85,11 @@ public class MainActivity extends BaseActivity implements MainContract.View, Rad
         switch (checkedId) {
             case R.id.main_bottom_1:
                 mainPresenter.showFragment(MyConstans.Flag_Fragment_First, null);
+                setToolBarTitle("列表");
                 break;
             case R.id.main_bottom_2:
                 mainPresenter.showFragment(MyConstans.Flag_Fragment_Seconde, null);
+                setToolBarTitle("功能");
                 break;
             case R.id.main_bottom_3:
                 //StartActivityResult新版替换方法
@@ -168,6 +170,7 @@ public class MainActivity extends BaseActivity implements MainContract.View, Rad
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        //停止所有下载
         DownLoadUtil.stopAllDownLoading();
     }
 }
