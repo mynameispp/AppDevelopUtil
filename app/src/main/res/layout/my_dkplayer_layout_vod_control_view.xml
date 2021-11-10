@@ -70,6 +70,7 @@
             android:layout_height="match_parent"
             android:gravity="center"
             android:text="下一集"
+            android:textColor="@color/white"
             android:textSize="14sp"
             android:visibility="gone" />
 
@@ -79,6 +80,7 @@
             android:layout_height="match_parent"
             android:gravity="center"
             android:text="选集"
+            android:textColor="@color/white"
             android:textSize="14sp"
             android:visibility="gone" />
 
