@@ -40,6 +40,7 @@ public class MyVideoController extends GestureVideoController implements View.On
     protected ImageView mLockButton;
     protected ProgressBar mLoadingProgress;
     private MyDanmakuView mMyDanmakuView;//弹幕
+    private TitleView titleView;//视频标题
 
     public MyVideoController(@NonNull Context context) {
         this(context, null);
@@ -73,7 +74,7 @@ public class MyVideoController extends GestureVideoController implements View.On
      * @param isLive 是否为直播
      */
     public void addDefaultControlComponent(String title, boolean isLive) {
-        addDefaultControlComponent(title, isLive, null, null, null);
+        addDefaultControlComponent(title, isLive, "", null, null, null);
     }
 
     /**
@@ -81,15 +82,16 @@ public class MyVideoController extends GestureVideoController implements View.On
      *
      * @param title                    标题
      * @param isLive                   是否为直播
+     * @param thumbUrl                 封面
      * @param nextAnthologyClickListen 下一集按钮监听
      * @param layoutManager            选集排列样式
      * @param anthologyAdapter         选集数据适配器
      */
-    public void addDefaultControlComponent(String title, boolean isLive
+    public void addDefaultControlComponent(String title, boolean isLive, String thumbUrl
             , View.OnClickListener nextAnthologyClickListen, RecyclerView.LayoutManager layoutManager
             , RecyclerView.Adapter anthologyAdapter) {
         //播放器顶部标题
-        TitleView titleView = new TitleView(getContext());
+        titleView = new TitleView(getContext());
         titleView.setTitle(title);
         //播放器底部控制控件
         MyVodControlView vodControlView = new MyVodControlView(getContext());//点播控制条
@@ -100,8 +102,6 @@ public class MyVideoController extends GestureVideoController implements View.On
             //选集信息
             vodControlView.setAnthologyVideosAdapter(layoutManager, anthologyAdapter);
         }
-        //竖屏也开启手势操作，默认关闭
-        setEnableInNormal(true);
         //设置弹幕
         mMyDanmakuView = new MyDanmakuView(getContext());
         //设置错误页面
@@ -111,7 +111,7 @@ public class MyVideoController extends GestureVideoController implements View.On
         prepareView.setClickStart();
         ImageView thumb = prepareView.findViewById(R.id.thumb);
         GlideApp.with(thumb)
-                .load("https://t7.baidu.com/it/u=3624649723,387536556&fm=193&f=GIF")
+                .load(thumbUrl)
                 .into(thumb);
         addControlComponent(mMyDanmakuView, errorView, prepareView, titleView);
         if (isLive) {
@@ -119,6 +119,7 @@ public class MyVideoController extends GestureVideoController implements View.On
         } else {
             addControlComponent(vodControlView);
         }
+        //手势控制界面
         addControlComponent(new GestureView(getContext()));
         setCanChangePosition(!isLive);
     }
@@ -239,7 +240,7 @@ public class MyVideoController extends GestureVideoController implements View.On
         return super.onBackPressed();
     }
 
-    public void stopFullScreenPlay(){
+    public void stopFullScreenPlay() {
         stopFullScreen();
     }
 
@@ -261,5 +262,10 @@ public class MyVideoController extends GestureVideoController implements View.On
     //隐藏弹幕
     public void hideDanmaku() {
         mMyDanmakuView.hide();
+    }
+
+    //设置标题
+    public void setVideoTitle(String videoTitle) {
+        titleView.setTitle(videoTitle);
     }
 }

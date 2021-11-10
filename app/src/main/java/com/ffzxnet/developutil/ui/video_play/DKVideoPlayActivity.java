@@ -1,18 +1,18 @@
 package com.ffzxnet.developutil.ui.video_play;
 
-import android.content.pm.ActivityInfo;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ffzxnet.developutil.R;
-import com.ffzxnet.developutil.application.GlideApp;
 import com.ffzxnet.developutil.base.ui.BaseActivity;
 import com.ffzxnet.developutil.constans.MyConstans;
 import com.ffzxnet.developutil.ui.video_download.adapter.DownLoadOverAdapter;
@@ -23,9 +23,8 @@ import com.ffzxnet.developutil.ui.video_play.adapter.AnthologyVideosBean;
 import com.ffzxnet.developutil.ui.video_play.cache_video.VideoProxyCacheManage;
 import com.ffzxnet.developutil.ui.video_play.my_ijk.MyVideoView;
 import com.ffzxnet.developutil.ui.video_play.view.MyVideoController;
-import com.ffzxnet.developutil.ui.video_play.view.MyVodControlView;
-import com.ffzxnet.developutil.ui.video_play.view.danmu.MyDanmakuView;
 import com.ffzxnet.developutil.utils.ui.ToastUtil;
+import com.smarx.notchlib.NotchScreenManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,10 +34,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.OnClick;
-import xyz.doikki.videocontroller.StandardVideoController;
-import xyz.doikki.videocontroller.component.ErrorView;
-import xyz.doikki.videocontroller.component.PrepareView;
-import xyz.doikki.videocontroller.component.TitleView;
 import xyz.doikki.videoplayer.player.VideoView;
 
 public class DKVideoPlayActivity extends BaseActivity implements DownLoadOverAdapter.AdapterListen, AnthologyVideosAdapter.AdapterListen {
@@ -66,11 +61,16 @@ public class DKVideoPlayActivity extends BaseActivity implements DownLoadOverAda
     }
 
     @Override
+    public void isFullScreen(boolean yes) {
+        super.isFullScreen(true);
+    }
+
+    @Override
     public void createdViewByBase(Bundle savedInstanceState) {
         String videoUrl = getBundle().getString(MyConstans.KEY_DATA, "");
         if (!TextUtils.isEmpty(videoUrl)) {
             //外部传入的地址
-            playVideo(videoUrl);
+            playVideo(videoUrl, "外部视频");
         }
         showLocalVideos();
     }
@@ -88,7 +88,7 @@ public class DKVideoPlayActivity extends BaseActivity implements DownLoadOverAda
     }
 
     //播放视频
-    private void playVideo(String videoUrl) {
+    private void playVideo(String videoUrl, String name) {
         if (myVideoView.isPlaying()) {
             myVideoView.pause();
         }
@@ -104,6 +104,10 @@ public class DKVideoPlayActivity extends BaseActivity implements DownLoadOverAda
         if (null == controllerPlayer) {
             //组装播放器控件
             controllerPlayer = new MyVideoController(this);
+            //根据屏幕方向自动进入/退出全屏
+//            controllerPlayer.setEnableOrientation(true);
+            //竖屏也开启手势操作，默认关闭
+            controllerPlayer.setEnableInNormal(true);
             //测试数据
             List<AnthologyVideosBean> anthologyVideosBeans = new ArrayList<>();
             AnthologyVideosBean item;
@@ -113,12 +117,14 @@ public class DKVideoPlayActivity extends BaseActivity implements DownLoadOverAda
                 anthologyVideosBeans.add(item);
             }
             //测试数据End
-            controllerPlayer.addDefaultControlComponent("视频名称", false, new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                }
-            },new GridLayoutManager(this,4),new AnthologyVideosAdapter(anthologyVideosBeans, this));
+            controllerPlayer.addDefaultControlComponent("", false,
+                    "https://t7.baidu.com/it/u=3624649723,387536556&fm=193&f=GIF", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            ToastUtil.showToastShort("点击了下一集");
+                        }
+                    }, new GridLayoutManager(this, 4)
+                    , new AnthologyVideosAdapter(anthologyVideosBeans, this));
             //播放状态
             myVideoView.addOnStateChangeListener(new VideoView.OnStateChangeListener() {
                 @Override
@@ -126,18 +132,7 @@ public class DKVideoPlayActivity extends BaseActivity implements DownLoadOverAda
                     Log.e("ddddddddd播放器状态", playerState + "======");
                     if (playerState == 10) {
                         //10=小屏，11=全屏
-                        isFullScreen(false);
-//                        int uiOptions = myVideoView.getSystemUiVisibility();
-//                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-//                            uiOptions |= View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
-//                        }
-//                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-//                            uiOptions |= View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
-//                        }
-//                        myVideoView.setSystemUiVisibility(uiOptions);
-//                        getWindow().setFlags(
-//                                WindowManager.LayoutParams.FLAG_FULLSCREEN,
-//                                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+                    } else if (playerState == 11) {
                     }
                 }
 
@@ -182,6 +177,8 @@ public class DKVideoPlayActivity extends BaseActivity implements DownLoadOverAda
             //循环播放
             myVideoView.setLooping(true);
         }
+        //设置视频名称
+        controllerPlayer.setVideoTitle(name);
         //自动播放
 //        myVideoView.start();
     }
@@ -202,8 +199,6 @@ public class DKVideoPlayActivity extends BaseActivity implements DownLoadOverAda
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK && myVideoView.isFullScreen()) {
             controllerPlayer.stopFullScreenPlay();
-//                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-//            myVideoView.stopFullScreen();
             return true;
         }
         return super.onKeyDown(keyCode, event);
@@ -223,7 +218,7 @@ public class DKVideoPlayActivity extends BaseActivity implements DownLoadOverAda
 
     @Override
     public void onItemDownLoadOverClick(DownloadVideoInfoBean data) {
-        playVideo(data.getDownLoadUrl().getFilePath());
+        playVideo(data.getDownLoadUrl().getFilePath(), data.getVideoName());
     }
 
     @OnClick({R.id.danmu_send_btn, R.id.danmu_switch})

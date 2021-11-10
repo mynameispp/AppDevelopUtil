@@ -48,6 +48,7 @@ public class SplashActivity extends BaseActivity {
     public void createdViewByBase(Bundle savedInstanceState) {
         //适配异形屏
         NotchScreenManager.getInstance().setDisplayInNotch(this);
+
         boolean isFirstUsed = SharedPreferencesUtil.getInstance().getBoolean(SharedPreferencesUtil.KEY_FIRST_TIME_USE, true);
         boolean isFirstUsed2 = MMKVUtil.getInstance().getBoolean(MMKVUtil.Key_First_Open_App, true);
         if (isFirstUsed) {

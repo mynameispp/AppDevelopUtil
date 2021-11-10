@@ -190,7 +190,7 @@ public abstract class BaseRVListAdapter<T> extends RecyclerView.Adapter {
         int oldSize = datas.size();
         datas.add(position, addData);
         notifyItemInserted(position);
-        notifyItemRangeChanged(oldSize, datas.size());
+        notifyItemRangeChanged(position, datas.size());
     }
 
     /**

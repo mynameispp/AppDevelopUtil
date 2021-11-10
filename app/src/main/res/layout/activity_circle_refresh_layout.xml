@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/include_toolbar" />
+
+    <com.ffzxnet.developutil.ui.refresh.circle_refresh_layout.code.CircleRefreshLayout
+        android:id="@+id/circle_refresh_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:AniBackColor="@color/colorPrimary"
+        app:AniForeColor="@color/white">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/circle_refresh_layout_rv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </com.ffzxnet.developutil.ui.refresh.circle_refresh_layout.code.CircleRefreshLayout>
+</LinearLayout>
