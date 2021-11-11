@@ -62,7 +62,7 @@ public class DKVideoPlayActivity extends BaseActivity implements DownLoadOverAda
 
     @Override
     public void isFullScreen(boolean yes) {
-        super.isFullScreen(true);
+        setFullscreen(true, false, false);
     }
 
     @Override
@@ -104,6 +104,8 @@ public class DKVideoPlayActivity extends BaseActivity implements DownLoadOverAda
         if (null == controllerPlayer) {
             //组装播放器控件
             controllerPlayer = new MyVideoController(this);
+            //适配全屏,如果需要则要搭配AndroidManifest里面的配置使用
+            controllerPlayer.setAdaptCutout(false);
             //根据屏幕方向自动进入/退出全屏
 //            controllerPlayer.setEnableOrientation(true);
             //竖屏也开启手势操作，默认关闭
