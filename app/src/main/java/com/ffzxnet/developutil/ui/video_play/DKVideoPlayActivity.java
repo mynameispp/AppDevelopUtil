@@ -1,12 +1,10 @@
 package com.ffzxnet.developutil.ui.video_play;
 
-import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -20,11 +18,11 @@ import com.ffzxnet.developutil.ui.video_download.bean.DownloadVideoInfoBean;
 import com.ffzxnet.developutil.ui.video_download.utils.DownLoadUtil;
 import com.ffzxnet.developutil.ui.video_play.adapter.AnthologyVideosAdapter;
 import com.ffzxnet.developutil.ui.video_play.adapter.AnthologyVideosBean;
+import com.ffzxnet.developutil.ui.video_play.cache_video.ProgressManagerImpl;
 import com.ffzxnet.developutil.ui.video_play.cache_video.VideoProxyCacheManage;
 import com.ffzxnet.developutil.ui.video_play.my_ijk.MyVideoView;
 import com.ffzxnet.developutil.ui.video_play.view.MyVideoController;
 import com.ffzxnet.developutil.utils.ui.ToastUtil;
-import com.smarx.notchlib.NotchScreenManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -176,12 +174,14 @@ public class DKVideoPlayActivity extends BaseActivity implements DownLoadOverAda
             });
             //设置控制器
             myVideoView.setVideoController(controllerPlayer);
+            //保存播放进度
+            myVideoView.setProgressManager(new ProgressManagerImpl());
             //循环播放
             myVideoView.setLooping(true);
         }
         //设置视频名称
         controllerPlayer.setVideoTitle(name);
-        //自动播放
+        //开始播放
 //        myVideoView.start();
     }
 
