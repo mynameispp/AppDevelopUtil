@@ -64,7 +64,7 @@ public class BadgeTestActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (badgeServiceonnection != null) {
+        if (badgeServiceonnection != null && badgeServiceBind != null) {
             unbindService(badgeServiceonnection);
         }
     }
