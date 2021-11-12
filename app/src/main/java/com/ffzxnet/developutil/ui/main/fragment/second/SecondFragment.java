@@ -12,6 +12,7 @@ import com.ffzxnet.developutil.ui.calendar.CalendarActivity;
 import com.ffzxnet.developutil.ui.main.fragment.first.adapter.FirstTestBean;
 import com.ffzxnet.developutil.ui.refresh.circle_refresh_layout.CircleRefreshLayoutActivity;
 import com.ffzxnet.developutil.ui.refresh.wave_swipe_refresh_layout.WaveSwipeRefreshLayoutActivity;
+import com.ffzxnet.developutil.ui.scancode.TestScanCodeActivity;
 import com.ffzxnet.developutil.ui.video_download.DownLoadManageActivity;
 import com.ffzxnet.developutil.ui.video_play.DKVideoPlayActivity;
 
@@ -101,6 +102,12 @@ public class SecondFragment extends BaseFragment implements SecondFragmentAdapte
         item.setImage("https://t7.baidu.com/it/u=3624649723,387536556&fm=193&f=GIF");
         datas.add(item);
 
+        item = new FirstTestBean();
+        item.setTitle("二维码");
+        item.setContent("扫描，生成，本地图片识别");
+        item.setImage("https://t7.baidu.com/it/u=3624649723,387536556&fm=193&f=GIF");
+        datas.add(item);
+
         adapter = new SecondFragmentAdapter(datas, this);
         secondFragmentRv.setAdapter(adapter);
     }
@@ -121,6 +128,8 @@ public class SecondFragment extends BaseFragment implements SecondFragmentAdapte
             redirectActivity(CircleRefreshLayoutActivity.class);
         } else if (data.getTitle().contains("刷新2")) {
             redirectActivity(WaveSwipeRefreshLayoutActivity.class);
+        } else if (data.getTitle().contains("二维码")) {
+            redirectActivity(TestScanCodeActivity.class);
         }
     }
 }

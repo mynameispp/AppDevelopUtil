@@ -6,6 +6,7 @@ import android.widget.EditText;
 
 import com.ffzxnet.developutil.R;
 import com.ffzxnet.developutil.base.ui.BaseActivity;
+import com.ffzxnet.developutil.base.ui.BaseActivityResultContact;
 import com.ffzxnet.developutil.constans.MyConstans;
 
 import butterknife.BindView;
@@ -36,7 +37,7 @@ public class ForResultActivity extends BaseActivity {
         //返回值
         Intent result = new Intent();
         result.putExtra(MyConstans.KEY_DATA, forResultEd.getText().toString().trim());
-        setResult(110, result);
+        setResult(BaseActivityResultContact.Code1, result);
         finishActivity(this);
     }
 }

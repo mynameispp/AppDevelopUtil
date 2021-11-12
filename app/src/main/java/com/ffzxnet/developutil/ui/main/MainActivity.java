@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import com.ffzxnet.developutil.R;
 import com.ffzxnet.developutil.base.ui.BaseActivity;
+import com.ffzxnet.developutil.base.ui.BaseActivityResultContact;
 import com.ffzxnet.developutil.constans.MyConstans;
 import com.ffzxnet.developutil.evenbus.MyEventbus;
 import com.ffzxnet.developutil.ui.for_result_activity.ForResultActivity;
@@ -58,7 +59,7 @@ public class MainActivity extends BaseActivity implements MainContract.View, Rad
         //默认选中第一个
         mainBottomRg.getChildAt(0).performClick();
         //注册ForResult监听
-        redirectActivityForResult(new ActivityResultC(), new ActivityResultCallback() {
+        redirectActivityForResult(new BaseActivityResultContact(), new ActivityResultCallback() {
             @Override
             public void onActivityResult(Object result) {
                 if (null != result) {
@@ -95,30 +96,11 @@ public class MainActivity extends BaseActivity implements MainContract.View, Rad
                 //StartActivityResult新版替换方法
                 Bundle bundle = new Bundle();
                 bundle.putString(MyConstans.Key_Title_Name, "传进来的数据111");
-                resultLauncher.launch(bundle);
+                //创建请求
+                Intent intent = new Intent(this, ForResultActivity.class);
+                intent.putExtras(bundle);
+                resultLauncher.launch(intent);
                 break;
-        }
-    }
-
-    //StartActivityForResult请求
-    static class ActivityResultC extends ActivityResultContract<Bundle, Object> {
-        @NonNull
-        @Override
-        public Intent createIntent(@NonNull Context context, Bundle input) {
-            //创建请求
-            Intent intent = new Intent(context, ForResultActivity.class);
-            intent.putExtras(input);
-            return intent;
-        }
-
-        @Override
-        public Object parseResult(int resultCode, @Nullable Intent intent) {
-            //回调返回值
-            if (resultCode == 110 && null != intent) {
-                return intent.getStringExtra(MyConstans.KEY_DATA);
-            } else {
-                return null;
-            }
         }
     }
 

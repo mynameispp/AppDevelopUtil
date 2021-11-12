@@ -68,8 +68,15 @@ android {
 
     sourceSets {
         main {
+            jni.srcDirs = []
             jniLibs.srcDirs = ['libs']
         }
+    }
+}
+
+repositories {
+    flatDir {
+        dirs 'libs'
     }
 }
 
@@ -138,4 +145,6 @@ dependencies {
     //弹幕
     implementation 'com.github.ctiao:DanmakuFlameMaster:0.9.25'
     implementation 'com.github.ctiao:ndkbitmap-armv7a:0.9.21'
+    //二维码
+    implementation 'com.google.zxing:core:3.3.2'
 }
