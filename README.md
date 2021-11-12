@@ -11,4 +11,5 @@ app开发共用类
 9.添加日历Demo</br>
 10.添加日历Demo</br>
 11.添加App桌面角标Demo</br>
+12.添加二维码Demo</br>
 
