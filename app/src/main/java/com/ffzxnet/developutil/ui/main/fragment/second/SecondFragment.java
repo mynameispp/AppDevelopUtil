@@ -86,7 +86,7 @@ public class SecondFragment extends BaseFragment implements SecondFragmentAdapte
 
         item = new FirstTestBean();
         item.setTitle("桌面角标");
-        item.setContent("桌面角标数字显示");
+        item.setContent("Logo显示数字角标");
         item.setImage("https://t7.baidu.com/it/u=3624649723,387536556&fm=193&f=GIF");
         datas.add(item);
 

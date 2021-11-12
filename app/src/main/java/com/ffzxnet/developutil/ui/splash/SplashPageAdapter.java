@@ -1,4 +1,4 @@
-package com.ffzxnet.developutil.ui.boot_page;
+package com.ffzxnet.developutil.ui.splash;
 
 import android.view.LayoutInflater;
 import android.view.View;

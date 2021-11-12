@@ -44,14 +44,28 @@ public class BadgeTestActivity extends BaseActivity {
                 bindService(new Intent(this, BadgeService.class), badgeServiceonnection, Context.BIND_AUTO_CREATE);
                 break;
             case R.id.badge_test_add:
-                badgeServiceBind.setNoticeBadgeNumber(testNumber++);
+                if (badgeServiceBind != null) {
+                    badgeServiceBind.setNoticeBadgeNumber(testNumber++);
+                }
                 break;
             case R.id.badge_test_clear:
-                badgeServiceBind.setNoticeBadgeNumber(0);
+                if (badgeServiceBind != null) {
+                    badgeServiceBind.setNoticeBadgeNumber(0);
+                }
                 break;
             case R.id.badge_test_auto_test:
-                badgeServiceBind.starAutoTest();
+                if (badgeServiceBind != null) {
+                    badgeServiceBind.starAutoTest();
+                }
                 break;
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (badgeServiceonnection != null) {
+            unbindService(badgeServiceonnection);
         }
     }
 

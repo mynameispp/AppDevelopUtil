@@ -130,6 +130,7 @@ public class ApiImp {
                         .header("Token", "Token");
                 Request request = requestBuilder.build();
                 Response response = chain.proceed(request);
+                //重定向
 //                if ((response.code() == 404 ||response.code() == 500 )
 //                        && !response.request().url().toString().contains("getdomain")){
 ////                    String url = "http://39.102.44.215:8088/getdomain";

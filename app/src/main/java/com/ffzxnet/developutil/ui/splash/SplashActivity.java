@@ -1,4 +1,4 @@
-package com.ffzxnet.developutil.ui.boot_page;
+package com.ffzxnet.developutil.ui.splash;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -12,7 +12,6 @@ import com.ffzxnet.developutil.R;
 import com.ffzxnet.developutil.base.ui.BaseActivity;
 import com.ffzxnet.developutil.ui.login.LoginActivity;
 import com.ffzxnet.developutil.ui.main.MainActivity;
-import com.ffzxnet.developutil.utils.tools.LogUtil;
 import com.ffzxnet.developutil.utils.tools.MMKVUtil;
 import com.ffzxnet.developutil.utils.tools.SharedPreferencesUtil;
 import com.smarx.notchlib.NotchScreenManager;
