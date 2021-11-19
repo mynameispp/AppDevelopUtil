@@ -8,7 +8,7 @@ import com.ffzxnet.developutil.utils.tools.FileUtil;
 import java.io.File;
 import java.lang.ref.SoftReference;
 
-//视频缓存代理
+//视频缓存代理 -- m3u8格式不支持缓存
 public class VideoProxyCacheManage {
     private static volatile HttpProxyCacheServer cacheServer;
 

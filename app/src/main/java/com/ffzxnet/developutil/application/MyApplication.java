@@ -70,7 +70,7 @@ public class MyApplication extends Application {
         VideoDownloadConfig config = new VideoDownloadManager.Build(this)
                 .setCacheRoot(file.getAbsolutePath())
                 .setTimeOut(DownloadConstants.READ_TIMEOUT, DownloadConstants.CONN_TIMEOUT)
-                .setConcurrentCount(DownloadConstants.CONCURRENT)//下载总数
+                .setConcurrentCount(1)//下载总数
                 .setIgnoreCertErrors(false)
                 .setShouldM3U8Merged(false)
                 .buildConfig();

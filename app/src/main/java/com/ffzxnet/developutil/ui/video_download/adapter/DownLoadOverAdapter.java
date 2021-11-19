@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.ffzxnet.developutil.R;
+import com.ffzxnet.developutil.base.ui.adapter.BaseRVListAdapter;
 import com.ffzxnet.developutil.ui.video_download.bean.DownloadVideoInfoBean;
 import com.ffzxnet.developutil.ui.video_download.utils.TimeUtils;
 
@@ -20,9 +21,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class DownLoadOverAdapter extends RecyclerView.Adapter implements View.OnClickListener {
+public class DownLoadOverAdapter extends BaseRVListAdapter<DownloadVideoInfoBean> implements View.OnClickListener {
 
-    private List<DownloadVideoInfoBean> datas;
     private AdapterListen mAdapterListem;
     private boolean isEdit = false;
 
@@ -34,42 +34,44 @@ public class DownLoadOverAdapter extends RecyclerView.Adapter implements View.On
         isEdit = edit;
     }
 
-    public List<DownloadVideoInfoBean> getDatas() {
-        return datas;
-    }
 
     public interface AdapterListen {
         void onItemDownLoadOverClick(DownloadVideoInfoBean data);
     }
 
-    public void setDatas(List<DownloadVideoInfoBean> datas) {
-        this.datas = datas;
-        notifyDataSetChanged();
-    }
-
     public DownLoadOverAdapter(List<DownloadVideoInfoBean> datas, AdapterListen mAdapterListem) {
-        super();
-        if (datas == null) {
-            datas = new ArrayList<>();
-        }
-        this.datas = datas;
+        super(datas);
         this.mAdapterListem = mAdapterListem;
     }
 
-    @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public int getMyItemViewType(int position) {
+        return 0;
+    }
+
+    @Override
+    public RecyclerView.ViewHolder onMyCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_download_over_item, parent, false);
         return new MyHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        ((MyHolder) holder).setData(datas.get(position), isEdit);
+    public void onMyBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        ((MyHolder) holder).setData(getDatas().get(position), isEdit);
 
-        holder.itemView.setTag(R.id.tagId_1, datas.get(position));
+        holder.itemView.setTag(R.id.tagId_1, getDatas().get(position));
         holder.itemView.setTag(R.id.tagId_2, holder);
         holder.itemView.setOnClickListener(this);
+    }
+
+    @Override
+    public int onAddTopItemCount() {
+        return 0;
+    }
+
+    @Override
+    public int onAddBottomItemCount() {
+        return 0;
     }
 
     @Override
@@ -88,11 +90,6 @@ public class DownLoadOverAdapter extends RecyclerView.Adapter implements View.On
                 mAdapterListem.onItemDownLoadOverClick(data);
             }
         }
-    }
-
-    @Override
-    public int getItemCount() {
-        return datas.size();
     }
 
     static class MyHolder extends RecyclerView.ViewHolder {

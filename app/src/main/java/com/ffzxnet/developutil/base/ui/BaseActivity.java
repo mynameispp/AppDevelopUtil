@@ -2,6 +2,7 @@ package com.ffzxnet.developutil.base.ui;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Color;
@@ -26,7 +27,9 @@ import com.ffzxnet.developutil.net.net_status.NetworkLiveData;
 import com.ffzxnet.developutil.utils.tools.LogUtil;
 import com.ffzxnet.developutil.utils.tools.SetTextViewDrawable;
 import com.ffzxnet.developutil.utils.ui.LoadingUtil;
+import com.ffzxnet.developutil.utils.ui.PermissionDescriptionDialog;
 import com.ffzxnet.developutil.utils.ui.ToastUtil;
+import com.tbruyelle.rxpermissions3.RxPermissions;
 import com.trello.rxlifecycle4.components.support.RxAppCompatActivity;
 
 import java.net.HttpURLConnection;
@@ -38,11 +41,13 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContract;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import butterknife.ButterKnife;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.core.Observer;
 import io.reactivex.rxjava3.disposables.Disposable;
+import io.reactivex.rxjava3.functions.Consumer;
 
 /**
  * 创建者： feifan.pi 在 2017/3/6.
@@ -60,6 +65,9 @@ public abstract class BaseActivity extends RxAppCompatActivity implements BaseAc
     protected boolean hasMenu;//是否显示菜单
     //新版StartActivityResult
     protected ActivityResultLauncher resultLauncher;
+    //权限说明
+    private PermissionDescriptionDialog permissionDescriptionDialog;
+    private RxPermissions rxPermissions;
 
     //需要全屏，继承类覆写这个方法即可，参考SplashActivity
     public void isFullScreen(boolean yes) {
@@ -354,6 +362,7 @@ public abstract class BaseActivity extends RxAppCompatActivity implements BaseAc
     }
 
     private boolean goLogin;
+
     @Override
     public void catchApiSubscriberError(ErrorResponse error) {
         if (error.getCode() == HttpURLConnection.HTTP_UNAUTHORIZED && !goLogin) {
@@ -555,6 +564,63 @@ public abstract class BaseActivity extends RxAppCompatActivity implements BaseAc
                 // 这里需要重新刷新当前页面中使用到的资源
                 MyApplication.language = locale;
                 recreate();
+            }
+        }
+    }
+
+    /**
+     * 请求权限
+     *
+     * @param callBak 授权结果
+     * @param perms   要申请的权限
+     */
+    public void CheckPermissionDialog(CheckPermissionCallBak callBak, String... perms) {
+        if (rxPermissions == null) {
+            rxPermissions = new RxPermissions(this);
+        }
+        boolean hasPermission = true;
+        for (String perm : perms) {
+            if (ContextCompat.checkSelfPermission(this, perm)
+                    != PackageManager.PERMISSION_GRANTED) {
+                hasPermission = false;
+                break;
+            }
+        }
+        if (hasPermission) {
+            callBak.hasPermission(true);
+        } else {
+            if (permissionDescriptionDialog == null) {
+                permissionDescriptionDialog = new PermissionDescriptionDialog();
+            }
+            Bundle bundle = new Bundle();
+            bundle.putStringArray(PermissionDescriptionDialog.PermissionData, perms);
+            permissionDescriptionDialog.setArguments(bundle);
+            permissionDescriptionDialog.setOnclickListen(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (null != permissionDescriptionDialog) {
+                        permissionDescriptionDialog.dismiss();
+                    }
+                    rxPermissions.request(perms).subscribe(new Consumer<Boolean>() {
+                        @Override
+                        public void accept(Boolean aBoolean) throws Exception {
+                            if (aBoolean) {
+                                callBak.hasPermission(true);
+                            } else {
+                                //权限拒绝 申请权限
+                                callBak.hasPermission(false);
+                                ToastUtil.showToastShort("没有权限！请到系统设置里面开启对应权限");
+                            }
+                        }
+                    });
+                }
+            });
+
+            if (isActive) {
+                if (permissionDescriptionDialog.isVisible()) {
+                    permissionDescriptionDialog.dismiss();
+                }
+                permissionDescriptionDialog.showNow(getSupportFragmentManager(), "permissionDescriptionDialog");
             }
         }
     }

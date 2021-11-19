@@ -9,19 +9,17 @@ import android.widget.ImageView;
 import com.ffzxnet.developutil.R;
 import com.ffzxnet.developutil.application.GlideApp;
 import com.ffzxnet.developutil.base.ui.BaseActivity;
+import com.ffzxnet.developutil.base.ui.CheckPermissionCallBak;
 import com.ffzxnet.developutil.ui.album.util.GlideEngine;
 import com.ffzxnet.developutil.utils.tools.LogUtil;
-import com.ffzxnet.developutil.utils.ui.ToastUtil;
 import com.huantansheng.easyphotos.EasyPhotos;
 import com.huantansheng.easyphotos.callback.SelectCallback;
 import com.huantansheng.easyphotos.models.album.entity.Photo;
-import com.tbruyelle.rxpermissions3.RxPermissions;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import io.reactivex.rxjava3.functions.Consumer;
 
 public class AlbumActivity extends BaseActivity {
     @BindView(R.id.album_show_image)
@@ -33,7 +31,6 @@ public class AlbumActivity extends BaseActivity {
     @BindView(R.id.album_camera_image)
     Button albumCameraImage;
 
-    private RxPermissions rxPermissions;
 
     @Override
     public int getContentViewByBase(Bundle savedInstanceState) {
@@ -44,7 +41,6 @@ public class AlbumActivity extends BaseActivity {
     public void createdViewByBase(Bundle savedInstanceState) {
         initToolBar("", "相册");
         setToolBarBackground(R.color.white);
-        rxPermissions = new RxPermissions(this);
         EasyPhotos.preLoad(this);
 
         GlideApp.with(albumShowImage)
@@ -59,34 +55,44 @@ public class AlbumActivity extends BaseActivity {
 
     @OnClick({R.id.album_select_single_image, R.id.album_select_multiple_image, R.id.album_camera_image})
     public void onViewClicked(View view) {
-        rxPermissions.request(Manifest.permission.WRITE_EXTERNAL_STORAGE
-                , Manifest.permission.READ_EXTERNAL_STORAGE
-                , Manifest.permission.CAMERA)
-                .subscribe(new Consumer<Boolean>() {
+        switch (view.getId()) {
+            case R.id.album_select_single_image:
+                CheckPermissionDialog(new CheckPermissionCallBak() {
                     @Override
-                    public void accept(Boolean aBoolean) throws Throwable {
-                        if (aBoolean) {
-                            switch (view.getId()) {
-                                case R.id.album_select_single_image:
-                                    takeSinglePicture(1);
-                                    break;
-                                case R.id.album_select_multiple_image:
-                                    takeSinglePicture(9);
-                                    break;
-                                case R.id.album_camera_image:
-                                    takePictureByCamera();
-                                    break;
-                            }
-                        } else {
-                            //没有权限
-                            ToastUtil.showToastShort("该功能需要权限才能正常使用");
+                    public void hasPermission(boolean success) {
+                        if (success) {
+                            takeSinglePicture(1);
                         }
                     }
-                });
+                }, Manifest.permission.READ_EXTERNAL_STORAGE);
+                break;
+            case R.id.album_select_multiple_image:
+                CheckPermissionDialog(new CheckPermissionCallBak() {
+                    @Override
+                    public void hasPermission(boolean success) {
+                        if (success) {
+                            takeSinglePicture(9);
+                        }
+                    }
+                }, Manifest.permission.READ_EXTERNAL_STORAGE);
+                break;
+            case R.id.album_camera_image:
+                CheckPermissionDialog(new CheckPermissionCallBak() {
+                                          @Override
+                                          public void hasPermission(boolean success) {
+                                              if (success) {
+                                                  takePictureByCamera();
+                                              }
+                                          }
+                                      }, Manifest.permission.CAMERA
+                        , Manifest.permission.WRITE_EXTERNAL_STORAGE
+                        , Manifest.permission.READ_EXTERNAL_STORAGE);
+                break;
+        }
     }
 
     private void takeSinglePicture(int i) {
-        EasyPhotos.createAlbum(this, true, false, GlideEngine.getInstance())
+        EasyPhotos.createAlbum(this, false, false, GlideEngine.getInstance())
                 .setCount(i)
                 .setMinFileSize(1024 * 10)
                 .setMinWidth(500)

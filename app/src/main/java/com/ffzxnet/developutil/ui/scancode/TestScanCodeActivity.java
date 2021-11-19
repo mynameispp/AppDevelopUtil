@@ -24,11 +24,10 @@ import android.widget.Toast;
 import com.ffzxnet.developutil.R;
 import com.ffzxnet.developutil.base.ui.BaseActivity;
 import com.ffzxnet.developutil.base.ui.BaseActivityResultContact;
+import com.ffzxnet.developutil.base.ui.CheckPermissionCallBak;
 import com.ffzxnet.developutil.ui.scancode.activity.MyCaptureActivity;
 import com.ffzxnet.developutil.ui.scancode.encoding.EncodingHandler;
 import com.ffzxnet.developutil.ui.scancode.tools.VersionUtils;
-import com.ffzxnet.developutil.utils.ui.ToastUtil;
-import com.tbruyelle.rxpermissions3.RxPermissions;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -41,7 +40,6 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.annotation.NonNull;
 import butterknife.BindView;
 import butterknife.OnClick;
-import io.reactivex.rxjava3.functions.Consumer;
 
 public class TestScanCodeActivity extends BaseActivity {
     @BindView(R.id.scan_code)
@@ -57,7 +55,6 @@ public class TestScanCodeActivity extends BaseActivity {
     @BindView(R.id.save_create_code_img_btn)
     Button saveCreateCodeImgBtn;
 
-    private RxPermissions rxPermissions;
     private String SAVE_PIC_PATH;//保存到SD卡
     private Bitmap erCodeBitmap;//生成的二维码图
     private MyHandler myHandler;
@@ -69,7 +66,6 @@ public class TestScanCodeActivity extends BaseActivity {
 
     @Override
     public void createdViewByBase(Bundle savedInstanceState) {
-        rxPermissions = new RxPermissions(this);
         initToolBar("", "二维码");
 
         redirectActivityForResult(new BaseActivityResultContact(), new ActivityResultCallback() {
@@ -91,19 +87,15 @@ public class TestScanCodeActivity extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.scan_code:
-                rxPermissions.request(Manifest.permission.CAMERA, Manifest.permission.VIBRATE
-                        , Manifest.permission.READ_EXTERNAL_STORAGE)
-                        .subscribe(new Consumer<Boolean>() {
-                            @Override
-                            public void accept(Boolean aBoolean) throws Throwable {
-                                if (aBoolean) {
-                                    Intent intent = new Intent(TestScanCodeActivity.this, MyCaptureActivity.class);
-                                    resultLauncher.launch(intent);
-                                } else {
-                                    ToastUtil.showToastShort("获取权限失败");
-                                }
-                            }
-                        });
+                CheckPermissionDialog(new CheckPermissionCallBak() {
+                    @Override
+                    public void hasPermission(boolean success) {
+                        if (success) {
+                            Intent intent = new Intent(TestScanCodeActivity.this, MyCaptureActivity.class);
+                            resultLauncher.launch(intent);
+                        }
+                    }
+                }, Manifest.permission.CAMERA);
                 break;
             case R.id.create_code_img_btn:
                 //创建二维码

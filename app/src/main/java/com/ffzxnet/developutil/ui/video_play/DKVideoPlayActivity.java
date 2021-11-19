@@ -23,6 +23,7 @@ import com.ffzxnet.developutil.ui.video_play.cache_video.VideoProxyCacheManage;
 import com.ffzxnet.developutil.ui.video_play.my_ijk.MyVideoView;
 import com.ffzxnet.developutil.ui.video_play.view.MyVideoController;
 import com.ffzxnet.developutil.utils.ui.ToastUtil;
+import com.ffzxnet.developutil.utils.video_download.model.VideoTaskItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -77,6 +78,16 @@ public class DKVideoPlayActivity extends BaseActivity implements DownLoadOverAda
     private void showLocalVideos() {
         videoPlayLocalVideoRv.setLayoutManager(new LinearLayoutManager(this));
         DownLoadOverAdapter adapter = new DownLoadOverAdapter(DownLoadUtil.getDownLoadOver(), this);
+
+        //临时数据
+        DownloadVideoInfoBean m3u8 = new DownloadVideoInfoBean();
+        m3u8.setVideoName("M3u8在线视频");
+        m3u8.setVideoCount(1);
+        VideoTaskItem videoTaskItem = new VideoTaskItem(
+                "https://s1.zoubuting.com/20210726/zkt9RORJ/index.m3u8", "https://t7.baidu.com/it/u=3624649723,387536556&fm=193&f=GIF", "test999", "group-1");
+        m3u8.setDownLoadUrl(videoTaskItem);
+        adapter.add(m3u8);
+
         videoPlayLocalVideoRv.setAdapter(adapter);
     }
 
@@ -87,16 +98,25 @@ public class DKVideoPlayActivity extends BaseActivity implements DownLoadOverAda
 
     //播放视频
     private void playVideo(String videoUrl, String name) {
+        if (TextUtils.isEmpty(videoUrl)) {
+            ToastUtil.showToastShort("播放地址为空");
+            return;
+        }
         if (myVideoView.isPlaying()) {
             myVideoView.pause();
         }
         myVideoView.release();
         //设置视频地址或缓存
-        if (videoUrl.indexOf("http") == 0) {
-            //网络视频缓存
+        if (videoUrl.indexOf("http") == 0 && videoUrl.lastIndexOf(".m3u8") < 0) {
+            //网络视频缓存.m3u8不支持缓存
             myVideoView.setUrl(VideoProxyCacheManage.getInstance(this).getProxyUrl(videoUrl));
         } else {
-            myVideoView.setUrl(videoUrl);
+            if (videoUrl.indexOf("http") != 0 && videoUrl.lastIndexOf(".m3u8") > 0) {
+                ToastUtil.showToastShort("本地M3U8视频需要先转成Mp4才能播放");
+                return;
+            } else {
+                myVideoView.setUrl(videoUrl);
+            }
         }
 
         if (null == controllerPlayer) {
@@ -220,7 +240,11 @@ public class DKVideoPlayActivity extends BaseActivity implements DownLoadOverAda
 
     @Override
     public void onItemDownLoadOverClick(DownloadVideoInfoBean data) {
-        playVideo(data.getDownLoadUrl().getFilePath(), data.getVideoName());
+        if (!TextUtils.isEmpty(data.getDownLoadUrl().getFilePath())) {
+            playVideo(data.getDownLoadUrl().getFilePath(), data.getVideoName());
+        } else {
+            playVideo(data.getDownLoadUrl().getUrl(), data.getVideoName());
+        }
     }
 
     @OnClick({R.id.danmu_send_btn, R.id.danmu_switch})

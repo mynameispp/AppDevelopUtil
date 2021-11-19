@@ -59,8 +59,8 @@
             app:corner_color="@color/colorPrimary"
             app:frame_color="@color/viewfinder_frame"
             app:label_text="二维码/条形码扫描"
-            app:label_text_color="@color/colorAccent"
-            app:laser_color="@color/colorPrimaryDark"
+            app:label_text_color="@color/colorPrimary"
+            app:laser_color="@color/colorAccent"
             app:mask_color="@color/viewfinder_mask"
             app:result_color="@color/result_view"
             app:result_point_color="@color/result_point_color" />

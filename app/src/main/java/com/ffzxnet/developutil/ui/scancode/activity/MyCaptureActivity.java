@@ -71,14 +71,6 @@ public class MyCaptureActivity extends BaseCaptureActivity implements SurfaceHol
 
     }
 
-//    @Override
-//    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//        if (resultCode == Activity.RESULT_OK && requestCode == 100) {
-//            onActivityResultForLocalPhotos(data);
-//        }
-//    }
-
     /**
      * 选择本地图片处理结果
      *
