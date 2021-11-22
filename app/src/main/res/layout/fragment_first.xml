@@ -4,8 +4,13 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/first_fragment_rv"
+    <com.ffzxnet.developutil.utils.ui.RecyclerViewDampingLayoutView
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/first_fragment_rv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </com.ffzxnet.developutil.utils.ui.RecyclerViewDampingLayoutView>
 </LinearLayout>
