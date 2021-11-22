@@ -51,6 +51,8 @@ public class PermissionDescriptionDialog extends DialogFragment {
                 , "<b><tt>获取设备信息<tt></b> <br>校里单点登录，Wifi打卡，消息推送，需要获取设备信息权限");
         permissionDescriptionInfo.put(Manifest.permission.CALL_PHONE
                 , "<b><tt>拨打电话<tt></b> <br>点击拨打电话，需要拨打电话权限");
+        permissionDescriptionInfo.put(Manifest.permission.USE_BIOMETRIC
+                , "<b><tt>指纹解密<tt></b> <br>判断手机是否支持指纹，需要拨打电话权限");
     }
 
     private View.OnClickListener clickListener;

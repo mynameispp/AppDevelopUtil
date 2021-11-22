@@ -48,8 +48,8 @@ public class SplashActivity extends BaseActivity {
         //适配异形屏
         NotchScreenManager.getInstance().setDisplayInNotch(this);
 
-        boolean isFirstUsed = SharedPreferencesUtil.getInstance().getBoolean(SharedPreferencesUtil.KEY_FIRST_TIME_USE, true);
-        boolean isFirstUsed2 = MMKVUtil.getInstance().getBoolean(MMKVUtil.Key_First_Open_App, true);
+//        boolean isFirstUsed = SharedPreferencesUtil.getInstance().getBoolean(SharedPreferencesUtil.KEY_FIRST_TIME_USE, true);
+        boolean isFirstUsed = MMKVUtil.getInstance().getBoolean(MMKVUtil.Key_First_Open_App, true);
         if (isFirstUsed) {
             bootPageVs.inflate();
             ViewPager2 bootViewPage = findViewById(R.id.boot_page_vp);
@@ -59,7 +59,7 @@ public class SplashActivity extends BaseActivity {
             pictures.add(R.mipmap.ic_launcher);
             pictures.add(R.mipmap.ic_launcher);
             bootViewPage.setAdapter(new SplashPageAdapter(pictures));
-            SharedPreferencesUtil.getInstance().putBoolean(SharedPreferencesUtil.KEY_FIRST_TIME_USE, false);
+//            SharedPreferencesUtil.getInstance().putBoolean(SharedPreferencesUtil.KEY_FIRST_TIME_USE, false);
             MMKVUtil.getInstance().putBoolean(MMKVUtil.Key_First_Open_App, false);
             Button intoMainActivity = findViewById(R.id.splash_into_main_btn);
             intoMainActivity.setOnClickListener(new View.OnClickListener() {

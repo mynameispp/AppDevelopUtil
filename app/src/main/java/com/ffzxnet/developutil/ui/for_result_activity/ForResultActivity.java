@@ -37,7 +37,7 @@ public class ForResultActivity extends BaseActivity {
         //返回值
         Intent result = new Intent();
         result.putExtra(MyConstans.KEY_DATA, forResultEd.getText().toString().trim());
-        setResult(BaseActivityResultContact.Code1, result);
+        setResult(BaseActivityResultContact.ResultCode_Code1, result);
         finishActivity(this);
     }
 }
