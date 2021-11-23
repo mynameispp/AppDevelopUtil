@@ -65,7 +65,6 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_below="@id/myVideoPlay"
         android:layout_marginTop="15dp"
         app:layout_constraintTop_toBottomOf="@id/danmu_input_layout" />
 </androidx.constraintlayout.widget.ConstraintLayout>

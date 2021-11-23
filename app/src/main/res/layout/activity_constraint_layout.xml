@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/tools_bar_title"
+        layout="@layout/include_toolbar" />
+
+    <TextView
+        android:id="@+id/title1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:text="平铺均分\n先让按钮并排紧挨，然后选中一排按钮，右键选择Center->Horizontally即可实现平均分布"
+        android:textColor="@color/black"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tools_bar_title" />
+
+    <TextView
+        android:id="@+id/ping1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@color/blue"
+        android:text="平铺1"
+        app:layout_constraintEnd_toStartOf="@+id/ping2"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/title1" />
+
+    <TextView
+        android:id="@+id/ping2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/red"
+        android:text="平铺2"
+        app:layout_constraintEnd_toStartOf="@+id/ping3"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/ping1"
+        app:layout_constraintTop_toTopOf="@id/ping1" />
+
+    <TextView
+        android:id="@+id/ping3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/blue"
+        android:text="平铺3"
+        app:layout_constraintEnd_toStartOf="@+id/ping4"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/ping2"
+        app:layout_constraintTop_toTopOf="@id/ping2" />
+
+    <TextView
+        android:id="@+id/ping4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/red"
+        android:text="平铺4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/ping3"
+        app:layout_constraintTop_toTopOf="@id/ping3" />
+
+    <TextView
+        android:id="@+id/ping5"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@color/blue"
+        android:gravity="center"
+        android:text="平铺5"
+        app:layout_constraintEnd_toStartOf="@+id/ping6"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ping1" />
+
+    <TextView
+        android:id="@+id/ping6"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/red"
+        android:gravity="center"
+        android:text="平铺6"
+        app:layout_constraintEnd_toStartOf="@+id/ping7"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/ping5"
+        app:layout_constraintTop_toTopOf="@id/ping5" />
+
+    <TextView
+        android:id="@+id/ping7"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/blue"
+        android:gravity="center"
+        android:text="平铺7"
+        app:layout_constraintEnd_toStartOf="@+id/ping8"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/ping6"
+        app:layout_constraintTop_toTopOf="@id/ping5" />
+
+    <TextView
+        android:id="@+id/ping8"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/red"
+        android:gravity="center"
+        android:text="平铺8"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/ping7"
+        app:layout_constraintTop_toTopOf="@id/ping5" />
+
+
+    <TextView
+        android:id="@+id/title2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="首页图文"
+        android:textColor="@color/black"
+        app:layout_constraintLeft_toLeftOf="@id/title1"
+        app:layout_constraintTop_toBottomOf="@id/ping5" />
+
+    <ImageView
+        android:id="@+id/tu_image_img"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="10dp"
+        android:src="@mipmap/icon_default_post_img"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/title2" />
+
+    <TextView
+        android:id="@+id/tu_image_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:text="标题"
+        android:textColor="@color/black"
+        app:layout_constraintLeft_toRightOf="@id/tu_image_img"
+        app:layout_constraintTop_toTopOf="@id/tu_image_img" />
+
+    <TextView
+        android:id="@+id/tu_image_title_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="副标题"
+        android:textColor="@color/black_33"
+        android:textSize="@dimen/size_sp_12"
+        app:layout_constraintBottom_toBottomOf="@id/tu_image_img"
+        app:layout_constraintLeft_toLeftOf="@id/tu_image_title" />
+
+    <TextView
+        android:id="@+id/title3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="垂直平分\n先让按钮垂直紧挨，然后选中一排按钮，右键选择Center->Vertically即可实现平均分布,如果不需要平均到父类底部，将最后一个View的Bottom_ToBottom改成要对应的ID(当前测试是以左边的红线为父类高度)"
+        android:textColor="@color/black"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintLeft_toLeftOf="@id/title2"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tu_image_img" />
+
+    <View
+        android:id="@+id/chui_zhi_view"
+        android:layout_width="1dp"
+        android:layout_height="160dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="@dimen/size_dp_10"
+        android:background="@color/red"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/title3" />
+
+    <TextView
+        android:id="@+id/ping9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:background="@color/blue"
+        android:text="平分9"
+        app:layout_constraintBottom_toTopOf="@+id/ping10"
+        app:layout_constraintLeft_toRightOf="@id/chui_zhi_view"
+        app:layout_constraintTop_toBottomOf="@+id/title3"
+        app:layout_constraintTop_toTopOf="@id/chui_zhi_view" />
+
+    <TextView
+        android:id="@+id/ping10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/red"
+        android:text="平分10"
+        app:layout_constraintBottom_toTopOf="@+id/ping11"
+        app:layout_constraintLeft_toLeftOf="@id/ping9"
+        app:layout_constraintTop_toBottomOf="@+id/ping9" />
+
+    <TextView
+        android:id="@+id/ping11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/blue"
+        android:text="平分11"
+        app:layout_constraintBottom_toTopOf="@+id/ping12"
+        app:layout_constraintLeft_toLeftOf="@id/ping10"
+        app:layout_constraintTop_toBottomOf="@+id/ping10" />
+
+    <TextView
+        android:id="@+id/ping12"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/red"
+        android:text="平分12"
+        app:layout_constraintBottom_toBottomOf="@id/chui_zhi_view"
+        app:layout_constraintLeft_toLeftOf="@id/ping11"
+        app:layout_constraintTop_toBottomOf="@+id/ping11" />
+
+    <TextView
+        android:id="@+id/ping13"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginLeft="35dp"
+        android:background="@color/blue"
+        android:gravity="center"
+        android:text="平分13"
+        app:layout_constraintBottom_toTopOf="@+id/ping14"
+        app:layout_constraintLeft_toRightOf="@id/ping9"
+        app:layout_constraintTop_toBottomOf="@+id/title3"
+        app:layout_constraintTop_toTopOf="@id/chui_zhi_view" />
+
+    <TextView
+        android:id="@+id/ping14"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:background="@color/red"
+        android:gravity="center"
+        android:text="平分14"
+        app:layout_constraintBottom_toTopOf="@+id/ping15"
+        app:layout_constraintLeft_toLeftOf="@id/ping13"
+        app:layout_constraintTop_toBottomOf="@+id/ping13" />
+
+    <TextView
+        android:id="@+id/ping15"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:background="@color/blue"
+        android:gravity="center"
+        android:text="平分15"
+        app:layout_constraintBottom_toTopOf="@+id/ping16"
+        app:layout_constraintLeft_toLeftOf="@id/ping14"
+        app:layout_constraintTop_toBottomOf="@+id/ping14" />
+
+    <TextView
+        android:id="@+id/ping16"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:background="@color/red"
+        android:gravity="center"
+        android:text="平分16"
+        app:layout_constraintBottom_toBottomOf="@id/chui_zhi_view"
+        app:layout_constraintLeft_toLeftOf="@id/ping15"
+        app:layout_constraintTop_toBottomOf="@+id/ping15" />
+
+    <TextView
+        android:id="@+id/title4"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="按比例/比重排版"
+        android:textColor="@color/black"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintLeft_toLeftOf="@id/title2"
+        app:layout_constraintTop_toBottomOf="@id/chui_zhi_view" />
+
+    <TextView
+        android:id="@+id/radio_1"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:background="@color/red"
+        android:gravity="center"
+        android:text="Ratio,2:1"
+        android:textColor="@color/white"
+        app:layout_constraintDimensionRatio="2:1"
+        app:layout_constraintRight_toLeftOf="@id/radio_2"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/title4" />
+
+    <TextView
+        android:id="@+id/radio_2"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:background="@color/red"
+        android:gravity="center"
+        android:text="Ratio,1:1"
+        android:textColor="@color/white"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintLeft_toRightOf="@id/radio_1"
+        app:layout_constraintRight_toLeftOf="@id/radio_3"
+        app:layout_constraintTop_toTopOf="@id/radio_1"/>
+
+    <TextView
+        android:id="@+id/radio_3"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:background="@color/blue"
+        android:gravity="center"
+        android:text="Ratio,3:1"
+        android:textColor="@color/white"
+        app:layout_constraintDimensionRatio="3:1"
+        app:layout_constraintLeft_toRightOf="@id/radio_2"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/radio_2" />
+
+    <TextView
+        android:id="@+id/radio_4"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/blue"
+        android:gravity="center"
+        android:text="weight:3"
+        android:textColor="@color/white"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintHorizontal_weight="3"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/radio_5"
+        app:layout_constraintTop_toBottomOf="@id/radio_1" />
+
+    <TextView
+        android:id="@+id/radio_5"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:background="@color/red"
+        android:gravity="center"
+        android:text="weight:7"
+        android:textColor="@color/white"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintHorizontal_weight="7"
+        app:layout_constraintLeft_toRightOf="@id/radio_4"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/radio_4" />
+</androidx.constraintlayout.widget.ConstraintLayout>

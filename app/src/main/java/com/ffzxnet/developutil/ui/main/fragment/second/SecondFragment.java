@@ -9,6 +9,7 @@ import com.ffzxnet.developutil.base.ui.adapter.GridSpacingItemDecoration;
 import com.ffzxnet.developutil.ui.album.AlbumActivity;
 import com.ffzxnet.developutil.ui.badge.BadgeTestActivity;
 import com.ffzxnet.developutil.ui.calendar.CalendarActivity;
+import com.ffzxnet.developutil.ui.constraiml_layout_test.TestConstraintLayoutActivity;
 import com.ffzxnet.developutil.ui.main.fragment.first.adapter.FirstTestBean;
 import com.ffzxnet.developutil.ui.refresh.circle_refresh_layout.CircleRefreshLayoutActivity;
 import com.ffzxnet.developutil.ui.refresh.wave_swipe_refresh_layout.WaveSwipeRefreshLayoutActivity;
@@ -115,6 +116,12 @@ public class SecondFragment extends BaseFragment implements SecondFragmentAdapte
         item.setImage("https://t7.baidu.com/it/u=3624649723,387536556&fm=193&f=GIF");
         datas.add(item);
 
+        item = new FirstTestBean();
+        item.setTitle("约束布局");
+        item.setContent("ConstraintLayout日常布局使用");
+        item.setImage("https://t7.baidu.com/it/u=3624649723,387536556&fm=193&f=GIF");
+        datas.add(item);
+
         adapter = new SecondFragmentAdapter(datas, this);
         secondFragmentRv.setAdapter(adapter);
     }
@@ -139,6 +146,8 @@ public class SecondFragment extends BaseFragment implements SecondFragmentAdapte
             redirectActivity(TestScanCodeActivity.class);
         } else if (data.getTitle().contains("解锁")) {
             redirectActivity(UnlockActivity.class);
+        } else if (data.getTitle().contains("约束布局")) {
+            redirectActivity(TestConstraintLayoutActivity.class);
         }
     }
 }
