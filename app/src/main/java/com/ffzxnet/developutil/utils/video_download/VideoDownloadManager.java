@@ -7,8 +7,6 @@ import android.os.Looper;
 import android.os.Message;
 import android.text.TextUtils;
 
-import com.jeffmony.m3u8library.VideoProcessManager;
-import com.jeffmony.m3u8library.listener.IVideoTransformListener;
 import com.ffzxnet.developutil.utils.video_download.common.DownloadConstants;
 import com.ffzxnet.developutil.utils.video_download.database.VideoDownloadDatabaseHelper;
 import com.ffzxnet.developutil.utils.video_download.listener.DownloadListener;
@@ -30,6 +28,8 @@ import com.ffzxnet.developutil.utils.video_download.utils.LogUtils;
 import com.ffzxnet.developutil.utils.video_download.utils.VideoDownloadUtils;
 import com.ffzxnet.developutil.utils.video_download.utils.VideoStorageUtils;
 import com.ffzxnet.developutil.utils.video_download.utils.WorkerThreadHandler;
+import com.jeffmony.m3u8library.VideoProcessManager;
+import com.jeffmony.m3u8library.listener.IVideoTransformListener;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -330,6 +330,7 @@ public class VideoDownloadManager {
                         taskItem.setDownloadSize(cachedSize);
                         taskItem.setCurTs(curTs);
                         taskItem.setTotalTs(totalTs);
+                        //通知下载进度
                         mVideoDownloadHandler.obtainMessage(DownloadConstants.MSG_DOWNLOAD_PROCESSING, taskItem).sendToTarget();
                     }
                 }
@@ -400,7 +401,7 @@ public class VideoDownloadManager {
     public void pauseAllDownloadTasks() {
         synchronized (mQueueLock) {
             List<VideoTaskItem> taskList = mVideoDownloadQueue.getDownloadList();
-            LogUtils.i(TAG, "pauseAllDownloadTasks queue size="+taskList.size());
+            LogUtils.i(TAG, "pauseAllDownloadTasks queue size=" + taskList.size());
             List<String> pausedUrlList = new ArrayList<>();
             for (VideoTaskItem taskItem : taskList) {
                 if (taskItem.isPendingTask()) {
@@ -619,7 +620,7 @@ public class VideoDownloadManager {
     private void handleOnDownloadSuccess(VideoTaskItem taskItem) {
         removeDownloadQueue(taskItem);
 
-        LogUtils.i(TAG, "handleOnDownloadSuccess shouldM3U8Merged="+mConfig.shouldM3U8Merged() + ", isHlsType="+taskItem.isHlsType());
+        LogUtils.i(TAG, "handleOnDownloadSuccess shouldM3U8Merged=" + mConfig.shouldM3U8Merged() + ", isHlsType=" + taskItem.isHlsType());
         if (mConfig.shouldM3U8Merged() && taskItem.isHlsType()) {
             doMergeTs(taskItem, taskItem1 -> {
                 mGlobalDownloadListener.onDownloadSuccess(taskItem1);

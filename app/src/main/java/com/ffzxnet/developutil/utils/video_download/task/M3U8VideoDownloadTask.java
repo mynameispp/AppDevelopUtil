@@ -168,22 +168,23 @@ public class M3U8VideoDownloadTask extends VideoDownloadTask {
         if (mCurTs >= mTotalTs) {
             mCurTs = mTotalTs;
         }
-        synchronized (mDownloadLock) {
+//        synchronized (mDownloadLock) {
             float percent = mCurTs * 1.0f * 100 / mTotalTs;
 //            if (!VideoDownloadUtils.isFloatEqual(percent, mPercent)) {
             //这里可以解决下载几秒不动的问题
             long nowTime = System.currentTimeMillis();
-            if (mCurrentCachedSize > mLastCachedSize && nowTime > mLastInvokeTime) {
+//            if (mCurrentCachedSize > mLastCachedSize && nowTime > mLastInvokeTime) {
                 mSpeed = (mCurrentCachedSize - mLastCachedSize) * 1000 * 1.0f / (nowTime - mLastInvokeTime);
-            }
+//            }
             if (!mDownloadFinished) {
+                //下载进度通知
                 mDownloadTaskListener.onTaskProgressForM3U8(percent, mCurrentCachedSize, mCurTs, mTotalTs, mSpeed);
             }
             mPercent = percent;
             mLastCachedSize = mCurrentCachedSize;
             mLastInvokeTime = nowTime;
 //            }
-        }
+//        }
         boolean isCompleted = true;
         for (M3U8Seg ts : mTsList) {
             File tsFile = new File(mSaveDir, ts.getIndexName());
