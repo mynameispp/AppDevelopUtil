@@ -330,36 +330,6 @@ public class FileUtil {
     }
 
     /**
-     * @param lSize
-     * @param originSize B  KB
-     * @return
-     */
-    public static String getSize(long lSize, String originSize) {//LS:大小判断（数据大小转换）
-        if (lSize < 0) {
-            lSize = Math.abs(lSize);
-        }
-        if (lSize == 0) {
-            lSize = 1;
-        }
-        float size = lSize;
-        if (size == 0) return "0.0 KB";
-        if (originSize.equals("B")) {
-            if (size < 1024 * 1024)
-                return String.valueOf((float) (Math.round((size / 1024) * 10)) / 10) + " KB";
-            if (size >= 1024 * 1024 && size < 1024 * 1024 * 1024)
-                return String.valueOf((float) (Math.round((size / 1024 / 1024) * 10)) / 10) + " MB";
-            if (size >= 1024 * 1024 * 1024)
-                return String.valueOf((float) (Math.round((size / 1024 / 1024 / 1024) * 100)) / 100) + " GB";
-        } else if (originSize.equals("KB")) {
-            if (size < 1024 * 1024)
-                return String.valueOf((float) (Math.round((size / 1024) * 10)) / 10) + " MB";
-            if (size >= 1024 * 1024 * 1024)
-                return String.valueOf((float) (Math.round((size / 1024 / 1024) * 100)) / 100) + " GB";
-        }
-        return "0.0 KB";
-    }
-
-    /**
      * 根据Uri返回文件绝对路径
      * 兼容了file:///开头的 和 content://开头的情况
      */

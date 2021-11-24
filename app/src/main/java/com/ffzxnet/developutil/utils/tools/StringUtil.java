@@ -11,7 +11,7 @@ import java.util.Date;
 /**
  * 创建者： feifan.pi 在 2017/4/17.
  */
-
+@Deprecated
 public class StringUtil {
 
     private final static ThreadLocal<SimpleDateFormat> dateFormater = new ThreadLocal<SimpleDateFormat>() {

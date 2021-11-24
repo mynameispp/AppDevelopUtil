@@ -24,7 +24,7 @@ import android.widget.Toast;
 import com.ffzxnet.developutil.R;
 import com.ffzxnet.developutil.base.ui.BaseActivity;
 import com.ffzxnet.developutil.base.ui.BaseActivityResultContact;
-import com.ffzxnet.developutil.base.ui.CheckPermissionCallBak;
+import com.ffzxnet.developutil.base.ui.CheckPermissionDialogCallBak;
 import com.ffzxnet.developutil.ui.scancode.activity.MyCaptureActivity;
 import com.ffzxnet.developutil.ui.scancode.encoding.EncodingHandler;
 import com.ffzxnet.developutil.ui.scancode.tools.VersionUtils;
@@ -87,7 +87,7 @@ public class TestScanCodeActivity extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.scan_code:
-                CheckPermissionDialog(new CheckPermissionCallBak() {
+                CheckPermissionDialog(new CheckPermissionDialogCallBak() {
                     @Override
                     public void hasPermission(boolean success) {
                         if (success) {

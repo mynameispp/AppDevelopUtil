@@ -122,7 +122,8 @@ public class DKVideoPlayActivity extends BaseActivity implements DownLoadOverAda
         if (null == controllerPlayer) {
             //组装播放器控件
             controllerPlayer = new MyVideoController(this);
-            //适配全屏,如果需要则要搭配AndroidManifest里面的配置使用
+            //适配全屏,这里不需要，因为本项目已经适配全屏模式，再次开启会有冲突
+            // 如果需要则要搭配AndroidManifest里面的配置使用
             controllerPlayer.setAdaptCutout(false);
             //根据屏幕方向自动进入/退出全屏
 //            controllerPlayer.setEnableOrientation(true);

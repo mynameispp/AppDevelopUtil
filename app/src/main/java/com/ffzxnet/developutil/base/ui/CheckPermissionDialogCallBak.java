@@ -1,5 +1,5 @@
 package com.ffzxnet.developutil.base.ui;
 
-public interface CheckPermissionCallBak {
+public interface CheckPermissionDialogCallBak {
     void hasPermission(boolean success);
 }

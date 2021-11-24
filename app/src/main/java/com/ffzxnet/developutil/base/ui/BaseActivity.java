@@ -574,7 +574,7 @@ public abstract class BaseActivity extends RxAppCompatActivity implements BaseAc
      * @param callBak 授权结果
      * @param perms   要申请的权限
      */
-    public void CheckPermissionDialog(CheckPermissionCallBak callBak, String... perms) {
+    public void CheckPermissionDialog(CheckPermissionDialogCallBak callBak, String... perms) {
         if (rxPermissions == null) {
             rxPermissions = new RxPermissions(this);
         }

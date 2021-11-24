@@ -33,8 +33,8 @@ public class BaseActivityResultContact extends ActivityResultContract<Intent, Ob
                 }
                 break;
             case BaseCaptureActivity.RESULT_CODE_QR_SCAN:
+                //扫描二维码
                 if (intent != null && intent.getExtras() != null) {
-                    //扫描二维码
                     return intent.getExtras().getString(BaseCaptureActivity.INTENT_EXTRA_KEY_QR_SCAN);
                 }
                 break;

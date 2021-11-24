@@ -21,7 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 //带有弹性的RecyclerView
-public class RecyclerViewDampingLayoutView extends LinearLayout implements ViewTreeObserver.OnGlobalLayoutListener {
+public class RecyclerViewDampingLayout extends LinearLayout implements ViewTreeObserver.OnGlobalLayoutListener {
     //滚动时间 值越大，回弹速度越快
     private static final long ANIM_TIME = 200;
     private View childView;
@@ -36,15 +36,15 @@ public class RecyclerViewDampingLayoutView extends LinearLayout implements ViewT
     private final int canScrollY = 50;
     private boolean isRecyclerResult = false;
 
-    public RecyclerViewDampingLayoutView(Context context) {
+    public RecyclerViewDampingLayout(Context context) {
         this(context, null);
     }
 
-    public RecyclerViewDampingLayoutView(Context context, @Nullable AttributeSet attrs) {
+    public RecyclerViewDampingLayout(Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public RecyclerViewDampingLayoutView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public RecyclerViewDampingLayout(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init();
     }

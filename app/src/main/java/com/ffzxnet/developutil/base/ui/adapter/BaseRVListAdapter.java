@@ -144,11 +144,11 @@ public abstract class BaseRVListAdapter<T> extends RecyclerView.Adapter {
         if (addDatas.size() > 0) {
             int oldSize = datas.size();
             datas.addAll(addDatas);
-            notifyItemChanged(oldSize, datas.size());
+            notifyItemRangeChanged(oldSize, datas.size());
         }
     }
 
-    public void addDatas(List<T> addDatas, int position) {
+    public void addDatas(int position, List<T> addDatas) {
         if (null == datas) {
             datas = new ArrayList<>();
         }
@@ -159,7 +159,7 @@ public abstract class BaseRVListAdapter<T> extends RecyclerView.Adapter {
         if (addDatas.size() > 0) {
             int oldSize = datas.size();
             datas.addAll(position, addDatas);
-            notifyItemChanged(position, datas.size() - oldSize);
+            notifyItemRangeChanged(position, datas.size());
         }
     }
 

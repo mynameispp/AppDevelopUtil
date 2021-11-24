@@ -10,6 +10,7 @@ import android.os.Build;
 import android.os.Vibrator;
 import android.security.keystore.KeyGenParameterSpec;
 import android.security.keystore.KeyProperties;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.ffzxnet.developutil.utils.ui.ToastUtil;
@@ -39,7 +40,7 @@ import androidx.core.hardware.fingerprint.FingerprintManagerCompat;
  */
 
 public class DeviceUtil {
-    private static final String marshmallowMacAddress = "02:00:00:00:00:00";
+    private static String marshmallowMacAddress = "02:00:00:00:00:00";
     private static final String fileAddressMac = "/sys/class/net/wlan0/address";
     private static KeyStore keyStore;
     private static Cipher cipher;
@@ -54,28 +55,31 @@ public class DeviceUtil {
      * @return
      */
     public static String getAdresseMAC(Context context) {
-        WifiManager wifiMan = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
-        WifiInfo wifiInf = wifiMan.getConnectionInfo();
-        if (wifiInf != null && marshmallowMacAddress.equals(wifiInf.getMacAddress())) {
-            String result = null;
-            try {
-                result = getAdressMacByInterface();
-                if (result != null) {
-                    return result;
-                } else {
-                    result = getAddressMacByFile(wifiMan);
-                    return result;
+        if (TextUtils.isEmpty(marshmallowMacAddress)) {
+            WifiManager wifiMan = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+            WifiInfo wifiInf = wifiMan.getConnectionInfo();
+            if (wifiInf != null && marshmallowMacAddress.equals(wifiInf.getMacAddress())) {
+                try {
+                    marshmallowMacAddress = getAdressMacByInterface();
+                    if (marshmallowMacAddress != null) {
+                        return marshmallowMacAddress;
+                    } else {
+                        marshmallowMacAddress = getAddressMacByFile(wifiMan);
+                        return marshmallowMacAddress;
+                    }
+                } catch (IOException e) {
+                    Log.e("MobileAccess", "Erreur lecture propriete Adresse MAC");
+                    marshmallowMacAddress="02:00:00:00:00:00";
+                } catch (Exception e) {
+                    Log.e("MobileAcces", "Erreur lecture propriete Adresse MAC ");
+                    marshmallowMacAddress="02:00:00:00:00:00";
                 }
-            } catch (IOException e) {
-                Log.e("MobileAccess", "Erreur lecture propriete Adresse MAC");
-            } catch (Exception e) {
-                Log.e("MobileAcces", "Erreur lecture propriete Adresse MAC ");
-            }
-        } else {
-            if (wifiInf != null && wifiInf.getMacAddress() != null) {
-                return wifiInf.getMacAddress();
             } else {
-                return "";
+                if (wifiInf != null && wifiInf.getMacAddress() != null) {
+                    marshmallowMacAddress= wifiInf.getMacAddress();
+                } else {
+                    marshmallowMacAddress="02:00:00:00:00:00";
+                }
             }
         }
         return marshmallowMacAddress;

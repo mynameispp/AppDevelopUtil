@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import com.ffzxnet.developutil.R;
 import com.ffzxnet.developutil.application.GlideApp;
 import com.ffzxnet.developutil.base.ui.BaseActivity;
-import com.ffzxnet.developutil.base.ui.CheckPermissionCallBak;
+import com.ffzxnet.developutil.base.ui.CheckPermissionDialogCallBak;
 import com.ffzxnet.developutil.ui.album.util.GlideEngine;
 import com.ffzxnet.developutil.utils.tools.LogUtil;
 import com.huantansheng.easyphotos.EasyPhotos;
@@ -57,7 +57,7 @@ public class AlbumActivity extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.album_select_single_image:
-                CheckPermissionDialog(new CheckPermissionCallBak() {
+                CheckPermissionDialog(new CheckPermissionDialogCallBak() {
                     @Override
                     public void hasPermission(boolean success) {
                         if (success) {
@@ -67,7 +67,7 @@ public class AlbumActivity extends BaseActivity {
                 }, Manifest.permission.READ_EXTERNAL_STORAGE);
                 break;
             case R.id.album_select_multiple_image:
-                CheckPermissionDialog(new CheckPermissionCallBak() {
+                CheckPermissionDialog(new CheckPermissionDialogCallBak() {
                     @Override
                     public void hasPermission(boolean success) {
                         if (success) {
@@ -77,7 +77,7 @@ public class AlbumActivity extends BaseActivity {
                 }, Manifest.permission.READ_EXTERNAL_STORAGE);
                 break;
             case R.id.album_camera_image:
-                CheckPermissionDialog(new CheckPermissionCallBak() {
+                CheckPermissionDialog(new CheckPermissionDialogCallBak() {
                                           @Override
                                           public void hasPermission(boolean success) {
                                               if (success) {

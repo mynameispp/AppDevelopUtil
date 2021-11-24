@@ -8,7 +8,7 @@ import android.widget.EditText;
 import com.ffzxnet.developutil.R;
 import com.ffzxnet.developutil.application.MyApplication;
 import com.ffzxnet.developutil.base.ui.BaseActivity;
-import com.ffzxnet.developutil.base.ui.CheckPermissionCallBak;
+import com.ffzxnet.developutil.base.ui.CheckPermissionDialogCallBak;
 import com.ffzxnet.developutil.bean.LoginRequestBean;
 import com.ffzxnet.developutil.ui.main.MainActivity;
 import com.ffzxnet.developutil.utils.tools.DeviceUtil;
@@ -54,7 +54,7 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
 
     @OnClick(R.id.login_btn)
     public void onViewClicked() {
-        CheckPermissionDialog(new CheckPermissionCallBak() {
+        CheckPermissionDialog(new CheckPermissionDialogCallBak() {
                                   @Override
                                   public void hasPermission(boolean success) {
                                       if (success) {
