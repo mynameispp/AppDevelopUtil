@@ -53,6 +53,8 @@ public class PermissionDescriptionDialog extends DialogFragment {
                 , "<b><tt>拨打电话<tt></b> <br>点击拨打电话，需要拨打电话权限");
         permissionDescriptionInfo.put(Manifest.permission.USE_BIOMETRIC
                 , "<b><tt>指纹解密<tt></b> <br>判断手机是否支持指纹，需要拨打电话权限");
+        permissionDescriptionInfo.put(Manifest.permission.RECORD_AUDIO
+                , "<b><tt>录音<tt></b> <br>录音需要录音权限");
     }
 
     private View.OnClickListener clickListener;

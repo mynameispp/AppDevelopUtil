@@ -29,7 +29,7 @@ public class MyGlideModule extends AppGlideModule {
                 .build();
         glideBuilder.setMemoryCache(new LruResourceCache(calculator.getMemoryCacheSize()));
         int diskCacheSizeBytes = 1024 * 1024 * 100;// 本地缓存 100 MB
-        glideBuilder.setDiskCache(new InternalCacheDiskCacheFactory(context, FileUtil.GlidePathCache, diskCacheSizeBytes));
+        glideBuilder.setDiskCache(new InternalCacheDiskCacheFactory(context, FileUtil.GlideCachePath, diskCacheSizeBytes));
         glideBuilder.setDefaultRequestOptions(
                 new RequestOptions()
                         .format(DecodeFormat.PREFER_RGB_565)

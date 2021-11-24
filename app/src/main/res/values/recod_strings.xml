@@ -1,0 +1,11 @@
+<resources>
+  <string name="move_up_to_cancel">手指上滑，取消发送</string>
+  <string name="release_to_cancel">松开手指，取消发送</string>
+  <string name="Recording_without_permission">无录音权限</string>
+  <string name="The_recording_time_is_too_short">录音时间太短</string>
+  <string name="send_failure_please">发送失败，请检测服务器是否连接</string>
+  <string name="Send_voice_need_sdcard_support">发送语音需要sdcard支持</string>
+  <string name="recoding_fail">录音失败，请重试！</string>
+  <string name="click_record">点击开始跟读</string>
+  <string name="click_stop_record">点击结束录音</string>
+</resources>

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/toolbar_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -74,10 +75,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
+            android:layout_marginRight="6dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:drawablePadding="@dimen/size_dp_5"
             android:drawableTint="@color/black_33"
-            android:layout_marginRight="6dp"
             android:ellipsize="end"
             android:gravity="center"
             android:maxLines="1"
@@ -92,7 +93,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/size_dp_zero_point_5"
         android:layout_below="@id/toolbar"
-        android:background="@color/white_dialog"/>
+        android:background="@color/white_dialog" />
     <!--状态栏顶部上的挡板，防止上面的信息字体看不见-->
     <View
         android:id="@+id/toolbar_status_bg"

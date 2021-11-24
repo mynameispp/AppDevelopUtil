@@ -18,6 +18,8 @@ public class MMKVUtil {
     public static final String ISFINGERPRINT_KEY="ISFINGERPRINT_KEY";
     //是否开启手势验证
     public static final String ISGESTURELOCK_KEY="ISGESTURELOCK_KEY";
+    //本地录音数据-
+    public static final String Local_Audio_Record_List="Local_Audio_Record_List";
     //===============================================================================
 
 

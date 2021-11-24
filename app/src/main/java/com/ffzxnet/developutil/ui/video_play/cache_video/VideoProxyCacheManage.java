@@ -19,7 +19,7 @@ public class VideoProxyCacheManage {
             inst = cacheServer;
             if (inst == null) {
                 inst = new HttpProxyCacheServer.Builder(softReference.get())
-                        .cacheDirectory(new File(FileUtil.Video))
+                        .cacheDirectory(new File(FileUtil.VideoPath))
                         .maxCacheFilesCount(3).build();//最多缓存3个视频
                 cacheServer = inst;
             }

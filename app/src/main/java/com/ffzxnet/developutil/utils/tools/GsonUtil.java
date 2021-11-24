@@ -41,10 +41,10 @@ public class GsonUtil {
      * json转成对象
      *
      * @param s    json
-     * @param type Type
+     * @param type Type  Ex: new TypeToken<T>() {}.getType()
      * @return
      */
-    public static Object toClass(final String s, final Type type) {
+    public static <T> T toClass(final String s, final Type type) {
         try {
             return gson.fromJson(s, type);
         } catch (JsonSyntaxException e) {

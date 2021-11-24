@@ -174,7 +174,7 @@ public abstract class BaseRVListAdapter<T> extends RecyclerView.Adapter {
         }
         int oldSize = datas.size();
         datas.add(addData);
-        notifyItemInserted(datas.size() - 1);
+//        notifyItemInserted(datas.size() - 1);
         notifyItemRangeChanged(oldSize, datas.size());
     }
 
@@ -219,9 +219,10 @@ public abstract class BaseRVListAdapter<T> extends RecyclerView.Adapter {
     public void clearData() {
         noMoreData = false;
         if (null != datas) {
+            int size=datas.size();
             datas.clear();
+            notifyItemRangeRemoved(0, size);
         }
-        notifyDataSetChanged();
     }
 
     /**

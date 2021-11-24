@@ -17,6 +17,7 @@ import com.ffzxnet.developutil.ui.scancode.TestScanCodeActivity;
 import com.ffzxnet.developutil.ui.unlock.UnlockActivity;
 import com.ffzxnet.developutil.ui.video_download.DownLoadManageActivity;
 import com.ffzxnet.developutil.ui.video_play.DKVideoPlayActivity;
+import com.ffzxnet.developutil.ui.voice_recorde.VoiceRecordTestActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -122,6 +123,12 @@ public class SecondFragment extends BaseFragment implements SecondFragmentAdapte
         item.setImage("https://t7.baidu.com/it/u=3624649723,387536556&fm=193&f=GIF");
         datas.add(item);
 
+        item = new FirstTestBean();
+        item.setTitle("录音");
+        item.setContent("录音，播放本地或远程音频");
+        item.setImage("https://t7.baidu.com/it/u=3624649723,387536556&fm=193&f=GIF");
+        datas.add(item);
+
         adapter = new SecondFragmentAdapter(datas, this);
         secondFragmentRv.setAdapter(adapter);
     }
@@ -148,6 +155,8 @@ public class SecondFragment extends BaseFragment implements SecondFragmentAdapte
             redirectActivity(UnlockActivity.class);
         } else if (data.getTitle().contains("约束布局")) {
             redirectActivity(TestConstraintLayoutActivity.class);
+        } else if (data.getTitle().contains("录音")) {
+            redirectActivity(VoiceRecordTestActivity.class);
         }
     }
 }

@@ -72,7 +72,7 @@ public class UpOrDownloadFileFromServiceUtil {
     private  int downSuccessVoiceSize=0;
     public void downloadTopicVoices(final List<String> voiceList) {
 //        mView.showLoadingDialog(true, "下载音频中...");
-        final String filePath = FileUtil.DownLoadFile;
+        final String filePath = FileUtil.DownLoadFilePath;
         for (final String s : voiceList) {
             String fileName = s.substring(s.lastIndexOf("/") + 1);
             File file = new File(filePath + fileName);

@@ -92,7 +92,7 @@ public class ApiImp {
         });
         loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         //缓存大小
-        File httpCacheDirectory = new File(FileUtil.HttpCache);//这里为了方便直接把文件放在了SD卡根目录的HttpCache中，一般放在context.getCacheDir()中
+        File httpCacheDirectory = new File(FileUtil.HttpCachePath);//这里为了方便直接把文件放在了SD卡根目录的HttpCache中，一般放在context.getCacheDir()中
         int cacheSize = 20 * 1024 * 1024;//设置缓存文件大小为20M
         Cache cache = new Cache(httpCacheDirectory, cacheSize);
         final OkHttpClient okHttpClient = mBuilder

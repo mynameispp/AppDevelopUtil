@@ -33,11 +33,20 @@ public class FileUtil {
     /**
      * App拍照图片路径
      */
-    public static final String CamerPath = FileUtil.getSdcardRootDirectory("camer");
-    public static final String HttpCache = FileUtil.getSdcardRootDirectory("HttpCache");
-    public static final String GlidePathCache = FileUtil.getSdcardRootDirectory("GlidePathCache");
-    public static final String DownLoadFile = FileUtil.getSdcardRootDirectory("DownLoadFile");
-    public static final String Video = FileUtil.getSdcardRootDirectory("Video");
+    public static final String CameraPath = FileUtil.getSdcardRootDirectory("Camera");
+    public static final String HttpCachePath = FileUtil.getSdcardRootDirectory("HttpCache");
+    public static final String GlideCachePath = FileUtil.getSdcardRootDirectory("GlideCache");
+    public static final String DownLoadFilePath = FileUtil.getSdcardRootDirectory("DownLoadFile");
+    public static final String VideoPath = FileUtil.getSdcardRootDirectory("Video");
+    public static final String RecorderPath = FileUtil.getSdcardRootDirectory("recorder");
+    /**
+     * 录音pcm格式
+     */
+    public static final String AudioRecorderPcmPath = FileUtil.getSdcardRootDirectory("pcm");
+    /**
+     * 录音wav格式
+     */
+    public static final String AudioRecorderWavPath = FileUtil.getSdcardRootDirectory("wav");
 
     public static String getSdcardRootDirectory(@NonNull String addFlod) {
         if (null == MyApplication.getContext()) {
@@ -124,7 +133,7 @@ public class FileUtil {
      *
      * @param folderName
      */
-    public static void deleteFileInFolder(String folderName) {
+    public static boolean deleteFileInFolder(String folderName) {
         File file = new File(folderName);
         if (file.exists()) {
             if (file.isDirectory()) {
@@ -141,6 +150,7 @@ public class FileUtil {
                 file.delete();
             }
         }
+        return true;
     }
 
     public static List<String> getFolderContent(String folderDir) {
