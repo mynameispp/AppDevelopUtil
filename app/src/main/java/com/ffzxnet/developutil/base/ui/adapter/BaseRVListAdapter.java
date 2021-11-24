@@ -219,7 +219,7 @@ public abstract class BaseRVListAdapter<T> extends RecyclerView.Adapter {
     public void clearData() {
         noMoreData = false;
         if (null != datas) {
-            int size=datas.size();
+            int size = datas.size();
             datas.clear();
             notifyItemRangeRemoved(0, size);
         }
