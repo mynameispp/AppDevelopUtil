@@ -1,5 +1,5 @@
 # AppDevelopUtil
-##一些基础开发类和常用的功能代码
+##一些基础开发类和常用的功能代码##
         1.各种base类</br>
         2.标准的启动页</br>
         3.retrofit+okhttp+rxjava+rxlifecycle的网络请求封装和异常处理等</br>
