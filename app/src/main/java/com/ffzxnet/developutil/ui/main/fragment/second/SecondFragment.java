@@ -10,6 +10,7 @@ import com.ffzxnet.developutil.ui.album.AlbumActivity;
 import com.ffzxnet.developutil.ui.badge.BadgeTestActivity;
 import com.ffzxnet.developutil.ui.calendar.CalendarActivity;
 import com.ffzxnet.developutil.ui.constraiml_layout_test.TestConstraintLayoutActivity;
+import com.ffzxnet.developutil.ui.layout_anima.LayoutAnimaActivity;
 import com.ffzxnet.developutil.ui.main.fragment.first.adapter.FirstTestBean;
 import com.ffzxnet.developutil.ui.refresh.circle_refresh_layout.CircleRefreshLayoutActivity;
 import com.ffzxnet.developutil.ui.refresh.wave_swipe_refresh_layout.WaveSwipeRefreshLayoutActivity;
@@ -129,6 +130,12 @@ public class SecondFragment extends BaseFragment implements SecondFragmentAdapte
         item.setImage("https://t7.baidu.com/it/u=3624649723,387536556&fm=193&f=GIF");
         datas.add(item);
 
+        item = new FirstTestBean();
+        item.setTitle("布局动画");
+        item.setContent("列表，普通布局动画显示View");
+        item.setImage("https://t7.baidu.com/it/u=3624649723,387536556&fm=193&f=GIF");
+        datas.add(item);
+
         adapter = new SecondFragmentAdapter(datas, this);
         secondFragmentRv.setAdapter(adapter);
     }
@@ -157,6 +164,8 @@ public class SecondFragment extends BaseFragment implements SecondFragmentAdapte
             redirectActivity(TestConstraintLayoutActivity.class);
         } else if (data.getTitle().contains("录音")) {
             redirectActivity(VoiceRecordTestActivity.class);
+        } else if (data.getTitle().contains("布局动画")) {
+            redirectActivity(LayoutAnimaActivity.class);
         }
     }
 }

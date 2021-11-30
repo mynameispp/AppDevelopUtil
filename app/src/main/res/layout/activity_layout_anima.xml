@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <include layout="@layout/include_toolbar" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/layout_anima_rv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:id="@+id/layout_anima_lv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimary"
+                android:text="LinearLayout txt" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="LinearLayout txt" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/red"
+                android:text="LinearLayout txt" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/blue"
+                android:text="LinearLayout txt" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="LinearLayout txt" />
+
+            <ImageView
+                android:id="@+id/image6"
+                android:layout_width="80dp"
+                android:layout_height="80dp"/>
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/layout_anima_rl"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/txt1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimary"
+                android:text="RelativeLayout Txt" />
+
+            <Button
+                android:id="@+id/txt2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@id/txt1"
+                android:layout_alignParentRight="true"
+                android:background="@color/red"
+                android:text="RelativeLayout Txt" />
+
+            <Button
+                android:id="@+id/txt3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/txt2"
+                android:layout_marginTop="10dp"
+                android:background="@color/blue"
+                android:text="RelativeLayout Txt" />
+
+            <Button
+                android:id="@+id/txt4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@id/txt3"
+                android:layout_alignParentRight="true"
+                android:background="@color/red_ff66666"
+                android:text="RelativeLayout Txt" />
+
+            <ImageView
+                android:id="@+id/image5"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_centerInParent="true" />
+        </RelativeLayout>
+    </FrameLayout>
+
+    <Button
+        android:id="@+id/layout_anima_recycler_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="RecyclerView-Default" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/layout_anima_recycler_btn2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ContinuousSort"
+            android:textSize="12sp" />
+
+        <Button
+            android:id="@+id/layout_anima_recycler_btn3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ContinuousWeightedSort"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/layout_anima_recycler_btn4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="CorneredSort"
+            android:textSize="12sp" />
+
+        <Button
+            android:id="@+id/layout_anima_recycler_btn5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="LinearSort"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/layout_anima_recycler_btn6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="InlineSort"
+            android:textSize="12sp" />
+
+        <Button
+            android:id="@+id/layout_anima_recycler_btn7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="SnakeSort"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/layout_anima_recycler_btn8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="RadialSort"
+            android:textSize="12sp" />
+
+        <Button
+            android:id="@+id/layout_anima_recycler_btn9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="RandomSort"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/layout_anima_view_group_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ViewGroup-LinearLayout" />
+
+    <Button
+        android:id="@+id/layout_anima_view_group_btn2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ViewGroup-RelativeLayout" />
+</LinearLayout>
