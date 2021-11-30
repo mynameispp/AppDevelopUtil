@@ -95,6 +95,8 @@ public abstract class BaseActivity extends RxAppCompatActivity implements BaseAc
             int padding = (int) (MyConstans.Screen_Height * 0.015);
             toolbar.setPadding(padding, MyConstans.Screen_Status_Height + padding,
                     padding, padding);
+            //标题栏背景色.也可以在Style文件里面设置
+//            toolbar.setBackgroundColor(MyApplication.getColorByResId(R.color.white));
         }
         //状态栏底色
         View toolbarStatusBGVew = findViewById(R.id.toolbar_status_bg);

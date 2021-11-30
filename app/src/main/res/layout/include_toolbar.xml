@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/toolbar_layout"
     android:layout_width="match_parent"
@@ -11,6 +11,9 @@
         android:layout_height="wrap_content"
         app:contentInsetEnd="0dp"
         app:contentInsetStart="0dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:theme="@style/title_style">
 
         <TextView
@@ -92,11 +95,12 @@
         android:id="@+id/toolbar_split_line"
         android:layout_width="match_parent"
         android:layout_height="@dimen/size_dp_zero_point_5"
-        android:layout_below="@id/toolbar"
-        android:background="@color/white_dialog" />
+        android:background="@color/white_dialog"
+        app:layout_constraintTop_toBottomOf="@id/toolbar" />
     <!--状态栏顶部上的挡板，防止上面的信息字体看不见-->
     <View
         android:id="@+id/toolbar_status_bg"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/size_dp_28" />
-</RelativeLayout>
+        android:layout_height="@dimen/size_dp_28"
+        app:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>
