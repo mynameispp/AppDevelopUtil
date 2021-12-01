@@ -21,16 +21,16 @@ public class LoadingUtil {
     }
 
     public static void destory() {
-        if (loadingDialog != null) {
+        if (loadingDialog != null && loadingDialog.get() != null) {
             if (loadingDialog.get().isShowing()) {
                 loadingDialog.get().dismiss();
             }
-            loadingDialog = null;
         }
+        loadingDialog = null;
     }
 
     public static void showLoadingDialog(boolean b) {
-        if (loadingDialog == null) {
+        if (loadingDialog == null || loadingDialog.get() == null) {
             return;
         }
         if (b) {
@@ -42,7 +42,7 @@ public class LoadingUtil {
 
     //进度弹窗 带自定义提示文字
     public static void showLoadingDialog(boolean b, String msg) {
-        if (loadingDialog == null) {
+        if (loadingDialog == null || loadingDialog.get() == null) {
             return;
         }
         if (b) {
@@ -57,7 +57,7 @@ public class LoadingUtil {
     }
 
     public static boolean isShowing() {
-        if (loadingDialog == null) {
+        if (loadingDialog == null || loadingDialog.get() == null) {
             return false;
         }
         return loadingDialog.get().isShowing();

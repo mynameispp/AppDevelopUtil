@@ -92,6 +92,9 @@ public class LayoutAnimaActivity extends BaseActivity {
                 layoutAnimaRv.setVisibility(View.VISIBLE);
                 layoutAnimaLv.setVisibility(View.GONE);
                 layoutAnimaRl.setVisibility(View.GONE);
+                //列表控件或动态添加控件的布局需要监听是否绘制完成，否则会报错
+                //建议用view.getViewTreeObserver().addOnGlobalLayoutListener 监听
+                //这里偷懒用了RecyclerView 的onLayoutChildren
                 layoutAnimaRv.setLayoutManager(new LinearLayoutManager(this) {
                     @Override
                     public void onLayoutChildren(RecyclerView.Recycler recycler, RecyclerView.State state) {
@@ -256,7 +259,7 @@ public class LayoutAnimaActivity extends BaseActivity {
                         super.onLayoutChildren(recycler, state);
                         spruceAnimator = new Spruce
                                 .SpruceBuilder(layoutAnimaRv)
-                                .sortWith(new RandomSort(50))
+                                .sortWith(new RandomSort(20))
                                 .excludeViews(new ArrayList<Integer>(), R_L_MODE)//不需要动画的item position
                                 .animateWith(DefaultAnimations.dynamicFadeIn(layoutAnimaRv),
                                         DefaultAnimations.dynamicTranslationUpwards(layoutAnimaRv))

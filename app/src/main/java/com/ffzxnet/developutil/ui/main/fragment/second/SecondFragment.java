@@ -2,6 +2,7 @@ package com.ffzxnet.developutil.ui.main.fragment.second;
 
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewTreeObserver;
 
 import com.ffzxnet.developutil.R;
 import com.ffzxnet.developutil.base.ui.BaseFragment;
@@ -19,6 +20,11 @@ import com.ffzxnet.developutil.ui.unlock.UnlockActivity;
 import com.ffzxnet.developutil.ui.video_download.DownLoadManageActivity;
 import com.ffzxnet.developutil.ui.video_play.DKVideoPlayActivity;
 import com.ffzxnet.developutil.ui.voice_recorde.VoiceRecordTestActivity;
+import com.willowtreeapps.spruce.Spruce;
+import com.willowtreeapps.spruce.animation.DefaultAnimations;
+import com.willowtreeapps.spruce.sort.LinearSort;
+import com.willowtreeapps.spruce.sort.RadialSort;
+import com.willowtreeapps.spruce.sort.SnakeSort;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +32,8 @@ import java.util.List;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
+
+import static com.willowtreeapps.spruce.exclusion.ExclusionHelper.R_L_MODE;
 
 public class SecondFragment extends BaseFragment implements SecondFragmentAdapter.AdapterListen {
 
@@ -55,7 +63,20 @@ public class SecondFragment extends BaseFragment implements SecondFragmentAdapte
         secondFragmentRv.setLayoutManager(gridLayoutManager);
         //添加分割线
         secondFragmentRv.addItemDecoration(new GridSpacingItemDecoration(2, 10, true));
-
+        secondFragmentRv.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                secondFragmentRv.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                //动画显示Item
+                new Spruce
+                        .SpruceBuilder(secondFragmentRv)
+                        .sortWith(new RadialSort(50, false, RadialSort.Position.TOP_LEFT))
+//                        .excludeViews(new ArrayList<Integer>(), R_L_MODE)//不需要动画的item position
+                        .animateWith(DefaultAnimations.dynamicFadeIn(secondFragmentRv),
+                                DefaultAnimations.dynamicTranslationUpwards(secondFragmentRv))
+                        .start();
+            }
+        });
         addMenuData();
     }
 
