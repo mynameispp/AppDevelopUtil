@@ -1,100 +1,43 @@
 package com.ffzxnet.developutil.ui.scancode.camera;
 
-import android.os.IBinder;
-import android.util.Log;
+import android.hardware.Camera;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
+import com.ffzxnet.developutil.utils.tools.LogUtil;
 
 final class FlashlightManager {
-    private static final String TAG = FlashlightManager.class.getSimpleName();
 
-    private static final Object iHardwareService = getHardwareService();
-
-    private static final Method setFlashEnabledMethod = getSetFlashEnabledMethod(iHardwareService);
-
-    static {
-        if (iHardwareService == null) {
-            Log.v(TAG, "This device does supports control of a flashlight");
-        } else {
-            Log.v(TAG, "This device does not support control of a flashlight");
-        }
-    }
-
-    static void enableFlashlight() {
-        setFlashlight(false);
-    }
-
-    static void disableFlashlight() {
-        setFlashlight(false);
-    }
-
-    private static Object getHardwareService() {
-        Class<?> serviceManagerClass = maybeForName("android.os.ServiceManager");
-        if (serviceManagerClass == null)
-            return null;
-        Method getServiceMethod = maybeGetMethod(serviceManagerClass, "getService", new Class[] { String.class });
-        if (getServiceMethod == null)
-            return null;
-        Object hardwareService = invoke(getServiceMethod, null, new Object[] { "hardware" });
-        if (hardwareService == null)
-            return null;
-        Class<?> iHardwareServiceStubClass = maybeForName("android.os.IHardwareService$Stub");
-        if (iHardwareServiceStubClass == null)
-            return null;
-        Method asInterfaceMethod = maybeGetMethod(iHardwareServiceStubClass, "asInterface", new Class[] { IBinder.class });
-        if (asInterfaceMethod == null)
-            return null;
-        return invoke(asInterfaceMethod, null, new Object[] { hardwareService });
-    }
-
-    private static Method getSetFlashEnabledMethod(Object iHardwareService) {
-        if (iHardwareService == null)
-            return null;
-        Class<?> proxyClass = iHardwareService.getClass();
-        return maybeGetMethod(proxyClass, "setFlashlightEnabled", new Class[] { boolean.class });
-    }
-
-    private static Class<?> maybeForName(String name) {
+    //参考二维码工具的闪光灯
+    public static boolean OpenFlash(Camera camera) {
+        //true=打开,false=关闭
+        boolean openOrClose;
         try {
-            return Class.forName(name);
-        } catch (ClassNotFoundException cnfe) {
-            return null;
-        } catch (RuntimeException re) {
-            Log.w(TAG, "Unexpected error while finding class " + name, re);
-            return null;
+            Camera.Parameters parameters = camera.getParameters();
+            if (parameters.getFlashMode().equals("torch")) {
+                parameters.setFlashMode("off");
+                openOrClose = false;
+            } else {
+                parameters.setFlashMode("torch");
+                openOrClose = true;
+            }
+            camera.setParameters(parameters);
+            return openOrClose;
+        } catch (Exception e) {
+            LogUtil.e("打开闪光灯失败", e.getMessage());
         }
+        return false;
     }
 
-    private static Method maybeGetMethod(Class<?> clazz, String name, Class<?>... argClasses) {
+    public static void closeFlashLight(Camera camera) {
         try {
-            return clazz.getMethod(name, argClasses);
-        } catch (NoSuchMethodException nsme) {
-            return null;
-        } catch (RuntimeException re) {
-            Log.w(TAG, "Unexpected error while finding method " + name, re);
-            return null;
+            Camera.Parameters parameters = camera.getParameters();
+            if (parameters.getFlashMode().equals("off")) {
+                return;
+            }
+            parameters.setFlashMode("off");
+            camera.setParameters(parameters);
+        } catch (Exception e) {
+            LogUtil.e("打开闪光灯失败", e.getMessage());
         }
-    }
-
-    private static Object invoke(Method method, Object instance, Object... args) {
-        try {
-            return method.invoke(instance, args);
-        } catch (IllegalAccessException e) {
-            Log.w(TAG, "Unexpected error while invoking " + method, e);
-            return null;
-        } catch (InvocationTargetException e) {
-            Log.w(TAG, "Unexpected error while invoking " + method, e.getCause());
-            return null;
-        } catch (RuntimeException re) {
-            Log.w(TAG, "Unexpected error while invoking " + method, re);
-            return null;
-        }
-    }
-
-    private static void setFlashlight(boolean active) {
-        if (iHardwareService != null)
-            invoke(setFlashEnabledMethod, iHardwareService, new Object[] { Boolean.valueOf(active) });
     }
 }
 

@@ -84,16 +84,19 @@ public final class CameraManager {
                 this.configManager.initFromCameraParameters(this.camera);
             }
             this.configManager.setDesiredCameraParameters(this.camera);
-            FlashlightManager.enableFlashlight();
         }
     }
 
     public void closeDriver() {
         if (this.camera != null) {
-            FlashlightManager.disableFlashlight();
+            FlashlightManager.closeFlashLight(camera);
             this.camera.release();
             this.camera = null;
         }
+    }
+
+    public boolean switchFlashLight(){
+       return FlashlightManager.OpenFlash(camera);
     }
 
     public void startPreview() {

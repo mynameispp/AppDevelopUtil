@@ -140,7 +140,7 @@ public final class ViewfinderView extends View {
     }
 
     /**
-     * 扫码框四边线条和边角
+     * 扫码框边角
      *
      * @param canvas
      * @param frame
@@ -193,7 +193,7 @@ public final class ViewfinderView extends View {
     }
 
     /**
-     * 扫码框大小
+     * 扫码框大小和四边线条
      *
      * @param canvas
      * @param frame

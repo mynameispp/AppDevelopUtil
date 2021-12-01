@@ -24,6 +24,7 @@ import androidx.annotation.Nullable;
 
 public class MyCaptureActivity extends BaseCaptureActivity implements SurfaceHolder.Callback {
     private ImageView back;
+    private ImageView deviceLightSwitch;
     private TextView scanner_toolbar_album;
 
     @Override
@@ -62,6 +63,19 @@ public class MyCaptureActivity extends BaseCaptureActivity implements SurfaceHol
                 }
                 intent.setType("image/*");
                 resultLauncher.launch(intent);
+            }
+        });
+
+        deviceLightSwitch = findViewById(R.id.scan_code_device_light);
+        deviceLightSwitch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean open = switchFlashLight();
+                if (open) {
+                    deviceLightSwitch.setImageResource(R.mipmap.icon_device_light_on);
+                } else {
+                    deviceLightSwitch.setImageResource(R.mipmap.icon_device_light_off);
+                }
             }
         });
     }

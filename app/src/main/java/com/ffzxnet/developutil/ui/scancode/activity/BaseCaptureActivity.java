@@ -283,5 +283,10 @@ public abstract class BaseCaptureActivity extends BaseActivity implements Surfac
             mediaPlayer.seekTo(0);
         }
     };
+
+    //闪光灯开关
+    public boolean switchFlashLight(){
+       return CameraManager.get().switchFlashLight();
+    }
 }
 
