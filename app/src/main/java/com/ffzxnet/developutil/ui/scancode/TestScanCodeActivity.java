@@ -26,6 +26,7 @@ import com.ffzxnet.developutil.base.ui.BaseActivity;
 import com.ffzxnet.developutil.base.ui.BaseActivityResultContact;
 import com.ffzxnet.developutil.base.ui.CheckPermissionDialogCallBak;
 import com.ffzxnet.developutil.ui.scancode.activity.MyCaptureActivity;
+import com.ffzxnet.developutil.ui.scancode.activity.MyCaptureByCameraXActivity;
 import com.ffzxnet.developutil.ui.scancode.encoding.EncodingHandler;
 import com.ffzxnet.developutil.ui.scancode.tools.VersionUtils;
 
@@ -83,7 +84,7 @@ public class TestScanCodeActivity extends BaseActivity {
         goBackByQuick();
     }
 
-    @OnClick({R.id.scan_code, R.id.create_code_img_btn, R.id.save_create_code_img_btn})
+    @OnClick({R.id.scan_code, R.id.scan_code2, R.id.create_code_img_btn, R.id.save_create_code_img_btn})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.scan_code:
@@ -92,6 +93,17 @@ public class TestScanCodeActivity extends BaseActivity {
                     public void hasPermission(boolean success) {
                         if (success) {
                             Intent intent = new Intent(TestScanCodeActivity.this, MyCaptureActivity.class);
+                            resultLauncher.launch(intent);
+                        }
+                    }
+                }, Manifest.permission.CAMERA);
+                break;
+            case R.id.scan_code2:
+                CheckPermissionDialog(new CheckPermissionDialogCallBak() {
+                    @Override
+                    public void hasPermission(boolean success) {
+                        if (success) {
+                            Intent intent = new Intent(TestScanCodeActivity.this, MyCaptureByCameraXActivity.class);
                             resultLauncher.launch(intent);
                         }
                     }

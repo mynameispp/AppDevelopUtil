@@ -16,4 +16,13 @@ public class ClickTooQucik {
         lastClickTime = time;
         return false;
     }
+
+    public synchronized static boolean isFastClick(long timeS) {
+        long time = System.currentTimeMillis();
+        if (time - lastClickTime < timeS) {
+            return true;
+        }
+        lastClickTime = time;
+        return false;
+    }
 }

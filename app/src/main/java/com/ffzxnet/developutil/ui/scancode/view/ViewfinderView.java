@@ -11,10 +11,11 @@ import android.graphics.RectF;
 import android.graphics.Shader;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.ViewGroup;
 
-import com.google.zxing.ResultPoint;
 import com.ffzxnet.developutil.R;
 import com.ffzxnet.developutil.ui.scancode.camera.CameraManager;
+import com.google.zxing.ResultPoint;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -84,11 +85,33 @@ public final class ViewfinderView extends View {
         this.possibleResultPoints = new HashSet<>(5);
     }
 
+    private Rect CameraRect;
+
+    @Override
     public void onDraw(Canvas canvas) {
         //控制扫码框位置
-        Rect frame = CameraManager.get().getFramingRect();
-        if (frame == null)
+        Rect frame = null;
+        if (CameraManager.get() != null) {
+            frame = CameraManager.get().getFramingRect();
+        } else {
+            if (CameraRect == null) {
+                ViewGroup mViewGroup = (ViewGroup) getParent();
+                if (null != mViewGroup) {
+                    int size = mViewGroup.getWidth() > mViewGroup.getHeight() ? mViewGroup.getHeight() : mViewGroup.getWidth();
+                    int WH = size / 2;
+                    int x1 = (int) (WH - (WH * 0.7));
+                    int y1 = WH - 100;
+                    int x2 = (int) (x1 + WH * 1.4);
+                    int y2 = (int) (y1 + WH * 1.4);
+                    CameraRect = new Rect(x1, y1, x2, y2);
+                }
+            }
+            frame = CameraRect;
+
+        }
+        if (frame == null) {
             return;
+        }
         if (scannerStart == 0 || scannerEnd == 0) {
             scannerStart = frame.top;
             scannerEnd = frame.bottom;
