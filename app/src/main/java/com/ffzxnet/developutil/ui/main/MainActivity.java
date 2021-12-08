@@ -3,6 +3,7 @@ package com.ffzxnet.developutil.ui.main;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Looper;
 import android.view.KeyEvent;
 import android.widget.RadioGroup;
 import android.widget.Toast;
@@ -14,6 +15,7 @@ import com.ffzxnet.developutil.constans.MyConstans;
 import com.ffzxnet.developutil.evenbus.MyEventbus;
 import com.ffzxnet.developutil.ui.for_result_activity.ForResultActivity;
 import com.ffzxnet.developutil.ui.video_download.utils.DownLoadUtil;
+import com.ffzxnet.developutil.utils.tools.AntiHijackingUtil;
 import com.ffzxnet.developutil.utils.ui.ToastUtil;
 import com.ffzxnet.developutil.utils.video_download.VideoDownloadManager;
 import com.ffzxnet.developutil.utils.video_download.listener.DownloadListener;
@@ -154,5 +156,28 @@ public class MainActivity extends BaseActivity implements MainContract.View, Rad
         super.onDestroy();
         //停止所有下载
         DownLoadUtil.stopAllDownLoading();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        //防止Activity被劫持
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                // 白名单
+                boolean safe = AntiHijackingUtil.checkActivity(getApplicationContext());
+                // 系统桌面
+                boolean isHome = AntiHijackingUtil.isHome(getApplicationContext());
+                // 锁屏操作
+                boolean isReflectScreen = AntiHijackingUtil.isReflectScreen(getApplicationContext());
+                // 判断程序是否当前显示
+                if (!safe && !isHome && !isReflectScreen) {
+                    Looper.prepare();
+                    ToastUtil.showToastLong(getString(R.string.activity_safe_warning));
+                    Looper.loop();
+                }
+            }
+        }).start();
     }
 }
