@@ -20,7 +20,12 @@ public class AnimationView extends View {
     private int PULL_DELTA;
     private float mWidthOffset;
 
-
+    //动画时间
+    private static long REL_DRAG_DUR = 100;
+    private static long SPRING_DUR = 100;
+    private static final long POP_BALL_DUR = 100;
+    private static final long OUTER_DUR = 200;
+    private static final long DONE_DUR = 500;
 
     private AnimatorStatus mAniStatus = AnimatorStatus.PULL_DOWN;
 
@@ -378,9 +383,6 @@ public class AnimationView extends View {
         return (int) (PULL_DELTA * getSprRatio());
     }
 
-
-    private static long REL_DRAG_DUR = 200;
-
     private long mStart;
     private long mStop;
     private int mSpriDeta;
@@ -402,7 +404,6 @@ public class AnimationView extends View {
         return Math.min(ratio, 1);
     }
 
-    private static long SPRING_DUR = 200;
     private long mSprStart;
     private long mSprStop;
 
@@ -424,7 +425,6 @@ public class AnimationView extends View {
         return Math.min(1, ratio);
     }
 
-    private static final long POP_BALL_DUR = 300;
     private long mPopStart;
     private long mPopStop;
 
@@ -445,7 +445,6 @@ public class AnimationView extends View {
         return Math.min(ratio, 1);
     }
 
-    private static final long OUTER_DUR = 200;
     private long mOutStart;
     private long mOutStop;
 
@@ -471,7 +470,6 @@ public class AnimationView extends View {
         return Math.min(ratio, 1);
     }
 
-    private static final long DONE_DUR = 1000;
     private long mDoneStart;
     private long mDoneStop;
 

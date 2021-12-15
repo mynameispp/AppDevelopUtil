@@ -16,12 +16,7 @@ import com.ffzxnet.developutil.R;
 
 import androidx.annotation.NonNull;
 
-/**
- * Created by zhanglei on 15/7/20.
- */
 public class CircleRefreshLayout extends FrameLayout {
-
-    private static String TAG = "pullToRefresh";
 
     private static final long BACK_TOP_DUR = 200;
     private static final long REL_DRAG_DUR = 200;

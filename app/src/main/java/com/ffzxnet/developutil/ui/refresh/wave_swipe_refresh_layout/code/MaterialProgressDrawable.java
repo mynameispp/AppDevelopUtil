@@ -46,8 +46,6 @@ import androidx.annotation.NonNull;
 
 /**
  * Fancy progress indicator for Material theme.
- *
- * @hide
  */
 public class MaterialProgressDrawable extends Drawable implements Animatable {
     private static final Interpolator LINEAR_INTERPOLATOR = new LinearInterpolator();
