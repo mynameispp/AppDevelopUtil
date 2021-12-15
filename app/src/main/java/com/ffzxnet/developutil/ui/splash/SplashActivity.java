@@ -87,7 +87,7 @@ public class SplashActivity extends BaseActivity {
                     redirectActivity(MainActivity.class);
                     finish();
                 }
-            }, 3000);
+            }, 2000);
         }
     }
 

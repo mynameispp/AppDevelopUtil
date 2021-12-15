@@ -23,7 +23,7 @@ public class CircleRefreshLayout extends FrameLayout {
 
     private static String TAG = "pullToRefresh";
 
-    private static final long BACK_TOP_DUR = 600;
+    private static final long BACK_TOP_DUR = 200;
     private static final long REL_DRAG_DUR = 200;
 
     private int mHeaderBackColor = 0xff8b90af;

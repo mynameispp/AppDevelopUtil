@@ -32,7 +32,7 @@
         <activity
             android:name=".ui.splash.SplashActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:launchMode="singleTop"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/BootPageActivityStyle"
             android:windowSoftInputMode="adjustResize">

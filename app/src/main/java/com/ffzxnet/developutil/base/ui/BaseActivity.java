@@ -315,7 +315,12 @@ public abstract class BaseActivity extends RxAppCompatActivity implements BaseAc
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if ((keyCode == KeyEvent.KEYCODE_BACK || keyCode == KeyEvent.KEYCODE_HOME ||
                 keyCode == KeyEvent.KEYCODE_BACKSLASH) && !LoadingUtil.isShowing()) {
-            goBackByQuick();
+            if (isTaskRoot()) {
+                //回退到桌面，再次打开会先显示Splash界面
+                moveTaskToBack(true);
+            } else {
+                goBackByQuick();
+            }
             return true;
         }
         return super.onKeyDown(keyCode, event);
