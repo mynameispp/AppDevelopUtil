@@ -15,7 +15,6 @@ import com.ffzxnet.developutil.utils.tools.ScreenUtils;
 import java.util.List;
 
 /**
- * Created by Whisky on 2017/7/8.
  * 摆放九宫格的图片View.传入相应的url就可以布局
  */
 

@@ -10,7 +10,8 @@ import com.ffzxnet.developutil.base.ui.adapter.GridSpacingItemDecoration;
 import com.ffzxnet.developutil.ui.album.AlbumActivity;
 import com.ffzxnet.developutil.ui.badge.BadgeTestActivity;
 import com.ffzxnet.developutil.ui.calendar.CalendarActivity;
-import com.ffzxnet.developutil.ui.constraiml_layout_test.TestConstraintLayoutActivity;
+import com.ffzxnet.developutil.ui.constraint_layout_test.TestConstraintLayoutActivity;
+import com.ffzxnet.developutil.ui.contacts_list.ContactsListActivity;
 import com.ffzxnet.developutil.ui.layout_anima.LayoutAnimaActivity;
 import com.ffzxnet.developutil.ui.main.fragment.first.adapter.FirstTestBean;
 import com.ffzxnet.developutil.ui.refresh.circle_refresh_layout.CircleRefreshLayoutActivity;
@@ -22,9 +23,7 @@ import com.ffzxnet.developutil.ui.video_play.DKVideoPlayActivity;
 import com.ffzxnet.developutil.ui.voice_recorde.VoiceRecordTestActivity;
 import com.willowtreeapps.spruce.Spruce;
 import com.willowtreeapps.spruce.animation.DefaultAnimations;
-import com.willowtreeapps.spruce.sort.LinearSort;
 import com.willowtreeapps.spruce.sort.RadialSort;
-import com.willowtreeapps.spruce.sort.SnakeSort;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,8 +31,6 @@ import java.util.List;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
-
-import static com.willowtreeapps.spruce.exclusion.ExclusionHelper.R_L_MODE;
 
 public class SecondFragment extends BaseFragment implements SecondFragmentAdapter.AdapterListen {
 
@@ -157,6 +154,12 @@ public class SecondFragment extends BaseFragment implements SecondFragmentAdapte
         item.setImage("https://t7.baidu.com/it/u=3624649723,387536556&fm=193&f=GIF");
         datas.add(item);
 
+        item = new FirstTestBean();
+        item.setTitle("联系人");
+        item.setContent("按首字母分类");
+        item.setImage("https://t7.baidu.com/it/u=3624649723,387536556&fm=193&f=GIF");
+        datas.add(item);
+
         adapter = new SecondFragmentAdapter(datas, this);
         secondFragmentRv.setAdapter(adapter);
     }
@@ -187,6 +190,8 @@ public class SecondFragment extends BaseFragment implements SecondFragmentAdapte
             redirectActivity(VoiceRecordTestActivity.class);
         } else if (data.getTitle().contains("布局动画")) {
             redirectActivity(LayoutAnimaActivity.class);
+        } else if (data.getTitle().contains("联系人")) {
+            redirectActivity(ContactsListActivity.class);
         }
     }
 }

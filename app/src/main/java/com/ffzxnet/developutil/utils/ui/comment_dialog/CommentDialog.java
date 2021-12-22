@@ -35,6 +35,7 @@ import androidx.annotation.StyleRes;
 
 /**
  * 创建者： feifan.pi 在 2017/6/28.
+ * 留言输入弹窗
  */
 
 public class CommentDialog extends Dialog implements View.OnClickListener, TextWatcher {

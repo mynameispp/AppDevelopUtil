@@ -1,7 +1,6 @@
-package com.ffzxnet.developutil.ui.constraiml_layout_test;
+package com.ffzxnet.developutil.ui.constraint_layout_test;
 
 import android.os.Bundle;
-import android.view.ViewTreeObserver;
 
 import com.ffzxnet.developutil.R;
 import com.ffzxnet.developutil.base.ui.BaseActivity;
