@@ -17,9 +17,9 @@ import android.util.AttributeSet;
 import android.util.TypedValue;
 
 import com.ffzxnet.developutil.R;
-import com.ffzxnet.developutil.utils.tools.LogUtil;
 
 import androidx.appcompat.widget.AppCompatImageView;
+import androidx.core.content.ContextCompat;
 
 
 public class RoundImageView extends AppCompatImageView {
@@ -59,6 +59,12 @@ public class RoundImageView extends AppCompatImageView {
      * view的宽度
      */
     private int mWidth;
+
+    //边框大小和颜色
+    private Paint mStrokePaint;
+    private int stroke_width;
+    private int stroke_color;
+
     private RectF mRoundRect;
     private boolean mBorderRadiusTopLeft, mBorderRadiusTopRight, mBorderRadiusBottomLeft, mBorderRadiusBottomRight;
 
@@ -87,6 +93,13 @@ public class RoundImageView extends AppCompatImageView {
                 R.styleable.RoundImageView_borderRadiusBottomRight, true);//圆角 ：右下角
         type = a.getInt(R.styleable.RoundImageView_type, TYPE_CIRCLE);// 默认为Circle
 
+        stroke_width = a.getDimensionPixelSize(R.styleable.RoundImageView_borderStrokeWidth, 0);// 边框大小
+        stroke_color = a.getColor(R.styleable.RoundImageView_borderStrokeColor, ContextCompat.getColor(getContext(), R.color.white));// 边框颜色
+
+        if (stroke_width > 0) {
+            mStrokePaint = new Paint();
+            mStrokePaint.setAntiAlias(true);
+        }
         a.recycle();
     }
 
@@ -128,9 +141,6 @@ public class RoundImageView extends AppCompatImageView {
             scale = mWidth * 1.0f / bSize;
 
         } else if (type == TYPE_ROUND || type == TYPE_ROUND_Fix) {
-            LogUtil.e("TAG",
-                    "b'w = " + bmp.getWidth() + " , " + "b'h = "
-                            + bmp.getHeight());
             if (!(bmp.getWidth() == getWidth() && bmp.getHeight() == getHeight())) {
                 // 如果图片的宽或者高与view的宽高不匹配，计算出需要缩放的比例；缩放后的图片的宽高，一定要大于我们view的宽高；所以我们这里取大值；
                 scale = Math.max(getWidth() * 1.0f / bmp.getWidth(),
@@ -174,7 +184,11 @@ public class RoundImageView extends AppCompatImageView {
                 canvas.drawRect(mRoundRect.right - mBorderRadius, mRoundRect.bottom - mBorderRadius, mRoundRect.right, mRoundRect.bottom, mBitmapPaint);
             }
         } else {
-            canvas.drawCircle(mRadius, mRadius, mRadius, mBitmapPaint);
+            if (stroke_width > 0) {
+                mStrokePaint.setColor(stroke_color);
+                canvas.drawCircle(mRadius, mRadius, mRadius, mStrokePaint);
+            }
+            canvas.drawCircle(mRadius, mRadius, mRadius - stroke_width, mBitmapPaint);
             // drawSomeThing(canvas);
         }
     }

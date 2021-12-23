@@ -2,10 +2,11 @@
 <com.mcxtzhang.swipemenulib.SwipeMenuLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="100dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:clickable="true">
 
     <RelativeLayout
-        android:id="@+id/item_main_test_left_content"
+        android:id="@+id/item_main_first_left_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
@@ -13,27 +14,30 @@
         android:orientation="vertical"
         android:padding="10dp">
 
-        <ImageView
-            android:id="@+id/item_main_test_image"
+        <com.ffzxnet.developutil.utils.ui.RoundImageView
+            android:id="@+id/item_main_first_image"
             android:layout_width="90dp"
-            android:layout_height="90dp" />
+            android:layout_height="90dp"
+            app:type="circle"
+            app:borderStrokeColor="@color/colorPrimary"
+            app:borderStrokeWidth="3dp"/>
 
         <TextView
-            android:id="@+id/item_main_test_title"
+            android:id="@+id/item_main_first_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@id/item_main_test_image"
+            android:layout_alignTop="@id/item_main_first_image"
             android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@id/item_main_test_image"
+            android:layout_toRightOf="@id/item_main_first_image"
             android:textColor="@color/black_33"
             android:textSize="16sp" />
 
         <TextView
-            android:id="@+id/item_main_test_content"
+            android:id="@+id/item_main_first_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@id/item_main_test_title"
-            android:layout_alignBottom="@id/item_main_test_image"
+            android:layout_alignLeft="@id/item_main_first_title"
+            android:layout_alignBottom="@id/item_main_first_image"
             android:textColor="@color/black_66" />
     </RelativeLayout>
 
@@ -43,7 +47,7 @@
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/item_main_test_delete"
+            android:id="@+id/item_main_first_delete"
             android:layout_width="80dp"
             android:layout_height="match_parent"
             android:background="@color/red"

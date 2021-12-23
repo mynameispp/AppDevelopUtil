@@ -3,14 +3,16 @@
     <!--我的碎片 中的自定义组合View-->
     <declare-styleable name="UserItemView">
         <attr name="iconSrc" format="reference|integer" />
-        <attr name="itemText" format="string"/>
-        <attr name="iconVisibilty" format="boolean"/>
-        <attr name="splitVisibity" format="boolean"/>
-        <attr name="textPaddingLeft" format="dimension"/>
+        <attr name="itemText" format="string" />
+        <attr name="iconVisibilty" format="boolean" />
+        <attr name="splitVisibity" format="boolean" />
+        <attr name="textPaddingLeft" format="dimension" />
     </declare-styleable>
 
     <declare-styleable name="RoundImageView">
         <attr name="borderRadius" format="dimension" />
+        <attr name="borderStrokeWidth" format="dimension" />
+        <attr name="borderStrokeColor" format="color" />
         <attr name="borderRadiusTopLeft" format="boolean" />
         <attr name="borderRadiusTopRight" format="boolean" />
         <attr name="borderRadiusBottomLeft" format="boolean" />
@@ -35,13 +37,13 @@
     </declare-styleable>
 
     <declare-styleable name="ShadowContainer">
-        <attr name="containerShadowColor" format="color"/>
-        <attr name="containerShadowRadius" format="dimension"/>
-        <attr name="containerDeltaLength" format="dimension"/>
-        <attr name="containerCornerRadius" format="dimension"/>
-        <attr name="deltaX" format="dimension"/>
-        <attr name="deltaY" format="dimension"/>
-        <attr name="enable" format="boolean"/>
+        <attr name="containerShadowColor" format="color" />
+        <attr name="containerShadowRadius" format="dimension" />
+        <attr name="containerDeltaLength" format="dimension" />
+        <attr name="containerCornerRadius" format="dimension" />
+        <attr name="deltaX" format="dimension" />
+        <attr name="deltaY" format="dimension" />
+        <attr name="enable" format="boolean" />
     </declare-styleable>
 
 </resources>
