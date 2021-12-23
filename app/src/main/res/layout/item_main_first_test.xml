@@ -20,7 +20,7 @@
             android:layout_height="90dp"
             app:type="circle"
             app:borderStrokeColor="@color/colorPrimary"
-            app:borderStrokeWidth="3dp"/>
+            app:borderStrokeWidth="2dp"/>
 
         <TextView
             android:id="@+id/item_main_first_title"

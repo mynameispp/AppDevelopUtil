@@ -99,6 +99,7 @@ public class RoundImageView extends AppCompatImageView {
         if (stroke_width > 0) {
             mStrokePaint = new Paint();
             mStrokePaint.setAntiAlias(true);
+            mStrokePaint.setColor(stroke_color);
         }
         a.recycle();
     }
@@ -165,6 +166,13 @@ public class RoundImageView extends AppCompatImageView {
         setUpShader();
 
         if (type == TYPE_ROUND) {
+            if (stroke_width > 0) {
+                canvas.drawRoundRect(mRoundRect, mBorderRadius, mBorderRadius, mStrokePaint);
+            }
+            mRoundRect.left = mRoundRect.left + stroke_width;
+            mRoundRect.top = mRoundRect.top + stroke_width;
+            mRoundRect.right = mRoundRect.right - stroke_width;
+            mRoundRect.bottom = mRoundRect.bottom - stroke_width;
             canvas.drawRoundRect(mRoundRect, mBorderRadius, mBorderRadius,
                     mBitmapPaint);
         } else if (type == TYPE_ROUND_Fix) {
@@ -185,7 +193,6 @@ public class RoundImageView extends AppCompatImageView {
             }
         } else {
             if (stroke_width > 0) {
-                mStrokePaint.setColor(stroke_color);
                 canvas.drawCircle(mRadius, mRadius, mRadius, mStrokePaint);
             }
             canvas.drawCircle(mRadius, mRadius, mRadius - stroke_width, mBitmapPaint);
@@ -198,8 +205,9 @@ public class RoundImageView extends AppCompatImageView {
         super.onSizeChanged(w, h, oldw, oldh);
 
         // 圆角图片的范围
-        if (type == TYPE_ROUND || type == TYPE_ROUND_Fix)
-            mRoundRect = new RectF(0, 0, w, h);
+        if (type == TYPE_ROUND || type == TYPE_ROUND_Fix) {
+            mRoundRect = new RectF(0, 0, w - mBorderRadius, h - mBorderRadius);
+        }
     }
 
     /**
