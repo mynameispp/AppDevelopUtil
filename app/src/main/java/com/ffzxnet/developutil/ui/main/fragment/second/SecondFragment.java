@@ -12,6 +12,7 @@ import com.ffzxnet.developutil.ui.badge.BadgeTestActivity;
 import com.ffzxnet.developutil.ui.calendar.CalendarActivity;
 import com.ffzxnet.developutil.ui.constraint_layout_test.TestConstraintLayoutActivity;
 import com.ffzxnet.developutil.ui.contacts_list.ContactsListActivity;
+import com.ffzxnet.developutil.ui.guide.NewsGuideTestActivity;
 import com.ffzxnet.developutil.ui.layout_anima.LayoutAnimaActivity;
 import com.ffzxnet.developutil.ui.main.fragment.first.adapter.FirstTestBean;
 import com.ffzxnet.developutil.ui.refresh.circle_refresh_layout.CircleRefreshLayoutActivity;
@@ -160,6 +161,12 @@ public class SecondFragment extends BaseFragment implements SecondFragmentAdapte
         item.setImage("https://t7.baidu.com/it/u=3624649723,387536556&fm=193&f=GIF");
         datas.add(item);
 
+        item = new FirstTestBean();
+        item.setTitle("新手引导");
+        item.setContent("第一次使用引导用户使用");
+        item.setImage("https://t7.baidu.com/it/u=3624649723,387536556&fm=193&f=GIF");
+        datas.add(item);
+
         adapter = new SecondFragmentAdapter(datas, this);
         secondFragmentRv.setAdapter(adapter);
     }
@@ -192,6 +199,8 @@ public class SecondFragment extends BaseFragment implements SecondFragmentAdapte
             redirectActivity(LayoutAnimaActivity.class);
         } else if (data.getTitle().contains("联系人")) {
             redirectActivity(ContactsListActivity.class);
+        } else if (data.getTitle().contains("新手引导")) {
+            redirectActivity(NewsGuideTestActivity.class);
         }
     }
 }

@@ -71,6 +71,9 @@ public class ContactsListActivity extends BaseActivity implements ContactsListAd
             adapter = new ContactsListAdapter(contactsListBeans, this);
             contactsLayoutManage = new LinearLayoutManager(this);
             contactsListRv.setLayoutManager(contactsLayoutManage);
+            contactsListRv.addItemDecoration(new LinearLaySpacingItemDecoration(LinearLaySpacingItemDecoration.VERTICAL_LIST
+                    , 1, R.color.gray_CC));
+
             //字母分割标题数据
             mHeaderList = new LinkedHashMap<>();
             int size = contactsListBeans.size();
@@ -81,13 +84,11 @@ public class ContactsListActivity extends BaseActivity implements ContactsListAd
                     mHeaderList.put(i, contactsListBeans.get(i).getInitial());
                 }
             }
-            //字母分割标题 End
-
-            contactsListRv.addItemDecoration(new LinearLaySpacingItemDecoration(LinearLaySpacingItemDecoration.VERTICAL_LIST
-                    , 1, R.color.gray_CC));
             contactsListRv.addItemDecoration(
                     new FloatingBarItemDecoration(this, mHeaderList
                             , R.color.gray_CC, R.dimen.size_dp_26, R.color.colorPrimaryDark, R.dimen.size_sp_16, R.dimen.size_dp_16));
+            //字母分割标题 End
+
             contactsListRv.setAdapter(adapter);
 
             //右边字母列表
