@@ -20,6 +20,8 @@ public class MMKVUtil {
     public static final String ISGESTURELOCK_KEY="ISGESTURELOCK_KEY";
     //本地录音数据-
     public static final String Local_Audio_Record_List="Local_Audio_Record_List";
+    //App语言
+    public static final String CURRENT_APP_LANGUAGE="CURRENT_APP_LANGUAGE";
     //===============================================================================
 
 

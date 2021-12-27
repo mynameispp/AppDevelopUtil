@@ -1,6 +1,7 @@
 package com.ffzxnet.developutil.base.ui;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
@@ -24,7 +25,10 @@ import com.ffzxnet.developutil.constans.MyConstans;
 import com.ffzxnet.developutil.net.ErrorResponse;
 import com.ffzxnet.developutil.net.net_status.NetType;
 import com.ffzxnet.developutil.net.net_status.NetworkLiveData;
+import com.ffzxnet.developutil.ui.unlock.code.language.LanguageType;
+import com.ffzxnet.developutil.ui.unlock.code.language.LanguageUtil;
 import com.ffzxnet.developutil.utils.tools.LogUtil;
+import com.ffzxnet.developutil.utils.tools.MMKVUtil;
 import com.ffzxnet.developutil.utils.tools.SetTextViewDrawable;
 import com.ffzxnet.developutil.utils.ui.LoadingUtil;
 import com.ffzxnet.developutil.utils.ui.PermissionDescriptionDialog;
@@ -537,10 +541,15 @@ public abstract class BaseActivity extends RxAppCompatActivity implements BaseAc
      * @param flag   Fragment的标识,指定跳转对应的Fragment
      * @param bundle 夹带参数Bundle
      */
-    public void beginShowFragment(int flag, Bundle bundle) {
-    }
+    public void beginShowFragment(int flag, Bundle bundle) {}
 
     //切换语言====================================
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        //获取我们存储的语言环境 比如 "en","zh",等等
+        String language = MMKVUtil.getInstance().getString(MMKVUtil.CURRENT_APP_LANGUAGE, LanguageType.CHINESE.getLanguage());
+        super.attachBaseContext(LanguageUtil.attachBaseContext(newBase, language));
+    }
 
     /**
      * 切换语言

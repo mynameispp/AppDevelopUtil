@@ -10,6 +10,7 @@ import com.ffzxnet.developutil.application.MyApplication;
 import com.ffzxnet.developutil.base.ui.BaseActivity;
 import com.ffzxnet.developutil.ui.unlock.code.GestureLockActivity;
 import com.ffzxnet.developutil.ui.unlock.code.LoginSettingActivity;
+import com.ffzxnet.developutil.ui.unlock.code.language.LanguageSettingActivity;
 import com.ffzxnet.developutil.utils.tools.MMKVUtil;
 import com.ffzxnet.developutil.utils.ui.ToastUtil;
 import com.ffzxnet.developutil.utils.ui.titanic.Typefaces;
@@ -44,7 +45,7 @@ public class UnlockActivity extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.moreLanguageBtn:
-//                startActivity(LanguageActivity.class);
+                redirectActivity(LanguageSettingActivity.class);
                 break;
             case R.id.fingerprintLoginBtn:
                 redirectActivity(LoginSettingActivity.class);

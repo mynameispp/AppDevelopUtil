@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <string name="login">login</string>
-  <string name="moreLanguage">moreLanguage</string>
-  <string name="loginSetting">loginSetting</string>
-  <string name="fingerprintLogin">fingerprintLogin</string>
-  <string name="gestureLogin">gestureLogin</string>
+    <string name="login">login</string>
+    <string name="moreLanguage">moreLanguage</string>
+    <string name="loginSetting">loginSetting</string>
+    <string name="fingerprintLogin">fingerprintLogin</string>
+    <string name="gestureLogin">gestureLogin</string>
 
+    <string name="languange_title">Language Setting</string>
+    <string name="languange_ch">Chinese</string>
+    <string name="languange_en">English</string>
 </resources>

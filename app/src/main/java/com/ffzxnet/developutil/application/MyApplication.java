@@ -2,11 +2,15 @@ package com.ffzxnet.developutil.application;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.text.TextUtils;
 
 import com.ffzxnet.developutil.constans.MyConstans;
+import com.ffzxnet.developutil.ui.unlock.code.language.LanguageUtil;
 import com.ffzxnet.developutil.ui.video_play.my_ijk.MyVideoPlayerFactory;
+import com.ffzxnet.developutil.utils.tools.MMKVUtil;
 import com.ffzxnet.developutil.utils.tools.ScreenUtils;
 import com.ffzxnet.developutil.utils.video_download.VideoDownloadConfig;
 import com.ffzxnet.developutil.utils.video_download.VideoDownloadManager;
@@ -46,6 +50,7 @@ public class MyApplication extends Application {
         } else {
             language = getResources().getConfiguration().locale;
         }
+        initLanguage();
         //手机屏幕基础信息
         MyConstans.Screen_Width = ScreenUtils.getScreenWidth(mContext);
         MyConstans.Screen_Height = ScreenUtils.getScreenHeight(mContext);
@@ -77,7 +82,6 @@ public class MyApplication extends Application {
         VideoDownloadManager.getInstance().initConfig(config);
     }
 
-
     /**
      * 初始化监听内存溢出框架
      */
@@ -88,6 +92,23 @@ public class MyApplication extends Application {
 //        LeakCanary.install(this);
 //        return false;
 //    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        initLanguage();
+    }
+
+    private void initLanguage() {
+        String language = MMKVUtil.getInstance().getString(MMKVUtil.CURRENT_APP_LANGUAGE, "");
+        if (TextUtils.isEmpty(language)) {
+            return;
+        }
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+            LanguageUtil.changeAppLanguage(MyApplication.getContext(), language);
+        }
+    }
+
     public static String getStringByResId(int strId) {
         return MyApplication.getContext().getResources().getString(strId);
     }

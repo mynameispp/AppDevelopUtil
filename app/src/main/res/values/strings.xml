@@ -14,4 +14,8 @@
     <string name="loading_msg">正在获取信息，请稍后&#8230;</string>
 
     <string name="activity_safe_warning">DevelopUtil已切换至后台运行！</string>
+
+    <string name="languange_title">语言设置</string>
+    <string name="languange_ch">中文</string>
+    <string name="languange_en">英文</string>
 </resources>

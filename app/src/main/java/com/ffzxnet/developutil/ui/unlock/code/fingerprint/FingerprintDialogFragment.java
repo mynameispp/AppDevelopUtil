@@ -1,14 +1,19 @@
 package com.ffzxnet.developutil.ui.unlock.code.fingerprint;
 
-import android.annotation.TargetApi;
+import android.app.KeyguardManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.hardware.biometrics.BiometricPrompt;
 import android.hardware.fingerprint.FingerprintManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.CancellationSignal;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,16 +23,15 @@ import javax.crypto.Cipher;
 
 import androidx.annotation.Nullable;
 import androidx.core.hardware.fingerprint.FingerprintManagerCompat;
-import androidx.core.os.CancellationSignal;
 import androidx.fragment.app.DialogFragment;
 
-@TargetApi(23)
 public class FingerprintDialogFragment extends DialogFragment {
-
+    //Android 29,这里29版本的代码建议直接在activity里面使用，这里只是方便测试
     private BiometricPrompt biometricPrompt;
-    private FingerprintManagerCompat fingerprintManagerCompat;
-
     private CancellationSignal mCancellationSignal;
+    //Android <29
+    private FingerprintManagerCompat fingerprintManagerCompat;
+    private androidx.core.os.CancellationSignal mCancellationSignalAndroidX;
 
     private Cipher mCipher;
 
@@ -53,7 +57,6 @@ public class FingerprintDialogFragment extends DialogFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        fingerprintManagerCompat = FingerprintManagerCompat.from(mActivity);
         setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_Material_Light_Dialog);
     }
 
@@ -76,6 +79,17 @@ public class FingerprintDialogFragment extends DialogFragment {
     @Override
     public void onResume() {
         super.onResume();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            mCancellationSignal = new CancellationSignal();
+            Window window = getDialog().getWindow();
+            WindowManager.LayoutParams layoutParams = window.getAttributes();
+            layoutParams.height = 0;
+            layoutParams.alpha=0;
+            window.setAttributes(layoutParams);
+        } else {
+            mCancellationSignalAndroidX = new androidx.core.os.CancellationSignal();
+            fingerprintManagerCompat = FingerprintManagerCompat.from(mActivity);
+        }
         // 开始指纹认证监听
         startListening(mCipher);
     }
@@ -89,10 +103,25 @@ public class FingerprintDialogFragment extends DialogFragment {
 
     private void startListening(Cipher cipher) {
         isSelfCancelled = false;
-        mCancellationSignal = new CancellationSignal();
-        FingerprintManagerCompat.CryptoObject cryptoObject = new FingerprintManagerCompat.CryptoObject(cipher);
-        fingerprintManagerCompat.authenticate(cryptoObject, 0, mCancellationSignal, new MyCallBack(), null);
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            KeyguardManager keyguardManager = (KeyguardManager) mActivity.getSystemService(Context.KEYGUARD_SERVICE);
+            if (null != keyguardManager && keyguardManager.isKeyguardSecure()) {
+                BiometricPrompt biometricPrompt = new BiometricPrompt.Builder(mActivity)
+                        .setTitle("指纹验证")
+                        .setDescription("请验证指纹")
+                        .setNegativeButton("取消", mActivity.getMainExecutor(), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dismiss();
+                            }
+                        }).build();
+                biometricPrompt.authenticate(mCancellationSignal, mActivity.getMainExecutor(), new QMyCallBack());
+            }
+        } else {
+            FingerprintManagerCompat.CryptoObject cryptoObject = new FingerprintManagerCompat.CryptoObject(cipher);
+            fingerprintManagerCompat.authenticate(cryptoObject, 0, mCancellationSignalAndroidX, new MyCallBack(), null);
+        }
     }
 
     public class MyCallBack extends FingerprintManagerCompat.AuthenticationCallback {
@@ -143,10 +172,42 @@ public class FingerprintDialogFragment extends DialogFragment {
         }
     }
 
+    //Android 29
+    public class QMyCallBack extends BiometricPrompt.AuthenticationCallback {
+        @Override
+        public void onAuthenticationError(int errorCode, CharSequence errString) {
+            super.onAuthenticationError(errorCode, errString);
+            if (!isSelfCancelled) {
+                if (errorCode == BiometricPrompt.BIOMETRIC_ERROR_LOCKOUT
+                        || errorCode == BiometricPrompt.BIOMETRIC_ERROR_USER_CANCELED) {
+                    dismiss();
+                }
+            }
+        }
+
+        @Override
+        public void onAuthenticationFailed() {
+            super.onAuthenticationFailed();
+        }
+
+        @Override
+        public void onAuthenticationSucceeded(BiometricPrompt.AuthenticationResult result) {
+            super.onAuthenticationSucceeded(result);
+            if (onFingerprintSetting != null) {
+                onFingerprintSetting.onFingerprint(true);
+            }
+            dismiss();
+        }
+    }
+
     private void stopListening() {
         if (mCancellationSignal != null) {
             mCancellationSignal.cancel();
             mCancellationSignal = null;
+            isSelfCancelled = true;
+        } else if (mCancellationSignalAndroidX != null) {
+            mCancellationSignalAndroidX.cancel();
+            mCancellationSignalAndroidX = null;
             isSelfCancelled = true;
         }
     }

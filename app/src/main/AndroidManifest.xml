@@ -16,6 +16,7 @@
     <uses-feature android:name="android.hardware.camera.autofocus" />
     <!-- 指纹权限 -->
     <uses-permission android:name="android.permission.USE_FINGERPRINT" />
+    <uses-permission android:name="android.permission.USE_BIOMETRIC" />
     <!-- 这个权限用于录音-->
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
@@ -189,6 +190,12 @@
             android:windowSoftInputMode="stateHidden|stateUnchanged" />
         <activity
             android:name=".ui.guide.NewsGuideTestActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" />
+        <activity
+            android:name=".ui.unlock.code.language.LanguageSettingActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
