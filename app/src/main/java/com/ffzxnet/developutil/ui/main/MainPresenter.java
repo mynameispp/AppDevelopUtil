@@ -43,7 +43,7 @@ public class MainPresenter extends BasePresenterParent implements MainContract.P
                 firstFragment.setArguments(bundle);
                 fragment = firstFragment;
                 break;
-            case MyConstans.Flag_Fragment_Seconde:
+            case MyConstans.Flag_Fragment_Second:
                 if (secondFragment == null) {
                     secondFragment = new SecondFragment();
                 }

@@ -18,4 +18,14 @@
     <string name="languange_title">语言设置</string>
     <string name="languange_ch">中文</string>
     <string name="languange_en">英文</string>
+
+    <string name="ble_title" formatted="true">设备</string>
+    <string name="ble_search_star" formatted="true">开始查找</string>
+    <string name="ble_search_stop" formatted="true">停止查找</string>
+    <string name="ble_searching" formatted="true">正在查找设备</string>
+    <string name="ble_connection_now" formatted="true">正在配对，请稍后</string>
+    <string name="ble_searching_empty" formatted="true">没有搜到蓝牙设备~</string>
+    <string name="ble_search_not_supp" formatted="true">您的手机暂不支持蓝牙</string>
+    <string name="ble_device_status_0" formatted="true">未配对</string>
+    <string name="ble_device_status_1" formatted="true">已配对</string>
 </resources>

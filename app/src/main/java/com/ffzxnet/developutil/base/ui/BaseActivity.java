@@ -353,11 +353,11 @@ public abstract class BaseActivity extends RxAppCompatActivity implements BaseAc
             onClickTitleBack();
         }
         if (v.getId() == R.id.toolbar_right_tv) {
-            onClickRightBtn();
+            onClickRightBtn(v);
         }
     }
 
-    protected void onClickRightBtn() {
+    protected void onClickRightBtn(View v) {
 
     }
 

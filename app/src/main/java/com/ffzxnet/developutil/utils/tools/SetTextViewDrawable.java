@@ -55,6 +55,20 @@ public class SetTextViewDrawable {
     }
 
     /**
+     * 设置Title TextView图片 drawableLeft
+     *
+     * @param textView
+     * @param drawableId
+     * @param TintColor
+     */
+    public static void setLeftView(final TextView textView, int drawableId,int TintColor) {
+        Drawable drawable = MyApplication.getDrawableByResId(drawableId);
+        drawable.setTint(TintColor);
+        drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+        textView.setCompoundDrawables(drawable, null, null, null);
+    }
+
+    /**
      * 设置Title TextView图片 drawableRight
      *
      * @param textView

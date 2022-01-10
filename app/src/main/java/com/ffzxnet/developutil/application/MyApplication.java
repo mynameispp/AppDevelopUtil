@@ -16,6 +16,7 @@ import com.ffzxnet.developutil.utils.video_download.VideoDownloadConfig;
 import com.ffzxnet.developutil.utils.video_download.VideoDownloadManager;
 import com.ffzxnet.developutil.utils.video_download.common.DownloadConstants;
 import com.ffzxnet.developutil.utils.video_download.utils.VideoStorageUtils;
+import com.inuker.bluetooth.library.BluetoothClient;
 
 import java.io.File;
 import java.util.Locale;
@@ -32,9 +33,18 @@ public class MyApplication extends Application {
     //默认中文
     public static Locale language;
     private static Context mContext;
+    private static BluetoothClient bluetoothClient;
 
     public static Context getContext() {
         return mContext;
+    }
+
+    //蓝牙
+    public static BluetoothClient getBluetoothClient() {
+        if (null == bluetoothClient) {
+            bluetoothClient = new BluetoothClient(mContext);
+        }
+        return bluetoothClient;
     }
 
     @Override

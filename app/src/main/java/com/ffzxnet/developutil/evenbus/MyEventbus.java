@@ -21,4 +21,8 @@ public class MyEventbus {
             this.videoTaskItem = videoTaskItem;
         }
     }
+
+    //有电话
+    public static class InCallEvent {
+    }
 }

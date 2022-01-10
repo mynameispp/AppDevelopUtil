@@ -20,6 +20,23 @@
     <!-- 这个权限用于录音-->
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
+   <!-- 忽略电池优化  常驻后台需要禁止电池优化，监听来电，跑步，通知推送到手表等-->
+    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
+    <!--接听和挂断电话-->
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.ANSWER_PHONE_CALLS" />
+    <uses-permission android:name="android.permission.MODIFY_PHONE_STATE" />
+    <!--运动数据-->
+    <uses-permission android:name="android.permission.BODY_SENSORS" />
+    <!--蓝牙-->
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+    <uses-feature
+        android:name="android.hardware.bluetooth_le"
+        android:required="true" />
 
     <application
         android:name=".application.MyApplication"
@@ -200,10 +217,29 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|stateUnchanged" />
+        <activity
+            android:name=".ui.blue_tooth.BluetoothActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" />
 
         <!-- =======================   Service    ========================= -->
         <service android:name=".service.DownLoadingService" />
         <service android:name=".utils.badge_notice.BadgeService" />
+        <!-- 蓝牙服务-->
+        <service android:name="com.inuker.bluetooth.library.BluetoothService" />
+        <service android:name=".ui.blue_tooth.service.BLEDeviceService" />
+        <!--  通知栏监听-->
+        <service
+            android:name=".ui.blue_tooth.service.NotificationCollectorService"
+            android:label="@string/app_name"
+            android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
+            <intent-filter>
+                <action android:name="android.service.notification.NotificationListenerService" />
+            </intent-filter>
+        </service>
+        <!-- =======================   BroadcastReceiver    ========================= -->
 
         <!-- Glide -->
         <meta-data

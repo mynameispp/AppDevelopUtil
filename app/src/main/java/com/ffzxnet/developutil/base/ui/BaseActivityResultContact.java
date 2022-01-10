@@ -5,8 +5,6 @@ import android.content.Intent;
 
 import com.ffzxnet.developutil.constans.MyConstans;
 import com.ffzxnet.developutil.ui.scancode.activity.BaseCaptureActivity;
-import com.ffzxnet.developutil.ui.unlock.code.gesture.SetGestureLockActivity;
-import com.ffzxnet.developutil.utils.tools.DeviceUtil;
 
 import androidx.activity.result.contract.ActivityResultContract;
 import androidx.annotation.NonNull;
@@ -14,7 +12,7 @@ import androidx.annotation.Nullable;
 
 public class BaseActivityResultContact extends ActivityResultContract<Intent, Object> {
     public static final int ResultCode_Code1 = 10001;
-
+    public static final String ResultCode_Default = "ResultCode_Default";
 
     @NonNull
     @Override
@@ -39,6 +37,11 @@ public class BaseActivityResultContact extends ActivityResultContract<Intent, Ob
                 }
                 break;
         }
+
+        if (intent != null) {
+            intent.putExtra(ResultCode_Default, resultCode);
+        }
+
         return intent;
     }
 }

@@ -9,6 +9,7 @@ import com.ffzxnet.developutil.base.ui.BaseFragment;
 import com.ffzxnet.developutil.base.ui.adapter.GridSpacingItemDecoration;
 import com.ffzxnet.developutil.ui.album.AlbumActivity;
 import com.ffzxnet.developutil.ui.badge.BadgeTestActivity;
+import com.ffzxnet.developutil.ui.blue_tooth.BluetoothActivity;
 import com.ffzxnet.developutil.ui.calendar.CalendarActivity;
 import com.ffzxnet.developutil.ui.constraint_layout_test.TestConstraintLayoutActivity;
 import com.ffzxnet.developutil.ui.contacts_list.ContactsListActivity;
@@ -167,6 +168,12 @@ public class SecondFragment extends BaseFragment implements SecondFragmentAdapte
         item.setImage("https://t7.baidu.com/it/u=3624649723,387536556&fm=193&f=GIF");
         datas.add(item);
 
+        item = new FirstTestBean();
+        item.setTitle("蓝牙");
+        item.setContent("蓝牙搜索，连接，读写，接拒电话，蓝牙控制音乐");
+        item.setImage("https://t7.baidu.com/it/u=3624649723,387536556&fm=193&f=GIF");
+        datas.add(item);
+
         adapter = new SecondFragmentAdapter(datas, this);
         secondFragmentRv.setAdapter(adapter);
     }
@@ -201,6 +208,8 @@ public class SecondFragment extends BaseFragment implements SecondFragmentAdapte
             redirectActivity(ContactsListActivity.class);
         } else if (data.getTitle().contains("新手引导")) {
             redirectActivity(NewsGuideTestActivity.class);
+        } else if (data.getTitle().contains("蓝牙")) {
+            redirectActivity(BluetoothActivity.class);
         }
     }
 }

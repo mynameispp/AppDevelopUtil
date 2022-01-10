@@ -91,7 +91,7 @@ public class MainActivity extends BaseActivity implements MainContract.View, Rad
                 setToolBarTitle("列表");
                 break;
             case R.id.main_bottom_2:
-                mainPresenter.showFragment(MyConstans.Flag_Fragment_Seconde, null);
+                mainPresenter.showFragment(MyConstans.Flag_Fragment_Second, null);
                 setToolBarTitle("功能");
                 break;
             case R.id.main_bottom_3:

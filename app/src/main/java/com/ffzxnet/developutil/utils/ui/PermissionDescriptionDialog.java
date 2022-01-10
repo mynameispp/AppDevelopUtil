@@ -42,7 +42,9 @@ public class PermissionDescriptionDialog extends DialogFragment {
         permissionDescriptionInfo.put(Manifest.permission.CAMERA
                 , "<b><tt>获取摄像头<tt></b> <br>拍照，扫码操作，需要获取摄像头权限");
         permissionDescriptionInfo.put(Manifest.permission.ACCESS_FINE_LOCATION
-                , "<b><tt>获取设备位置<tt></b> <br>wifi打卡，需要获取位置权限");
+                , "<b><tt>获取设备位置<tt></b> <br>蓝牙搜索，需要获取位置权限");
+        permissionDescriptionInfo.put(Manifest.permission.ACCESS_BACKGROUND_LOCATION
+                , "<b><tt>获取设备位置<tt></b> <br>蓝牙搜索，需要获取后台位置权限");
         permissionDescriptionInfo.put(Manifest.permission.ACCESS_WIFI_STATE
                 , "<b><tt>获取Wifi信息<tt></b> <br>wifi打卡，需要获取Wifi信息权限");
         permissionDescriptionInfo.put(Manifest.permission.ACCESS_NETWORK_STATE
@@ -55,6 +57,8 @@ public class PermissionDescriptionDialog extends DialogFragment {
                 , "<b><tt>指纹解密<tt></b> <br>判断手机是否支持指纹，需要拨打电话权限");
         permissionDescriptionInfo.put(Manifest.permission.RECORD_AUDIO
                 , "<b><tt>录音<tt></b> <br>录音需要录音权限");
+        permissionDescriptionInfo.put(Manifest.permission.BODY_SENSORS
+                , "<b><tt>录音<tt></b> <br>运动数据需要获取运动权限");
     }
 
     private View.OnClickListener clickListener;
