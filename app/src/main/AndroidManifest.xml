@@ -20,7 +20,7 @@
     <!-- 这个权限用于录音-->
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-   <!-- 忽略电池优化  常驻后台需要禁止电池优化，监听来电，跑步，通知推送到手表等-->
+    <!-- 忽略电池优化  常驻后台需要禁止电池优化，监听来电，跑步，通知推送到手表等-->
     <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
     <!--接听和挂断电话-->
     <uses-permission android:name="android.permission.CALL_PHONE" />
@@ -34,6 +34,7 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+
     <uses-feature
         android:name="android.hardware.bluetooth_le"
         android:required="true" />
@@ -219,6 +220,12 @@
             android:windowSoftInputMode="stateHidden|stateUnchanged" />
         <activity
             android:name=".ui.blue_tooth.BluetoothActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" />
+        <activity
+            android:name=".ui.custom_view.CustomViewActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"

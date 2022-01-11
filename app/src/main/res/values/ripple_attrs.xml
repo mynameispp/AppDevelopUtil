@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="RippleView">
+        <!--中心圆颜色-->
+        <attr name="center_color" format="color" />
+        <!--中心圆半径-->
+        <attr name="center_radius" format="integer" />
+        <!--扩散最大半径-->
+        <attr name="spread_max_radius" format="integer" />
+        <!--扩散延迟间隔-->
+        <attr name="delay_milliseconds" format="integer" />
+        <!--创建间隔-->
+        <attr name="create_milliseconds" format="integer" />
+    </declare-styleable>
+</resources>

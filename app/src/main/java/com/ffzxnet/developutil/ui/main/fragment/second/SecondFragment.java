@@ -13,6 +13,7 @@ import com.ffzxnet.developutil.ui.blue_tooth.BluetoothActivity;
 import com.ffzxnet.developutil.ui.calendar.CalendarActivity;
 import com.ffzxnet.developutil.ui.constraint_layout_test.TestConstraintLayoutActivity;
 import com.ffzxnet.developutil.ui.contacts_list.ContactsListActivity;
+import com.ffzxnet.developutil.ui.custom_view.CustomViewActivity;
 import com.ffzxnet.developutil.ui.guide.NewsGuideTestActivity;
 import com.ffzxnet.developutil.ui.layout_anima.LayoutAnimaActivity;
 import com.ffzxnet.developutil.ui.main.fragment.first.adapter.FirstTestBean;
@@ -134,7 +135,7 @@ public class SecondFragment extends BaseFragment implements SecondFragmentAdapte
 
         item = new FirstTestBean();
         item.setTitle("解锁");
-        item.setContent("手势，指纹解锁");
+        item.setContent("手势，指纹解锁，语言切换");
         item.setImage("https://t7.baidu.com/it/u=3624649723,387536556&fm=193&f=GIF");
         datas.add(item);
 
@@ -174,6 +175,12 @@ public class SecondFragment extends BaseFragment implements SecondFragmentAdapte
         item.setImage("https://t7.baidu.com/it/u=3624649723,387536556&fm=193&f=GIF");
         datas.add(item);
 
+        item = new FirstTestBean();
+        item.setTitle("自定义View");
+        item.setContent("圆角图，圆图，波纹等");
+        item.setImage("https://t7.baidu.com/it/u=3624649723,387536556&fm=193&f=GIF");
+        datas.add(item);
+
         adapter = new SecondFragmentAdapter(datas, this);
         secondFragmentRv.setAdapter(adapter);
     }
@@ -210,6 +217,8 @@ public class SecondFragment extends BaseFragment implements SecondFragmentAdapte
             redirectActivity(NewsGuideTestActivity.class);
         } else if (data.getTitle().contains("蓝牙")) {
             redirectActivity(BluetoothActivity.class);
+        } else if (data.getTitle().contains("自定义")) {
+            redirectActivity(CustomViewActivity.class);
         }
     }
 }
