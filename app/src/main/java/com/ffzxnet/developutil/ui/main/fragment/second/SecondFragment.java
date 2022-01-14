@@ -99,7 +99,7 @@ public class SecondFragment extends BaseFragment implements SecondFragmentAdapte
 
         item = new FirstTestBean();
         item.setTitle("相册");
-        item.setContent("多功能相册");
+        item.setContent("多功能相册,视频压缩");
         item.setImage("https://t7.baidu.com/it/u=3624649723,387536556&fm=193&f=GIF");
         datas.add(item);
 

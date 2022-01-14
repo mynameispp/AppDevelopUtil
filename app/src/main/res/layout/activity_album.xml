@@ -2,20 +2,56 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center_horizontal"
     android:background="@color/gray_EE"
+    android:gravity="center_horizontal"
     android:orientation="vertical">
 
     <include
         android:id="@+id/title"
         layout="@layout/include_toolbar" />
 
-    <ImageView
-        android:id="@+id/album_show_image"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginTop="@dimen/size_dp_20"
-        android:scaleType="centerCrop" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/album_show_image"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="@dimen/size_dp_20"
+            android:scaleType="centerCrop" />
+
+        <ImageView
+            android:id="@+id/album_compress_image"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="@dimen/size_dp_20"
+            android:scaleType="centerCrop" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/album_video_origin_size"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/album_video_compress_size"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="@color/black" />
+    </LinearLayout>
 
     <Button
         android:id="@+id/album_select_single_image"
@@ -37,5 +73,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="拍照"
+        android:textColor="@color/black" />
+
+    <Button
+        android:id="@+id/album_select_video"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="选择本地视频"
         android:textColor="@color/black" />
 </LinearLayout>

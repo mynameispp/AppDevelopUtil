@@ -8,6 +8,12 @@ import com.ffzxnet.developutil.base.ui.BaseActivity;
 import com.ffzxnet.developutil.utils.ui.RippleView;
 import com.ffzxnet.developutil.utils.ui.RoundImageView;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 
 public class CustomViewActivity extends BaseActivity {
@@ -23,6 +29,15 @@ public class CustomViewActivity extends BaseActivity {
     RippleView rippleView2;
     @BindView(R.id.round_image_view_circle)
     RoundImageView roundImageViewCircle;
+    @BindView(R.id.custom_view_left_rv)
+    RecyclerView customViewLeftRv;
+    @BindView(R.id.custom_view_right_top_rv)
+    RecyclerView customViewRightTopRv;
+    @BindView(R.id.custom_view_right_bottom_rv)
+    RecyclerView customViewRightBottomRv;
+
+    RecyclerView.OnScrollListener scrollListeners1;
+    RecyclerView.OnScrollListener scrollListeners2;
 
     @Override
     public int getContentViewByBase(Bundle savedInstanceState) {
@@ -47,6 +62,64 @@ public class CustomViewActivity extends BaseActivity {
         GlideApp.with(roundImageViewCircleBorde)
                 .load(imageUrl)
                 .into(roundImageViewCircleBorde);
+
+        //=============================================
+        List<CustomViewAdapterBean> leftData = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            CustomViewAdapterBean item = new CustomViewAdapterBean();
+            item.setTitle("测试" + i);
+            item.setType(1);
+            leftData.add(item);
+        }
+        CustomViewAdapter adapter1 = new CustomViewAdapter(leftData);
+
+        List<CustomViewAdapterBean> rightTopData = new ArrayList<>();
+        for (int i = 0; i < 24; i++) {
+            CustomViewAdapterBean item = new CustomViewAdapterBean();
+            item.setTitle("Top" + i);
+            item.setType(2);
+            rightTopData.add(item);
+        }
+        CustomViewAdapter adapter2 = new CustomViewAdapter(rightTopData);
+
+        List<CustomViewAdapterBean> rightBottomData = new ArrayList<>();
+        for (int i = 0; i < 230; i++) {
+            CustomViewAdapterBean item = new CustomViewAdapterBean();
+            item.setTitle("Bottom" + i);
+            item.setType(3);
+            rightBottomData.add(item);
+        }
+        CustomViewAdapter adapter3 = new CustomViewAdapter(rightBottomData);
+
+        customViewLeftRv.setNestedScrollingEnabled(false);
+        customViewLeftRv.setLayoutManager(new LinearLayoutManager(this));
+        customViewRightTopRv.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
+        customViewRightBottomRv.setLayoutManager(new GridLayoutManager(this, 23));
+
+        scrollListeners1 = new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                customViewRightBottomRv.removeOnScrollListener(scrollListeners2);
+                customViewRightBottomRv.scrollBy(dx, dy);
+                customViewRightBottomRv.addOnScrollListener(scrollListeners2);
+            }
+        };
+        scrollListeners2 = new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                customViewLeftRv.removeOnScrollListener(scrollListeners1);
+                customViewLeftRv.scrollBy(dx, dy);
+                customViewLeftRv.addOnScrollListener(scrollListeners1);
+            }
+        };
+        customViewLeftRv.addOnScrollListener(scrollListeners1);
+        customViewRightBottomRv.addOnScrollListener(scrollListeners2);
+
+        customViewLeftRv.setAdapter(adapter1);
+        customViewRightTopRv.setAdapter(adapter2);
+        customViewRightBottomRv.setAdapter(adapter3);
     }
 
     @Override

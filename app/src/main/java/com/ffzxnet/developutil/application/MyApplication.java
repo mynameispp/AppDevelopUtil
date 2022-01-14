@@ -10,6 +10,7 @@ import android.text.TextUtils;
 import com.ffzxnet.developutil.constans.MyConstans;
 import com.ffzxnet.developutil.ui.unlock.code.language.LanguageUtil;
 import com.ffzxnet.developutil.ui.video_play.my_ijk.MyVideoPlayerFactory;
+import com.ffzxnet.developutil.utils.tools.FileUtil;
 import com.ffzxnet.developutil.utils.tools.MMKVUtil;
 import com.ffzxnet.developutil.utils.tools.ScreenUtils;
 import com.ffzxnet.developutil.utils.video_download.VideoDownloadConfig;
@@ -17,6 +18,8 @@ import com.ffzxnet.developutil.utils.video_download.VideoDownloadManager;
 import com.ffzxnet.developutil.utils.video_download.common.DownloadConstants;
 import com.ffzxnet.developutil.utils.video_download.utils.VideoStorageUtils;
 import com.inuker.bluetooth.library.BluetoothClient;
+import com.mabeijianxi.smallvideorecord2.DeviceUtils;
+import com.mabeijianxi.smallvideorecord2.JianXiCamera;
 
 import java.io.File;
 import java.util.Locale;
@@ -74,6 +77,28 @@ public class MyApplication extends Application {
                 //使用使用自定义IjkPlayer解码
                 .setPlayerFactory(MyVideoPlayerFactory.create())
                 .build());
+
+        //短视频和压缩
+        initSmallVideo();
+    }
+
+    //短视频和压缩
+    public void initSmallVideo() {
+        // 设置拍摄视频缓存路径
+        File dcim = new File(FileUtil.VideoPath);
+        if (DeviceUtils.isZte()) {
+            if (dcim.exists()) {
+                JianXiCamera.setVideoCachePath(dcim + "/local_compress/");
+            } else {
+                JianXiCamera.setVideoCachePath(dcim.getPath().replace("/sdcard/",
+                        "/sdcard-ext/")
+                        + "/local_compress/");
+            }
+        } else {
+            JianXiCamera.setVideoCachePath(dcim + "/local_compress/");
+        }
+        // 初始化拍摄，遇到问题可选择开启此标记，以方便生成日志
+        JianXiCamera.initialize(false, null);
     }
 
     //下载工具初始化
@@ -102,7 +127,6 @@ public class MyApplication extends Application {
 //        LeakCanary.install(this);
 //        return false;
 //    }
-
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);

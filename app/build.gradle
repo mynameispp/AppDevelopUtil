@@ -159,4 +159,6 @@ dependencies {
     }
     //蓝牙
     implementation 'com.inuker.bluetooth:library:1.4.0'
+    //视频压缩,还要添加对应架构的so包，路径com.ffzxnet.developutil.ui.album.all_libs
+    implementation 'com.mabeijianxi:small-video-record2:2.0.3@aar'
 }
