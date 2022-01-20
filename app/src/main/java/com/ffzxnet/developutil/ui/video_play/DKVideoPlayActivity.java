@@ -22,6 +22,7 @@ import com.ffzxnet.developutil.ui.video_play.cache_video.ProgressManagerImpl;
 import com.ffzxnet.developutil.ui.video_play.cache_video.VideoProxyCacheManage;
 import com.ffzxnet.developutil.ui.video_play.my_ijk.MyVideoView;
 import com.ffzxnet.developutil.ui.video_play.view.MyVideoController;
+import com.ffzxnet.developutil.ui.video_play.view.MyVodControlClickListen;
 import com.ffzxnet.developutil.utils.ui.ToastUtil;
 import com.ffzxnet.developutil.utils.video_download.model.VideoTaskItem;
 
@@ -35,7 +36,8 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import xyz.doikki.videoplayer.player.VideoView;
 
-public class DKVideoPlayActivity extends BaseActivity implements DownLoadOverAdapter.AdapterListen, AnthologyVideosAdapter.AdapterListen {
+public class DKVideoPlayActivity extends BaseActivity implements DownLoadOverAdapter.AdapterListen
+        , AnthologyVideosAdapter.AdapterListen, MyVodControlClickListen {
 
     @BindView(R.id.myVideoPlay)
     MyVideoView myVideoView;
@@ -139,12 +141,8 @@ public class DKVideoPlayActivity extends BaseActivity implements DownLoadOverAda
             }
             //测试数据End
             controllerPlayer.addDefaultControlComponent("", false,
-                    "https://t7.baidu.com/it/u=3624649723,387536556&fm=193&f=GIF", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            ToastUtil.showToastShort("点击了下一集");
-                        }
-                    }, new GridLayoutManager(this, 4)
+                    "https://t7.baidu.com/it/u=3624649723,387536556&fm=193&f=GIF", this
+                    , new GridLayoutManager(this, 4)
                     , new AnthologyVideosAdapter(anthologyVideosBeans, this));
             //播放状态
             myVideoView.addOnStateChangeListener(new VideoView.OnStateChangeListener() {
@@ -278,5 +276,27 @@ public class DKVideoPlayActivity extends BaseActivity implements DownLoadOverAda
     public void onAnthologyVideosClick(AnthologyVideosBean data) {
         //选集点击
         ToastUtil.showToastShort(data.getAnthologyTitle());
+    }
+
+    @Override
+    public void onNextVideoClick() {
+        ToastUtil.showToastShort("点击了下一集");
+    }
+
+    @Override
+    public void onSwitchDanmaku(boolean onOff) {
+        if (onOff) {
+            controllerPlayer.showDanmaku();
+            danmuSwitch.setImageResource(R.mipmap.icon_danmu_close);
+        } else {
+            controllerPlayer.hideDanmaku();
+            danmuSwitch.setImageResource(R.mipmap.icon_danmu_open);
+        }
+        showDanmu = onOff;
+    }
+
+    @Override
+    public void onSendDanmaku(String content) {
+        controllerPlayer.addDanmaku(content, true);
     }
 }

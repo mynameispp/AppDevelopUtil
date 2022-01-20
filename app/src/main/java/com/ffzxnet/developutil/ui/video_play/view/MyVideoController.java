@@ -34,13 +34,13 @@ import xyz.doikki.videoplayer.util.PlayerUtils;
 /**
  * 直播/点播控制器
  */
-
 public class MyVideoController extends GestureVideoController implements View.OnClickListener {
 
     protected ImageView mLockButton;
     protected ProgressBar mLoadingProgress;
     private MyDanmakuView mMyDanmakuView;//弹幕
     private TitleView titleView;//视频标题
+    private MyVodControlView vodControlView;
 
     public MyVideoController(@NonNull Context context) {
         this(context, null);
@@ -83,22 +83,25 @@ public class MyVideoController extends GestureVideoController implements View.On
      * @param title                    标题
      * @param isLive                   是否为直播
      * @param thumbUrl                 封面
-     * @param nextAnthologyClickListen 下一集按钮监听
+     * @param onClickListen            按钮监听
      * @param layoutManager            选集排列样式
      * @param anthologyAdapter         选集数据适配器
      */
     public void addDefaultControlComponent(String title, boolean isLive, String thumbUrl
-            , View.OnClickListener nextAnthologyClickListen, RecyclerView.LayoutManager layoutManager
+            , MyVodControlClickListen onClickListen, RecyclerView.LayoutManager layoutManager
             , RecyclerView.Adapter anthologyAdapter) {
         //播放器顶部标题
         titleView = new TitleView(getContext());
         titleView.setTitle(title);
         //播放器底部控制控件
-        MyVodControlView vodControlView = new MyVodControlView(getContext());//点播控制条
+        vodControlView = new MyVodControlView(getContext());//点播控制条
         vodControlView.showBottomProgress(false);//是否显示底部进度条。默认显示
-        if (nextAnthologyClickListen != null) {
+        vodControlView.setShowDanmakuLayout(true);
+        if (onClickListen != null) {
             //下一集点击事件
-            vodControlView.setNextVideoListen(nextAnthologyClickListen);
+            vodControlView.setNextVideoListen(onClickListen);
+        }
+        if (layoutManager != null && null!=anthologyAdapter) {
             //选集信息
             vodControlView.setAnthologyVideosAdapter(layoutManager, anthologyAdapter);
         }
@@ -257,11 +260,13 @@ public class MyVideoController extends GestureVideoController implements View.On
     //显示弹幕
     public void showDanmaku() {
         mMyDanmakuView.show();
+        vodControlView.refreshDanmakuSwitch(true);
     }
 
     //隐藏弹幕
     public void hideDanmaku() {
         mMyDanmakuView.hide();
+        vodControlView.refreshDanmakuSwitch(false);
     }
 
     //设置标题

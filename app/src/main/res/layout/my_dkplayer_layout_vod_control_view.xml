@@ -21,7 +21,8 @@
         android:layout_gravity="bottom"
         android:background="@drawable/dkplayer_shape_stardard_controller_bottom_bg"
         android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:visibility="gone">
 
         <ImageView
             android:id="@+id/iv_play"
@@ -90,6 +91,125 @@
             android:layout_height="@dimen/dkplayer_controller_height"
             android:padding="@dimen/dkplayer_controller_icon_padding"
             android:src="@drawable/dkplayer_selector_full_screen_button" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/danmaku_bottom_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="@drawable/dkplayer_shape_stardard_controller_bottom_bg"
+        android:gravity="center_vertical"
+        android:orientation="vertical">
+
+        <SeekBar
+            android:id="@+id/danmaku_seekBar"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:background="@null"
+            android:max="1000"
+            android:maxHeight="2dp"
+            android:minHeight="2dp"
+            android:paddingStart="0dp"
+            android:paddingEnd="0dp"
+            android:progressDrawable="@drawable/dkplayer_layer_progress_bar"
+            android:thumb="@drawable/dkplayer_seekbar_thumb"
+            android:thumbOffset="0dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/danmaku_iv_play"
+                android:layout_width="@dimen/dkplayer_controller_height"
+                android:layout_height="@dimen/dkplayer_controller_height"
+                android:padding="@dimen/dkplayer_controller_icon_padding"
+                android:src="@drawable/dkplayer_selector_play_button" />
+
+            <TextView
+                android:id="@+id/danmaku_curr_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:gravity="center"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/dkplayer_controller_time_text_size"
+                tools:text="00:00" />
+
+            <TextView
+                android:id="@+id/danmaku_video_time_space"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="/"
+                android:textColor="@android:color/white" />
+
+            <TextView
+                android:id="@+id/danmaku_total_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/dkplayer_controller_time_text_size"
+                tools:text="00:00" />
+
+            <ImageView
+                android:id="@+id/danmaku_switch"
+                android:layout_width="40dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="15dp"
+                android:src="@mipmap/icon_danmu_open" />
+
+            <EditText
+                android:id="@+id/danmaku_content_ed"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/btn_danmu_input_ed"
+                android:hint="请输入弹幕内容"
+                android:paddingLeft="15dp"
+                android:paddingTop="8dp"
+                android:paddingRight="15dp"
+                android:paddingBottom="8dp"
+                android:singleLine="true"
+                android:imeOptions="actionSend|flagNoExtractUi"
+                android:textColor="@color/black"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/danmaku_next_video_btn"
+                android:layout_width="60dp"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="下一集"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/danmaku_anthology_videos_btn"
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="选集"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                android:visibility="gone" />
+
+            <ImageView
+                android:id="@+id/danmaku_fullscreen"
+                android:layout_width="@dimen/dkplayer_controller_height"
+                android:layout_height="@dimen/dkplayer_controller_height"
+                android:padding="@dimen/dkplayer_controller_icon_padding"
+                android:src="@drawable/dkplayer_selector_full_screen_button" />
+        </LinearLayout>
     </LinearLayout>
 
     <ProgressBar

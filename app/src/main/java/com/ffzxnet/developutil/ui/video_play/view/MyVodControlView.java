@@ -4,29 +4,39 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.os.Build;
+import android.text.InputFilter;
+import android.text.Spanned;
+import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ffzxnet.developutil.R;
 import com.ffzxnet.developutil.base.ui.adapter.GridSpacingItemDecoration;
 import com.ffzxnet.developutil.base.ui.adapter.LinearLaySpacingItemDecoration;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import xyz.doikki.videocontroller.component.VodControlView;
 import xyz.doikki.videoplayer.controller.ControlWrapper;
 import xyz.doikki.videoplayer.controller.IControlComponent;
 import xyz.doikki.videoplayer.player.VideoView;
@@ -34,6 +44,9 @@ import xyz.doikki.videoplayer.util.PlayerUtils;
 
 import static xyz.doikki.videoplayer.util.PlayerUtils.stringForTime;
 
+/**
+ * 播放自定义操控界面
+ */
 public class MyVodControlView extends FrameLayout implements IControlComponent, View.OnClickListener, SeekBar.OnSeekBarChangeListener {
     protected ControlWrapper mControlWrapper;
 
@@ -47,50 +60,163 @@ public class MyVodControlView extends FrameLayout implements IControlComponent, 
     private boolean mIsDragging;
 
     private boolean mIsShowBottomProgress = true;
-
+    private MyVodControlClickListen controlClickListen;
     private TextView mAnthology;//选集按钮
     private TextView mNextVideo;//下一集
     private RecyclerView mAnthologyRv;//选集数据
 
+    private LinearLayout ordinaryBottomLayout;
+    private LinearLayout danmakuBottomLayout;//开启弹幕
+
+    //========弹幕===================
+    private EditText danmakuEd;
+    private ImageView danmakuSwitch;
+    private boolean showDanmaku = false;//默认开启弹幕布局
+    private boolean showDanmakuSwitch = true;//开启弹幕
+
     public MyVodControlView(@NonNull Context context) {
-        super(context);
+        this(context, null);
     }
 
     public MyVodControlView(@NonNull Context context, @Nullable AttributeSet attrs) {
-        super(context, attrs);
+        this(context, attrs, -1);
     }
 
     public MyVodControlView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-    }
-
-    {
         setVisibility(GONE);
         LayoutInflater.from(getContext()).inflate(getLayoutId(), this, true);
-        mFullScreen = findViewById(R.id.fullscreen);
-        mFullScreen.setOnClickListener(this);
-        mBottomContainer = findViewById(R.id.bottom_container);
-        mVideoProgress = findViewById(R.id.seekBar);
-        mVideoProgress.setOnSeekBarChangeListener(this);
-        mTotalTime = findViewById(R.id.total_time);
-        mCurrTime = findViewById(R.id.curr_time);
-        mPlayButton = findViewById(R.id.iv_play);
-        mPlayButton.setOnClickListener(this);
-        mBottomProgress = findViewById(R.id.bottom_progress);
-
-        mAnthology = findViewById(R.id.anthology_videos_btn);
-        mAnthology.setOnClickListener(this);
-        mNextVideo = findViewById(R.id.next_video_btn);
-        mAnthologyRv = findViewById(R.id.anthology_videos_rv);
-
+        ordinaryBottomLayout = findViewById(R.id.bottom_container);
+        danmakuBottomLayout = findViewById(R.id.danmaku_bottom_container);
+        //===============弹幕布局===============================================
+        showDanmakuLayout(showDanmaku);
         //5.1以下系统SeekBar高度需要设置成WRAP_CONTENT
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP_MR1) {
             mVideoProgress.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
         }
     }
 
+    public void setShowDanmakuLayout(boolean showDanmaku) {
+        this.showDanmaku = showDanmaku;
+        showDanmakuLayout(showDanmaku);
+    }
+
+    public void showDanmakuLayout(boolean showDanmaku) {
+        if (showDanmaku) {
+            ordinaryBottomLayout.setVisibility(GONE);
+            danmakuBottomLayout.setVisibility(VISIBLE);
+            danmakuEd = findViewById(R.id.danmaku_content_ed);
+            danmakuSwitch = findViewById(R.id.danmaku_switch);
+            danmakuSwitch.setOnClickListener(this);
+            refreshDanmakuSwitch(showDanmakuSwitch);
+            initDanmuEd();
+            mFullScreen = findViewById(R.id.danmaku_fullscreen);
+            mFullScreen.setOnClickListener(this);
+            mBottomContainer = findViewById(R.id.danmaku_bottom_container);
+            mVideoProgress = findViewById(R.id.danmaku_seekBar);
+            mVideoProgress.setOnSeekBarChangeListener(this);
+            mTotalTime = findViewById(R.id.danmaku_total_time);
+            mCurrTime = findViewById(R.id.danmaku_curr_time);
+            mPlayButton = findViewById(R.id.danmaku_iv_play);
+            if (null != mControlWrapper) {
+                mPlayButton.setSelected(mControlWrapper.isPlaying());
+            }
+            mPlayButton.setOnClickListener(this);
+            mBottomProgress = findViewById(R.id.bottom_progress);
+
+            mAnthology = findViewById(R.id.danmaku_anthology_videos_btn);
+            mAnthology.setOnClickListener(this);
+            mNextVideo = findViewById(R.id.danmaku_next_video_btn);
+            mNextVideo.setOnClickListener(this);
+            mAnthologyRv = findViewById(R.id.anthology_videos_rv);
+        } else {
+            ordinaryBottomLayout.setVisibility(VISIBLE);
+            danmakuBottomLayout.setVisibility(GONE);
+            mFullScreen = findViewById(R.id.fullscreen);
+            mFullScreen.setOnClickListener(this);
+            mBottomContainer = findViewById(R.id.bottom_container);
+            mVideoProgress = findViewById(R.id.seekBar);
+            mVideoProgress.setOnSeekBarChangeListener(this);
+            mTotalTime = findViewById(R.id.total_time);
+            mCurrTime = findViewById(R.id.curr_time);
+            mPlayButton = findViewById(R.id.iv_play);
+            if (null != mControlWrapper) {
+                mPlayButton.setSelected(mControlWrapper.isPlaying());
+            }
+            mPlayButton.setOnClickListener(this);
+            mBottomProgress = findViewById(R.id.bottom_progress);
+
+            mAnthology = findViewById(R.id.anthology_videos_btn);
+            mAnthology.setOnClickListener(this);
+            mNextVideo = findViewById(R.id.next_video_btn);
+            mNextVideo.setOnClickListener(this);
+            mAnthologyRv = findViewById(R.id.anthology_videos_rv);
+        }
+    }
+
+    public void refreshDanmakuSwitch(boolean show) {
+        this.showDanmakuSwitch = show;
+        if (showDanmakuSwitch) {
+            danmakuSwitch.setImageResource(R.mipmap.icon_danmu_close);
+        } else {
+            danmakuSwitch.setImageResource(R.mipmap.icon_danmu_open);
+        }
+    }
+
     protected int getLayoutId() {
         return R.layout.my_dkplayer_layout_vod_control_view;
+    }
+
+    /**
+     * 弹幕初始化
+     */
+    private void initDanmuEd() {
+        danmakuEd.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                //监听软键盘的发送按钮
+                if (actionId == EditorInfo.IME_ACTION_SEND) {
+                    //发送弹幕
+                    String content = danmakuEd.getText().toString().trim();
+                    if (!TextUtils.isEmpty(content)) {
+                        danmakuEd.setText("");
+                        //收起键盘
+                        hidSoftInput();
+                        //通知界面发送弹幕
+                        controlClickListen.onSendDanmaku(content);
+                        //发送完重置界面隐藏倒计时
+                        mControlWrapper.toggleShowState();
+                    }
+                    return true;
+                }
+                return false;
+            }
+        });
+        InputFilter inputFilter = new InputFilter() {
+            final String InputEditexFilter = "[^a-zA-Z0-9\\u4E00-\\u9FA5_:：，,.。·?？!！(∩_)~⁄ω✿◡‿୧̀◡•́๑૭o￣▽\\s]";
+            Pattern emoji = Pattern.compile(InputEditexFilter);
+
+            @Override
+            public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
+                Matcher emojiMatcher = emoji.matcher(source);
+                if (emojiMatcher.find()) {
+                    Toast.makeText(danmakuEd.getContext(), "不能输入表情符号哦", Toast.LENGTH_SHORT).show();
+                    return "";
+                }
+                return null;
+            }
+        };
+        danmakuEd.setFilters(new InputFilter[]{inputFilter, new InputFilter.LengthFilter(20)});
+//        danmuEd.setFilters(new InputFilter[]{inputFilter, new InputFilter.LengthFilter(20)});//限制字数
+    }
+
+    //收起键盘
+    public void hidSoftInput() {
+        InputMethodManager imm = (InputMethodManager) danmakuEd.getContext()
+                .getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (imm != null) {
+            imm.hideSoftInputFromWindow(danmakuEd.getWindowToken(), 0);
+        }
     }
 
     /**
@@ -122,12 +248,12 @@ public class MyVodControlView extends FrameLayout implements IControlComponent, 
     }
 
     /**
-     * 设置点击下一集监听
+     * 设置点击对外监听
      *
      * @param onClickListener
      */
-    public void setNextVideoListen(OnClickListener onClickListener) {
-        mNextVideo.setOnClickListener(onClickListener);
+    public void setNextVideoListen(MyVodControlClickListen onClickListener) {
+        controlClickListen = onClickListener;
     }
 
     /**
@@ -159,6 +285,10 @@ public class MyVodControlView extends FrameLayout implements IControlComponent, 
                 mBottomProgress.setVisibility(GONE);
             }
         } else {
+            if (danmakuEd != null && danmakuEd.getText().toString().length() > 0) {
+                //弹幕有内容不隐藏
+                return;
+            }
             mBottomContainer.setVisibility(GONE);
             if (anim != null) {
                 mBottomContainer.startAnimation(anim);
@@ -228,6 +358,7 @@ public class MyVodControlView extends FrameLayout implements IControlComponent, 
             case VideoView.PLAYER_NORMAL:
                 mFullScreen.setSelected(false);
                 //小屏
+                showDanmakuLayout(false);
                 if (mAnthologyRv.getVisibility() == VISIBLE) {
                     mAnthologyRv.setVisibility(GONE);
                     mControlWrapper.startFadeOut();
@@ -239,6 +370,7 @@ public class MyVodControlView extends FrameLayout implements IControlComponent, 
                 mFullScreen.setSelected(true);
                 mNextVideo.setVisibility(VISIBLE);
                 mAnthology.setVisibility(VISIBLE);
+                showDanmakuLayout(showDanmaku);
                 break;
         }
 
@@ -298,19 +430,41 @@ public class MyVodControlView extends FrameLayout implements IControlComponent, 
     @Override
     public void onClick(View v) {
         int id = v.getId();
-        if (id == R.id.fullscreen) {
-            toggleFullScreen();
-        } else if (id == R.id.iv_play) {
-            mControlWrapper.togglePlay();
-        }else if (v.getId() == R.id.anthology_videos_btn) {
-            //显示或隐藏选集
-            if (mAnthologyRv.getVisibility() == GONE) {
-                mAnthologyRv.setVisibility(VISIBLE);
-                mControlWrapper.stopFadeOut();
-            } else {
-                mAnthologyRv.setVisibility(GONE);
-                mControlWrapper.startFadeOut();
-            }
+        switch (id) {
+            case R.id.fullscreen:
+            case R.id.danmaku_fullscreen:
+                toggleFullScreen();
+                break;
+            case R.id.iv_play:
+            case R.id.danmaku_iv_play:
+                mControlWrapper.togglePlay();
+                break;
+            case R.id.anthology_videos_btn:
+            case R.id.danmaku_anthology_videos_btn:
+                //显示或隐藏选集
+                if (mAnthologyRv.getVisibility() == GONE) {
+                    mAnthologyRv.setVisibility(VISIBLE);
+                    mControlWrapper.stopFadeOut();
+                } else {
+                    mAnthologyRv.setVisibility(GONE);
+                    mControlWrapper.startFadeOut();
+                }
+                break;
+            case R.id.next_video_btn:
+            case R.id.danmaku_next_video_btn:
+                //下一集
+                if (null != controlClickListen) {
+                    controlClickListen.onNextVideoClick();
+                }
+                break;
+            case R.id.danmaku_switch:
+                //弹幕开关
+                if (null != controlClickListen) {
+                    showDanmakuSwitch = !showDanmakuSwitch;
+                    controlClickListen.onSwitchDanmaku(showDanmakuSwitch);
+                    refreshDanmakuSwitch(showDanmakuSwitch);
+                }
+                break;
         }
     }
 
