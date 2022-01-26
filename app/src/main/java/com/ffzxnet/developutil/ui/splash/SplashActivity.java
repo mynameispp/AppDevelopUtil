@@ -9,11 +9,12 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.ffzxnet.developutil.R;
+import com.ffzxnet.developutil.application.MyApplication;
 import com.ffzxnet.developutil.base.ui.BaseActivity;
 import com.ffzxnet.developutil.ui.login.LoginActivity;
 import com.ffzxnet.developutil.ui.main.MainActivity;
 import com.ffzxnet.developutil.utils.tools.MMKVUtil;
-import com.ffzxnet.developutil.utils.tools.SharedPreferencesUtil;
+import com.ffzxnet.developutil.utils.ui.PrivacyPolicyPopupDialog;
 import com.smarx.notchlib.NotchScreenManager;
 
 import java.util.ArrayList;
@@ -47,8 +48,31 @@ public class SplashActivity extends BaseActivity {
     public void createdViewByBase(Bundle savedInstanceState) {
         //适配异形屏
         NotchScreenManager.getInstance().setDisplayInNotch(this);
+//        MMKVUtil.getInstance().putBoolean(MMKVUtil.Agree_Privacy_Policy, false);
+        if (!MMKVUtil.getInstance().getBoolean(MMKVUtil.Agree_Privacy_Policy, false)) {
+            PrivacyPolicyPopupDialog dialog=new PrivacyPolicyPopupDialog();
+            dialog.setListen(new PrivacyPolicyPopupDialog.Listen() {
+                @Override
+                public void privacyPolicyAgreeClick(boolean agree) {
+                    if (agree){
+                        //同意协议
+                        MMKVUtil.getInstance().putBoolean(MMKVUtil.Agree_Privacy_Policy, true);
+                        //初始化Application的第三方代码
+                        ((MyApplication)MyApplication.getContext()).checkAgreePrivacyPolicy();
+                        initView();
+                    }else {
+                        finish();
+                    }
+                }
+            });
+            dialog.show(getSupportFragmentManager(),"PrivacyPolicyPopupDialog");
+        } else {
+            initView();
+        }
+    }
 
-//        boolean isFirstUsed = SharedPreferencesUtil.getInstance().getBoolean(SharedPreferencesUtil.KEY_FIRST_TIME_USE, true);
+    private void initView() {
+        //        boolean isFirstUsed = SharedPreferencesUtil.getInstance().getBoolean(SharedPreferencesUtil.KEY_FIRST_TIME_USE, true);
         boolean isFirstUsed = MMKVUtil.getInstance().getBoolean(MMKVUtil.Key_First_Open_App, true);
         if (isFirstUsed) {
             bootPageVs.inflate();

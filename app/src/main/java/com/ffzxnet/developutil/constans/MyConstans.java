@@ -15,13 +15,13 @@ public class MyConstans {
     //适合要接受一个id的传值，需要传多个的id自己再差固件
     public static String Key_Id = "KEY_ID";
     //传列表数据键
-    public static  String KEY_LIST_DATA="KEY_LIST_DATA";
+    public static String KEY_LIST_DATA = "KEY_LIST_DATA";
     //传单个数据键
-    public static  String KEY_DATA="KEY_DATA";
-    public static  String KEY_TYPE="KEY_TYPE";
+    public static String KEY_DATA = "KEY_DATA";
+    public static String KEY_TYPE = "KEY_TYPE";
 
     //==============要加载的Fragment标识
-    public static final int Flag_Fragment_First=1;
-    public static final int Flag_Fragment_Second=2;
+    public static final int Flag_Fragment_First = 1;
+    public static final int Flag_Fragment_Second = 2;
 
 }

@@ -11,17 +11,19 @@ public class MMKVUtil {
 
     //===============================================================================
     //首次进入App
-    public static final String Key_First_Open_App="Key_First_Open_App";
+    public static final String Key_First_Open_App = "Key_First_Open_App";
     //手势密码
-    public static final String GESTURELOCK_KEY="GESTURELOCK_KEY";
+    public static final String GESTURELOCK_KEY = "GESTURELOCK_KEY";
     //是否开启指纹验证
-    public static final String ISFINGERPRINT_KEY="ISFINGERPRINT_KEY";
+    public static final String ISFINGERPRINT_KEY = "ISFINGERPRINT_KEY";
     //是否开启手势验证
-    public static final String ISGESTURELOCK_KEY="ISGESTURELOCK_KEY";
+    public static final String ISGESTURELOCK_KEY = "ISGESTURELOCK_KEY";
     //本地录音数据-
-    public static final String Local_Audio_Record_List="Local_Audio_Record_List";
+    public static final String Local_Audio_Record_List = "Local_Audio_Record_List";
     //App语言
-    public static final String CURRENT_APP_LANGUAGE="CURRENT_APP_LANGUAGE";
+    public static final String CURRENT_APP_LANGUAGE = "CURRENT_APP_LANGUAGE";
+    //同意隐私政策
+    public static final String Agree_Privacy_Policy = "Agree_Privacy_Policy";
     //===============================================================================
 
 

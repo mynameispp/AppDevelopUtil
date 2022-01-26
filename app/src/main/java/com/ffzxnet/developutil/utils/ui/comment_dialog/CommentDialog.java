@@ -214,10 +214,13 @@ public class CommentDialog extends Dialog implements View.OnClickListener, TextW
                 Selection.setSelection(editable, selEndIndex);
             } else {
                 String lengthMsg = len + "/" + 100;
+                TxtSpannableUtil txtSpannableUtil=new TxtSpannableUtil(lengthMsg);
                 if (len == 100) {
-                    mTvRemind.setText(TxtSpannableUtil.highlight(lengthMsg, R.color.red, 0, lengthMsg.indexOf("/"), 0));
+                    mTvRemind.setText(txtSpannableUtil.setSpanColor(MyApplication.getColorByResId(R.color.red)
+                            , 0, lengthMsg.indexOf("/")).build());
                 } else {
-                    mTvRemind.setText(TxtSpannableUtil.highlight(lengthMsg, R.color.gray_CC, 0, lengthMsg.length(), 0));
+                    mTvRemind.setText(txtSpannableUtil.setSpanColor(MyApplication.getColorByResId(R.color.gray_CC)
+                            , 0, lengthMsg.length()).build());
                 }
             }
         }

@@ -20,8 +20,11 @@ import com.ffzxnet.developutil.utils.video_download.utils.VideoStorageUtils;
 import com.inuker.bluetooth.library.BluetoothClient;
 import com.mabeijianxi.smallvideorecord2.DeviceUtils;
 import com.mabeijianxi.smallvideorecord2.JianXiCamera;
+import com.tencent.smtt.export.external.TbsCoreSettings;
+import com.tencent.smtt.sdk.QbSdk;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.Locale;
 
 import androidx.core.content.ContextCompat;
@@ -68,22 +71,38 @@ public class MyApplication extends Application {
         MyConstans.Screen_Width = ScreenUtils.getScreenWidth(mContext);
         MyConstans.Screen_Height = ScreenUtils.getScreenHeight(mContext);
         MyConstans.Screen_Status_Height = ScreenUtils.getStatusHeight(mContext);
+        checkAgreePrivacyPolicy();
 
+    }
+
+    public void checkAgreePrivacyPolicy() {
+        if (!MMKVUtil.getInstance().getBoolean(MMKVUtil.Agree_Privacy_Policy, false)) {
+            //用户没有同意隐私政策
+            return;
+        }
         //下载工具初始化
         initDownloadUtil();
-
         //DK播放器初始化
         VideoViewManager.setConfig(VideoViewConfig.newBuilder()
                 //使用使用自定义IjkPlayer解码
                 .setPlayerFactory(MyVideoPlayerFactory.create())
                 .build());
-
         //短视频和压缩
         initSmallVideo();
+        //腾讯浏览器
+        initTencentWebView();
+    }
+
+    //腾讯浏览器
+    private void initTencentWebView() {
+        HashMap map = new HashMap();
+        map.put(TbsCoreSettings.TBS_SETTINGS_USE_SPEEDY_CLASSLOADER, true);
+        map.put(TbsCoreSettings.TBS_SETTINGS_USE_DEXLOADER_SERVICE, true);
+        QbSdk.initTbsSettings(map);
     }
 
     //短视频和压缩
-    public void initSmallVideo() {
+    private void initSmallVideo() {
         // 设置拍摄视频缓存路径
         File dcim = new File(FileUtil.VideoPath);
         if (DeviceUtils.isZte()) {
