@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.ffzxnet.developutil">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -39,15 +40,21 @@
         android:name="android.hardware.bluetooth_le"
         android:required="true" />
 
+    <permission
+        android:name="com.ffzxnet.permission.open"
+        android:label="外部App访问权限,主要对外调用使用，如网页打开app里面的某个Activity"
+        android:protectionLevel="normal" />
+
     <application
         android:name=".application.MyApplication"
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:usesCleartextTraffic="true">
+        android:usesCleartextTraffic="true"
+        tools:replace="android:allowBackup">
         <activity
             android:name=".ui.splash.SplashActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -246,6 +253,7 @@
         <!--  通知栏监听-->
         <service
             android:name=".ui.blue_tooth.service.NotificationCollectorService"
+            android:exported="false"
             android:label="@string/app_name"
             android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
             <intent-filter>
@@ -256,8 +264,7 @@
         <service
             android:name="com.tencent.smtt.export.external.DexClassLoaderProviderService"
             android:label="dexopt"
-            android:process=":dexopt" >
-        </service>
+            android:process=":dexopt" />
         <!-- =======================   BroadcastReceiver    ========================= -->
 
         <!-- Glide -->
