@@ -35,6 +35,8 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+    <!--获取设备管理权限-->
+    <uses-permission android:name="android.permission.BIND_DEVICE_ADMIN" />
 
     <uses-feature
         android:name="android.hardware.bluetooth_le"
@@ -243,6 +245,12 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|stateUnchanged" />
+        <activity
+            android:name=".ui.anti_desktop_uninstall.AntiDesktopUninstallActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" />
 
         <!-- =======================   Service    ========================= -->
         <service android:name=".service.DownLoadingService" />
@@ -265,6 +273,18 @@
             android:name="com.tencent.smtt.export.external.DexClassLoaderProviderService"
             android:label="dexopt"
             android:process=":dexopt" />
+        <!--获取设备管理权限-->
+        <receiver
+            android:name=".ui.anti_desktop_uninstall.MyAdminReceiver"
+            android:exported="false"
+            android:permission="android.permission.BIND_DEVICE_ADMIN">
+            <intent-filter>
+                <action android:name="android.app.action.DEVICE_ADMIN_ENABLED" />
+            </intent-filter>
+            <meta-data
+                android:name="android.app.device_admin"
+                android:resource="@xml/my_admin" />
+        </receiver>
         <!-- =======================   BroadcastReceiver    ========================= -->
 
         <!-- Glide -->

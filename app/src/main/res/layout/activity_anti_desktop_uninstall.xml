@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <include layout="@layout/include_toolbar" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingLeft="35dp"
+        android:paddingRight="35dp"
+        android:text="此方法是引导客户让App获取设备管理权限，让App获取系统权限成为伪系统App,进入设备管理器界面，激活对应App,
+        这样可以让App在桌面长按无法直接卸载，需要去设置界面才能卸载"
+        android:textColor="@color/black"/>
+
+    <Button
+        android:id="@+id/anit_desktop_uninstall_go_setting"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/size_dp_10"
+        android:text="进入设备管理器" />
+</LinearLayout>

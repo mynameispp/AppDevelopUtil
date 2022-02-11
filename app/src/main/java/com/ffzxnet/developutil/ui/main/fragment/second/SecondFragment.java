@@ -8,6 +8,7 @@ import com.ffzxnet.developutil.R;
 import com.ffzxnet.developutil.base.ui.BaseFragment;
 import com.ffzxnet.developutil.base.ui.adapter.GridSpacingItemDecoration;
 import com.ffzxnet.developutil.ui.album.AlbumActivity;
+import com.ffzxnet.developutil.ui.anti_desktop_uninstall.AntiDesktopUninstallActivity;
 import com.ffzxnet.developutil.ui.badge.BadgeTestActivity;
 import com.ffzxnet.developutil.ui.blue_tooth.BluetoothActivity;
 import com.ffzxnet.developutil.ui.calendar.CalendarActivity;
@@ -181,6 +182,12 @@ public class SecondFragment extends BaseFragment implements SecondFragmentAdapte
         item.setImage("https://t7.baidu.com/it/u=3624649723,387536556&fm=193&f=GIF");
         datas.add(item);
 
+        item = new FirstTestBean();
+        item.setTitle("防桌面卸载");
+        item.setContent("获取设备管理权限来设置伪系统应用等");
+        item.setImage("https://t7.baidu.com/it/u=3624649723,387536556&fm=193&f=GIF");
+        datas.add(item);
+
         adapter = new SecondFragmentAdapter(datas, this);
         secondFragmentRv.setAdapter(adapter);
     }
@@ -219,6 +226,8 @@ public class SecondFragment extends BaseFragment implements SecondFragmentAdapte
             redirectActivity(BluetoothActivity.class);
         } else if (data.getTitle().contains("自定义")) {
             redirectActivity(CustomViewActivity.class);
+        } else if (data.getTitle().contains("防桌面卸载")) {
+            redirectActivity(AntiDesktopUninstallActivity.class);
         }
     }
 }
