@@ -10,6 +10,7 @@ import android.text.TextUtils;
 import com.ffzxnet.developutil.constans.MyConstans;
 import com.ffzxnet.developutil.ui.unlock.code.language.LanguageUtil;
 import com.ffzxnet.developutil.ui.video_play.my_ijk.MyVideoPlayerFactory;
+import com.ffzxnet.developutil.utils.tools.AntiHijackingUtil;
 import com.ffzxnet.developutil.utils.tools.FileUtil;
 import com.ffzxnet.developutil.utils.tools.MMKVUtil;
 import com.ffzxnet.developutil.utils.tools.ScreenUtils;
@@ -67,10 +68,7 @@ public class MyApplication extends Application {
             language = getResources().getConfiguration().locale;
         }
         initLanguage();
-        //手机屏幕基础信息
-        MyConstans.Screen_Width = ScreenUtils.getScreenWidth(mContext);
-        MyConstans.Screen_Height = ScreenUtils.getScreenHeight(mContext);
-        MyConstans.Screen_Status_Height = ScreenUtils.getStatusHeight(mContext);
+       //检查是否同意隐私条款
         checkAgreePrivacyPolicy();
 
     }
@@ -80,6 +78,17 @@ public class MyApplication extends Application {
             //用户没有同意隐私政策
             return;
         }
+        //手机屏幕基础信息
+        MyConstans.Screen_Width = ScreenUtils.getScreenWidth(mContext);
+        MyConstans.Screen_Height = ScreenUtils.getScreenHeight(mContext);
+        MyConstans.Screen_Status_Height = ScreenUtils.getStatusHeight(mContext);
+        //检测应用白名单，用来提醒Activity防劫持提醒
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                AntiHijackingUtil.checkActivity(mContext);
+            }
+        }).start();
         //下载工具初始化
         initDownloadUtil();
         //DK播放器初始化

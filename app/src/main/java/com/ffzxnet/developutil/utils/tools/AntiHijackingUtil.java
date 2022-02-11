@@ -17,24 +17,27 @@ import java.util.List;
 //防止Activity被劫持
 public class AntiHijackingUtil {
     public static final String TAG = "AntiHijackingUtil";
+    private static List<String> safePackages;
 
-    /**
-     * 检测当前Activity是否安全
-     */
-    public static boolean checkActivity(Context context) {
+    public static void init(Context context) {
         PackageManager pm = context.getPackageManager();
         // 查询所有已经安装的应用程序
         List<ApplicationInfo> listAppcations =
                 pm.getInstalledApplications(PackageManager.GET_UNINSTALLED_PACKAGES);
         Collections.sort(listAppcations, new ApplicationInfo.DisplayNameComparator(pm));// 排序
 
-        List<String> safePackages = new ArrayList<>();
+        safePackages = new ArrayList<>();
         for (ApplicationInfo app : listAppcations) {// 这个排序必须有.
             if ((app.flags & ApplicationInfo.FLAG_SYSTEM) != 0) {
+                // 得到所有的系统程序包名放进白名单里面.
                 safePackages.add(app.packageName);
             }
         }
-        // 得到所有的系统程序包名放进白名单里面.
+    }
+    /**
+     * 检测当前Activity是否安全
+     */
+    public static boolean checkActivity(Context context) {
         ActivityManager activityManager =
                 (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
         String runningActivityPackageName;
@@ -57,11 +60,11 @@ public class AntiHijackingUtil {
                 return true;
             }
             // 白名单比对
-            for (String safePack : safePackages) {
-                if (safePack.equals(runningActivityPackageName)) {
-                    return true;
-                }
-            }
+//            for (String safePack : safePackages) {
+//                if (safePack.equals(runningActivityPackageName)) {
+//                    return true;
+//                }
+//            }
         }
         return false;
     }
