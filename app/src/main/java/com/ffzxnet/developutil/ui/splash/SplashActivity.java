@@ -14,7 +14,9 @@ import com.ffzxnet.developutil.base.ui.BaseActivity;
 import com.ffzxnet.developutil.ui.login.LoginActivity;
 import com.ffzxnet.developutil.ui.main.MainActivity;
 import com.ffzxnet.developutil.utils.tools.MMKVUtil;
+import com.ffzxnet.developutil.utils.tools.SignCheck;
 import com.ffzxnet.developutil.utils.ui.PrivacyPolicyPopupDialog;
+import com.ffzxnet.developutil.utils.ui.ToastUtil;
 import com.smarx.notchlib.NotchScreenManager;
 
 import java.util.ArrayList;
@@ -46,9 +48,22 @@ public class SplashActivity extends BaseActivity {
 
     @Override
     public void createdViewByBase(Bundle savedInstanceState) {
+        //这里放入签名文件的SHA1值
+        //keytool -list -v -keystore 你的签名文件路径.jks
+        //在你的JDK/bin文件夹下面执行上面文件查询对应的值
+        SignCheck signCheck = new SignCheck(this,
+                "E3:D8:62:29:47:03:40:69:E5:88:F9:8D:45:58:E5:FB:96:CB:E1:21");
+        if (signCheck.check()) {
+            //TODO 签名正常
+        } else {
+            //TODO 签名不正确
+            ToastUtil.showToastShort("当前App可能被串改，请前往官方渠道下载正版");
+            finish();
+        }
         //适配异形屏
         NotchScreenManager.getInstance().setDisplayInNotch(this);
 //        MMKVUtil.getInstance().putBoolean(MMKVUtil.Agree_Privacy_Policy, false);
+        //是否同意隐私政策
         if (!MMKVUtil.getInstance().getBoolean(MMKVUtil.Agree_Privacy_Policy, false)) {
             PrivacyPolicyPopupDialog dialog=new PrivacyPolicyPopupDialog();
             dialog.setListen(new PrivacyPolicyPopupDialog.Listen() {

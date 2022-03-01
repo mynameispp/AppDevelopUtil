@@ -25,6 +25,7 @@ import com.ffzxnet.developutil.constans.MyConstans;
 import com.ffzxnet.developutil.net.ErrorResponse;
 import com.ffzxnet.developutil.net.net_status.NetType;
 import com.ffzxnet.developutil.net.net_status.NetworkLiveData;
+import com.ffzxnet.developutil.ui.login.LoginActivity;
 import com.ffzxnet.developutil.ui.unlock.code.language.LanguageType;
 import com.ffzxnet.developutil.ui.unlock.code.language.LanguageUtil;
 import com.ffzxnet.developutil.utils.tools.LogUtil;
@@ -319,7 +320,7 @@ public abstract class BaseActivity extends RxAppCompatActivity implements BaseAc
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if ((keyCode == KeyEvent.KEYCODE_BACK || keyCode == KeyEvent.KEYCODE_HOME ||
                 keyCode == KeyEvent.KEYCODE_BACKSLASH) && !LoadingUtil.isShowing()) {
-            if (isTaskRoot()) {
+            if (isTaskRoot() && !(this instanceof LoginActivity)) {
                 //回退到桌面，再次打开会先显示Splash界面
                 moveTaskToBack(true);
             } else {
@@ -541,7 +542,8 @@ public abstract class BaseActivity extends RxAppCompatActivity implements BaseAc
      * @param flag   Fragment的标识,指定跳转对应的Fragment
      * @param bundle 夹带参数Bundle
      */
-    public void beginShowFragment(int flag, Bundle bundle) {}
+    public void beginShowFragment(int flag, Bundle bundle) {
+    }
 
     //切换语言====================================
     @Override
