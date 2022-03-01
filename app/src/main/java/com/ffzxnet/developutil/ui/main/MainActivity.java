@@ -1,33 +1,18 @@
 package com.ffzxnet.developutil.ui.main;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Looper;
-import android.view.KeyEvent;
 import android.widget.RadioGroup;
-import android.widget.Toast;
 
 import com.ffzxnet.developutil.R;
 import com.ffzxnet.developutil.base.ui.BaseActivity;
 import com.ffzxnet.developutil.base.ui.BaseActivityResultContact;
 import com.ffzxnet.developutil.constans.MyConstans;
-import com.ffzxnet.developutil.evenbus.MyEventbus;
 import com.ffzxnet.developutil.ui.for_result_activity.ForResultActivity;
 import com.ffzxnet.developutil.ui.video_download.utils.DownLoadUtil;
-import com.ffzxnet.developutil.utils.tools.AntiHijackingUtil;
 import com.ffzxnet.developutil.utils.ui.ToastUtil;
-import com.ffzxnet.developutil.utils.video_download.VideoDownloadManager;
-import com.ffzxnet.developutil.utils.video_download.listener.DownloadListener;
-import com.ffzxnet.developutil.utils.video_download.model.VideoTaskItem;
-import com.ffzxnet.developutil.utils.video_download.utils.LogUtils;
-
-import org.greenrobot.eventbus.EventBus;
 
 import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.contract.ActivityResultContract;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import butterknife.BindView;
@@ -161,23 +146,23 @@ public class MainActivity extends BaseActivity implements MainContract.View, Rad
     @Override
     protected void onStop() {
         super.onStop();
-        //防止Activity被劫持
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                // 白名单
-                boolean safe = AntiHijackingUtil.checkActivity(getApplicationContext());
-                // 系统桌面
-                boolean isHome = AntiHijackingUtil.isHome(getApplicationContext());
-                // 锁屏操作
-                boolean isReflectScreen = AntiHijackingUtil.isReflectScreen(getApplicationContext());
-                // 判断程序是否当前显示
-                if (!safe && !isHome && !isReflectScreen) {
-                    Looper.prepare();
-                    ToastUtil.showToastLong(getString(R.string.activity_safe_warning));
-                    Looper.loop();
-                }
-            }
-        }).start();
+//        //防止Activity被劫持
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                // 白名单
+//                boolean safe = AntiHijackingUtil.checkActivity(getApplicationContext());
+//                // 系统桌面
+//                boolean isHome = AntiHijackingUtil.isHome(getApplicationContext());
+//                // 锁屏操作
+//                boolean isReflectScreen = AntiHijackingUtil.isReflectScreen(getApplicationContext());
+//                // 判断程序是否当前显示
+//                if (!safe && !isHome && !isReflectScreen) {
+//                    Looper.prepare();
+//                    ToastUtil.showToastLong(getString(R.string.activity_safe_warning));
+//                    Looper.loop();
+//                }
+//            }
+//        }).start();
     }
 }

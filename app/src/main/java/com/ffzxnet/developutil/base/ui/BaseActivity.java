@@ -1,8 +1,10 @@
 package com.ffzxnet.developutil.base.ui;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -28,6 +30,7 @@ import com.ffzxnet.developutil.net.net_status.NetworkLiveData;
 import com.ffzxnet.developutil.ui.login.LoginActivity;
 import com.ffzxnet.developutil.ui.unlock.code.language.LanguageType;
 import com.ffzxnet.developutil.ui.unlock.code.language.LanguageUtil;
+import com.ffzxnet.developutil.utils.tools.AntiHijacking2Util;
 import com.ffzxnet.developutil.utils.tools.LogUtil;
 import com.ffzxnet.developutil.utils.tools.MMKVUtil;
 import com.ffzxnet.developutil.utils.tools.SetTextViewDrawable;
@@ -38,6 +41,8 @@ import com.tbruyelle.rxpermissions3.RxPermissions;
 import com.trello.rxlifecycle4.components.support.RxAppCompatActivity;
 
 import java.net.HttpURLConnection;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
@@ -73,6 +78,17 @@ public abstract class BaseActivity extends RxAppCompatActivity implements BaseAc
     //权限说明
     private PermissionDescriptionDialog permissionDescriptionDialog;
     private RxPermissions rxPermissions;
+    //记录打开的Activity
+    public static List<Activity> activities = new ArrayList<>();
+    private final BroadcastReceiver mScreenOffReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            final String action = intent.getAction();
+            if (Intent.ACTION_SCREEN_OFF.equals(action)) {
+                MyConstans.Screen_Off = true;
+            }
+        }
+    };
 
     //需要全屏，继承类覆写这个方法即可，参考SplashActivity
     public void isFullScreen(boolean yes) {
@@ -86,6 +102,8 @@ public abstract class BaseActivity extends RxAppCompatActivity implements BaseAc
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        IntentFilter filter = new IntentFilter(Intent.ACTION_SCREEN_OFF);
+        registerReceiver(mScreenOffReceiver, filter);
         //设置沉浸式主题
         isFullScreen(false);
         //设置布局文件
@@ -322,6 +340,7 @@ public abstract class BaseActivity extends RxAppCompatActivity implements BaseAc
                 keyCode == KeyEvent.KEYCODE_BACKSLASH) && !LoadingUtil.isShowing()) {
             if (isTaskRoot() && !(this instanceof LoginActivity)) {
                 //回退到桌面，再次打开会先显示Splash界面
+                AntiHijacking2Util.OFF = true;
                 moveTaskToBack(true);
             } else {
                 goBackByQuick();
@@ -333,16 +352,23 @@ public abstract class BaseActivity extends RxAppCompatActivity implements BaseAc
 
     @Override
     protected void onResume() {
+        if (AntiHijacking2Util.OFF) {
+            AntiHijacking2Util.OFF = false;
+        }
+        AntiHijacking2Util.getInstance().onResume();
         super.onResume();
         isActive = true;
+        activities.add(this);
         //加载提示
         LoadingUtil.init(this);
     }
 
     @Override
     protected void onPause() {
+        AntiHijacking2Util.getInstance().onPause(this);
         super.onPause();
         isActive = false;
+        activities.remove(this);
         //加载提示
         LoadingUtil.destory();
     }

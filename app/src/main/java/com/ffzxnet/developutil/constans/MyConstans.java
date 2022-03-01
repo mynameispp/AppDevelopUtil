@@ -19,6 +19,8 @@ public class MyConstans {
     //传单个数据键
     public static String KEY_DATA = "KEY_DATA";
     public static String KEY_TYPE = "KEY_TYPE";
+    //是否锁屏
+    public static boolean Screen_Off;
 
     //==============要加载的Fragment标识
     public static final int Flag_Fragment_First = 1;

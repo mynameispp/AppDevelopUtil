@@ -1,6 +1,9 @@
 package com.ffzxnet.developutil.utils.ui;
 
+import android.content.Context;
 import android.view.Gravity;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ffzxnet.developutil.application.MyApplication;
@@ -75,6 +78,22 @@ public class ToastUtil {
         if (gravity > -1) {
             toast.setGravity(gravity, 0, 0);
         }
+        toast.show();
+    }
+
+    public static void showToastLongForAnit(Context context, String msg, int messageColor) {
+        if (toast != null) {
+            toast.cancel();
+        }
+        toast = Toast.makeText(context, msg, Toast.LENGTH_LONG);
+        View view = toast.getView();
+
+        if(view!=null){
+            TextView message=((TextView) view.findViewById(android.R.id.message));
+            message.setTextColor(messageColor);
+
+        }
+        toast.setGravity(Gravity.CENTER, 0, 0);
         toast.show();
     }
 }
