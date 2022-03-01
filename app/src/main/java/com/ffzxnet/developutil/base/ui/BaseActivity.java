@@ -340,6 +340,8 @@ public abstract class BaseActivity extends RxAppCompatActivity implements BaseAc
                 keyCode == KeyEvent.KEYCODE_BACKSLASH) && !LoadingUtil.isShowing()) {
             if (isTaskRoot() && !(this instanceof LoginActivity)) {
                 //回退到桌面，再次打开会先显示Splash界面
+                //如果不想每次都打开Splash界面
+                //删除AndroidManifest文件下的SplashActivity的 android:launchMode="singleTask"
                 AntiHijacking2Util.OFF = true;
                 moveTaskToBack(true);
             } else {
