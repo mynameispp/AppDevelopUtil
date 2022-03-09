@@ -2,13 +2,15 @@ package com.ffzxnet.developutil.utils.tools;
 
 import android.util.Log;
 
+import com.ffzxnet.developutil.BuildConfig;
+
 
 /**
  * Created by feifan.pi on 2016/3/24.
  */
 public class LogUtil {
     //    private static boolean SHOW_LOG = !ApiImpl.BASE_URL.contains("app-client.ffzxnet.com");
-    private static boolean SHOW_LOG = true;
+    private static boolean SHOW_LOG = BuildConfig.DEBUG;
 
     public static void e(String tag, String msg) {
         if (SHOW_LOG) {

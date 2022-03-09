@@ -14,7 +14,9 @@ import com.ffzxnet.developutil.application.MyApplication;
 import com.ffzxnet.developutil.base.ui.BaseActivity;
 import com.ffzxnet.developutil.ui.login.LoginActivity;
 import com.ffzxnet.developutil.ui.main.MainActivity;
+import com.ffzxnet.developutil.utils.tools.LogUtil;
 import com.ffzxnet.developutil.utils.tools.MMKVUtil;
+import com.ffzxnet.developutil.utils.tools.PackageUtils;
 import com.ffzxnet.developutil.utils.tools.SignCheck;
 import com.ffzxnet.developutil.utils.ui.PrivacyPolicyPopupDialog;
 import com.ffzxnet.developutil.utils.ui.ToastUtil;
@@ -63,6 +65,7 @@ public class SplashActivity extends BaseActivity {
                 finish();
             }
         }
+        LogUtil.e("dddddddddd渠道名=", PackageUtils.getAppMetaData(this,"UMENG_CHANNEL"));
         //适配异形屏
         NotchScreenManager.getInstance().setDisplayInNotch(this);
 //        MMKVUtil.getInstance().putBoolean(MMKVUtil.Agree_Privacy_Policy, false);

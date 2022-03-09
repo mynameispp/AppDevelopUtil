@@ -313,7 +313,10 @@
         <meta-data
             android:name="notch.config"
             android:value="landscape" />
-
+        <!--渠道名称-->
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="${flavor_name}" />
     </application>
 
 </manifest>
