@@ -16,6 +16,7 @@ import java.util.List;
 
 //防止Activity被劫持
 //需要获取系统安装列表过滤白名单，未获取同意，会触发隐私政策影响
+@Deprecated
 public class AntiHijackingUtil {
     public static final String TAG = "AntiHijackingUtil";
     private static List<String> safePackages;

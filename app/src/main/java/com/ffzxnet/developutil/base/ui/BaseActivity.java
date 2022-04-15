@@ -39,6 +39,7 @@ import com.ffzxnet.developutil.utils.ui.PermissionDescriptionDialog;
 import com.ffzxnet.developutil.utils.ui.ToastUtil;
 import com.tbruyelle.rxpermissions3.RxPermissions;
 import com.trello.rxlifecycle4.components.support.RxAppCompatActivity;
+import com.wind.me.xskinloader.SkinInflaterFactory;
 
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
@@ -101,6 +102,8 @@ public abstract class BaseActivity extends RxAppCompatActivity implements BaseAc
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        //换肤设置
+        SkinInflaterFactory.setFactory(this);
         super.onCreate(savedInstanceState);
         IntentFilter filter = new IntentFilter(Intent.ACTION_SCREEN_OFF);
         registerReceiver(mScreenOffReceiver, filter);

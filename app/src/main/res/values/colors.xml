@@ -20,4 +20,7 @@
 
     <color name="red_ff66666">#FF6666</color>
 
+    <!--换肤颜色名称-->
+    <color name="skin_bg_color">#FF9600</color>
+    <color name="skin_text_color">#ff3b30</color>
 </resources>

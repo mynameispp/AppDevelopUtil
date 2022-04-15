@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:skin="http://schemas.android.com/android/skin"
+    android:orientation="vertical">
+
+    <include layout="@layout/include_toolbar" />
+
+    <RelativeLayout
+        android:id="@+id/skin_bg_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        skin:enable="true"
+        android:background="@color/skin_bg_color">
+
+        <TextView
+            android:id="@+id/skin_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="60dp"
+            android:text="更换皮肤字体颜色"
+            android:textColor="@color/skin_text_color"
+            android:textStyle="bold"
+            skin:enable="true"
+            android:textSize="28sp" />
+
+        <ImageView
+            android:id="@+id/skin_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true" />
+
+        <Button
+            android:id="@+id/skin_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="更换/原始皮肤"
+            android:padding="15dp"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="50dp"/>
+    </RelativeLayout>
+</LinearLayout>

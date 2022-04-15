@@ -39,6 +39,7 @@ public class FileUtil {
     public static final String DownLoadFilePath = FileUtil.getSdcardRootDirectory("DownLoadFile");
     public static final String VideoPath = FileUtil.getSdcardRootDirectory("Video");
     public static final String RecorderPath = FileUtil.getSdcardRootDirectory("recorder");
+    public static final String Skin = FileUtil.getSdcardRootDirectory("skins");
     /**
      * 录音pcm格式
      */

@@ -21,6 +21,7 @@ import com.ffzxnet.developutil.ui.main.fragment.first.adapter.FirstTestBean;
 import com.ffzxnet.developutil.ui.refresh.circle_refresh_layout.CircleRefreshLayoutActivity;
 import com.ffzxnet.developutil.ui.refresh.wave_swipe_refresh_layout.WaveSwipeRefreshLayoutActivity;
 import com.ffzxnet.developutil.ui.scancode.TestScanCodeActivity;
+import com.ffzxnet.developutil.ui.skin.SkinDemoActivity;
 import com.ffzxnet.developutil.ui.unlock.UnlockActivity;
 import com.ffzxnet.developutil.ui.video_download.DownLoadManageActivity;
 import com.ffzxnet.developutil.ui.video_play.DKVideoPlayActivity;
@@ -188,6 +189,12 @@ public class SecondFragment extends BaseFragment implements SecondFragmentAdapte
         item.setImage("https://t7.baidu.com/it/u=3624649723,387536556&fm=193&f=GIF");
         datas.add(item);
 
+        item = new FirstTestBean();
+        item.setTitle("更换皮肤");
+        item.setContent("无需重置界面直接更换app皮肤");
+        item.setImage("https://t7.baidu.com/it/u=3624649723,387536556&fm=193&f=GIF");
+        datas.add(item);
+
         adapter = new SecondFragmentAdapter(datas, this);
         secondFragmentRv.setAdapter(adapter);
     }
@@ -228,6 +235,8 @@ public class SecondFragment extends BaseFragment implements SecondFragmentAdapte
             redirectActivity(CustomViewActivity.class);
         } else if (data.getTitle().contains("防桌面卸载")) {
             redirectActivity(AntiDesktopUninstallActivity.class);
+        } else if (data.getTitle().contains("更换皮肤")) {
+            redirectActivity(SkinDemoActivity.class);
         }
     }
 }

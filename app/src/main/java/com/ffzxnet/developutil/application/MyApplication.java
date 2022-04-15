@@ -6,6 +6,7 @@ import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 
 import com.ffzxnet.developutil.constans.MyConstans;
 import com.ffzxnet.developutil.ui.unlock.code.language.LanguageUtil;
@@ -22,6 +23,7 @@ import com.mabeijianxi.smallvideorecord2.DeviceUtils;
 import com.mabeijianxi.smallvideorecord2.JianXiCamera;
 import com.tencent.smtt.export.external.TbsCoreSettings;
 import com.tencent.smtt.sdk.QbSdk;
+import com.wind.me.xskinloader.SkinInflaterFactory;
 
 import java.io.File;
 import java.util.HashMap;
@@ -60,6 +62,8 @@ public class MyApplication extends Application {
 //            return;
 //        }
         mContext = getApplicationContext();
+        //换肤初始化
+        SkinInflaterFactory.setFactory(LayoutInflater.from(this));
         //修改app语言
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             language = getResources().getConfiguration().getLocales().get(0);
@@ -160,6 +164,9 @@ public class MyApplication extends Application {
         initLanguage();
     }
 
+    /**
+     * 设置app语言
+     */
     private void initLanguage() {
         String language = MMKVUtil.getInstance().getString(MMKVUtil.CURRENT_APP_LANGUAGE, "");
         if (TextUtils.isEmpty(language)) {
